@@ -1,9 +1,24 @@
 import java.time.LocalDate;
 
 public class Contract {
+    public enum ContractStatus {
+        DRAFT,
+        ACTIVE,
+        EXPIRED
+    }
+
+    public enum ContractType {
+        PROBATION,
+        FULL_TIME,
+        PART_TIME,
+        TEMPORARY,
+        FIXED_TERM,
+        PERMANENT
+    }
+
     private LocalDate startDate;
     private LocalDate endDate;
-    private ContracType type;
+    private ContractType type;
     private ContractStatus status;
 
     public Contract(LocalDate startDate, LocalDate endDate, ContractType type) {
@@ -13,7 +28,7 @@ public class Contract {
         this.status = ContractStatus.DRAFT;
     }
 
-    public Contract(LocalDate startDate, LocalDate endDate, ContracType type, ContractStatus status) {
+    public Contract(LocalDate startDate, LocalDate endDate, ContractType type, ContractStatus status) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
@@ -36,11 +51,11 @@ public class Contract {
         this.endDate = endDate;
     }
 
-    public ContracType getType() {
+    public ContractType getType() {
         return type;
     }
 
-    public void setType(ContracType type) {
+    public void setType(ContractType type) {
         this.type = type;
     }
 
