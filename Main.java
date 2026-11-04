@@ -15,10 +15,10 @@ public class Main {
   private static int maxAttendances;
   private static int maxInsurances;
 
-  private static Account[] accounts = new Account[maxAccounts];
-  private static Employee[] employees = new Employee[maxEmployees];
-  private static Department[] departments = new Department[maxDepartments];
-  private static Position[] positions = new Position[maxPositions];
+  private static Account[] accounts;
+  private static Employee[] employees;
+  private static Department[] departments;
+  private static Position[] positions;
 
   private static int accountsOccupied = -1;
   private static int employeesOccupied = -1;
@@ -79,15 +79,18 @@ public class Main {
       }
     } while (statusNum < 1 || 6 < statusNum);
 
-    System.out.println("[1] Admin");
-    System.out.println("[2] Employee");
     int type = Integer.parseInt(sc.nextLine());
+    do {
+      System.out.println("[1] Admin");
+      System.out.println("[2] Employee");
+      type = Integer.parseInt(sc.nextLine());
 
-    if (type == 1) {
-      return new AdminAccount(username, password, status);
-    } else {
-      return new EmployeeAccount(username, password, status);
-    }
+      if (type == 1) {
+        return new AdminAccount(username, password, status);
+      } else if (type == 2) {
+        return new EmployeeAccount(username, password, status);
+      }
+    } while (type != 1 && type != 2);
   }
 
   private static Address createAddress(Scanner sc) {
@@ -332,8 +335,17 @@ public class Main {
   }
 
   private static Evaluation[] createEvaluations(Scanner sc) {
-    System.out.println("How many evaluations? ");
     int evaluationCount = Integer.parseInt(sc.nextLine());
+    do {
+      System.out.println("How many evaluations? ");
+      evaluationCount = Integer.parseInt(sc.nextLine());
+
+      if (evaluationCount < 0 || maxEvaluations < evaluationCount) {
+        System.out.println("Invalid evaluation count");
+        System.out.printf("Min: 0, Max: %d", maxEvaluations);
+        return new Evaluation[maxEvaluations];
+      }
+    } while (evaluationCount < 0 || maxEvaluations < evaluationCount);
 
     Evaluation[] evaluations = new Evaluation[maxEvaluations];
     for (int i = 0; i < evaluationCount; i++) {
@@ -344,8 +356,16 @@ public class Main {
   }
 
   private static Contract[] createContracts(Scanner sc) {
-    System.out.println("How many contracts? ");
-    int contractCount = Integer.parseInt(sc.nextLine());
+    int contractCount;
+    do {
+      System.out.println("How many contracts? ");
+      contractCount = Integer.parseInt(sc.nextLine());
+
+      if (contractCount < 0 || maxContracts < contractCount) {
+        System.out.println("Invalid contract count");
+        System.out.printf("Min: 0, Max: %d", maxContracts);
+      }
+    } while (contractCount < 0 || maxContracts < contractCount);
 
     Contract[] contracts = new Contract[maxContracts];
     for (int i = 0; i < contractCount; i++) {
@@ -356,8 +376,17 @@ public class Main {
   }
 
   private static Payroll[] createPayrolls(Scanner sc) {
-    System.out.println("How many payrolls? ");
-    int payrollCount = Integer.parseInt(sc.nextLine());
+    int payrollCount;
+
+    do {
+      System.out.println("How many payrolls? ");
+      payrollCount = Integer.parseInt(sc.nextLine());
+
+      if (payrollCount < 0 || maxPayrolls < payrollCount) {
+        System.out.println("Invalid payroll count");
+        System.out.printf("Min: 0, Max: %d", maxPayrolls);
+      }
+    } while (payrollCount < 0 || maxPayrolls < payrollCount);
 
     Payroll[] payrolls = new Payroll[maxPayrolls];
     for (int i = 0; i < payrollCount; i++) {
@@ -368,8 +397,17 @@ public class Main {
   }
 
   private static Attendance[] createAttendances(Scanner sc) {
-    System.out.println("How many attendances? ");
-    int attendanceCount = Integer.parseInt(sc.nextLine());
+    int attendanceCount;
+
+    do {
+      System.out.println("How many attendances? ");
+      attendanceCount = Integer.parseInt(sc.nextLine());
+
+      if (attendanceCount < 0 || maxAttendances < attendanceCount) {
+        System.out.println("Invalid attendance count");
+        System.out.printf("Min: 0, Max: %d", maxAttendances);
+      }
+    } while (attendanceCount < 0 || maxAttendances < attendanceCount);
 
     Attendance[] attendances = new Attendance[maxAttendances];
     for (int i = 0; i < attendanceCount; i++) {
@@ -428,10 +466,18 @@ public class Main {
   }
 
   private static Insurance[] createInsurances(Scanner sc) {
-    System.out.println("How many insurances? ");
-    int insuranceCount = Integer.parseInt(sc.nextLine());
+    int insuranceCount;
+    do {
+      System.out.println("How many insurances? ");
+      insuranceCount = Integer.parseInt(sc.nextLine());
 
-    Insurance[] insurances = new Insurance[1000];
+      if (insuranceCount < 0 || maxInsurances < insuranceCount) {
+        System.out.println("Invalid insurance count");
+        System.out.printf("Min: 0, Max: %d\n", maxInsurances);
+      }
+    } while (insuranceCount < 0 || maxInsurances < insuranceCount);
+
+    Insurance[] insurances = new Insurance[maxInsurances];
     for (int i = 0; i < insuranceCount; i++) {
       insurances[i] = createInsurance(sc);
     }
@@ -440,29 +486,56 @@ public class Main {
   }
 
   private static Position choosePosition(Scanner sc) {
-    for (int i = 0; i < positions.length; i++) {
-      if (positions[i] == null) {
-        break;
-      }
-
-      System.out.printf("[%d] %s\n", i + 1, positions[i].getName());
+    if (positionsOccupied < 0) {
+      System.out.println("No positions available");
+      return null;
     }
 
-    System.out.println("Choice positions: ");
-    return positions[Integer.parseInt(sc.nextLine()) - 1];
+    int index;
+    do {
+      for (int i = 0; i < positions.length; i++) {
+        if (positions[i] == null) {
+          break;
+        }
+
+        System.out.printf("[%d] %s\n", i + 1, positions[i].getName());
+      }
+
+      System.out.println("Choose positions: ");
+      index = Integer.parseInt(sc.nextLine()) - 1;
+
+      if (index < 0 || index > positionsOccupied) {
+        System.out.println("Invalid position");
+      }
+    } while (index < 0 || index > positionsOccupied);
+
+    return positions[index];
   }
 
   private static Department chooseDepartment(Scanner sc) {
-    for (int i = 0; i < departments.length; i++) {
-      if (departments[i] == null) {
-        break;
-      }
-
-      System.out.printf("[%d] %s\n", i + 1, departments[i].getName());
+    if (departmentsOccupied < 0) {
+      System.out.println("No departments available");
     }
 
-    System.out.println("Choice department: ");
-    return departments[Integer.parseInt(sc.nextLine()) - 1];
+    int index;
+    do {
+      for (int i = 0; i < departments.length; i++) {
+        if (departments[i] == null) {
+          break;
+        }
+
+        System.out.printf("[%d] %s\n", i + 1, departments[i].getName());
+      }
+
+      System.out.println("Choose department: ");
+      index = Integer.parseInt(sc.nextLine()) - 1;
+
+      if (index < 0 || index > departmentsOccupied) {
+        System.out.println("Invalid department");
+      }
+    } while (index < 0 || index > departmentsOccupied);
+
+    return departments[index];
   }
 
   private static Employee createEmployee(Scanner sc) {
@@ -544,15 +617,16 @@ public class Main {
   }
 
   private static CreatingType choiceType(Scanner sc) {
-    System.out.println("[0] Exit");
-    System.out.println("[1] Account");
-    System.out.println("[2] Employee");
-    System.out.println("[3] Department");
-    System.out.println("[4] Position");
-    System.out.println("Create: ");
     int choice;
 
     do {
+      System.out.println("[0] Exit");
+      System.out.println("[1] Account");
+      System.out.println("[2] Employee");
+      System.out.println("[3] Department");
+      System.out.println("[4] Position");
+      System.out.println("Create: ");
+
       choice = Integer.parseInt(sc.nextLine());
       switch (choice) {
         case 0:
@@ -747,7 +821,7 @@ public class Main {
         default:
           break;
       }
-    } while (choice < 0 || options.length < choice);
+    } while (true);
   }
 
   private static void runAdminUI(AdminAccount account, Scanner sc) {
@@ -758,7 +832,7 @@ public class Main {
     int choice;
     do {
       for (int i = 0; i < options.length; i++) {
-        System.out.printf("[%d] %s\n", i + 1, options[i]);
+        System.out.printf("[%d] %s\n", 1, options[i]);
       }
       System.out.println("Choice: ");
       choice = Integer.parseInt(sc.nextLine());
@@ -855,7 +929,7 @@ public class Main {
         default:
           break;
       }
-    } while (choice < 0 || options.length < choice);
+    } while (true);
   }
 
   private static void setup(Scanner sc) {
@@ -870,6 +944,14 @@ public class Main {
 
     System.out.println("Max positions: ");
     maxPositions = Integer.parseInt(sc.nextLine());
+
+    accounts = new Account[maxAccounts];
+    employees = new Employee[maxEmployees];
+    departments = new Department[maxDepartments];
+    positions = new Position[maxPositions];
+
+    System.out.println("Max evaluations: ");
+    maxEvaluations = Integer.parseInt(sc.nextLine());
 
     System.out.println("Max contracts: ");
     maxContracts = Integer.parseInt(sc.nextLine());
@@ -917,7 +999,7 @@ public class Main {
         default:
           break;
       }
-    } while (choice < 0 || 2 < choice);
+    } while (true);
   }
 
   public static void main(String[] args) {
