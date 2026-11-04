@@ -1,7 +1,6 @@
-
 import java.time.LocalDate;
 
-public abstract class Insurance {
+public class Insurance {
     public enum InsuranceType {
         LIFE,
         HEALTH,

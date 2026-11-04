@@ -3,6 +3,7 @@ public abstract class Account {
         ACTIVE,
         INACTIVE,
         SUSPENDED,
+        PENDING,
         LOCKED,
         TERMINATED
     }

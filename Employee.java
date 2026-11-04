@@ -11,48 +11,35 @@ public class Employee extends Person {
   private LocalDate hireDate;
   private String specialization;
   private EmployeeStatus status;
-  private Evaluation[] evaluation;
-  private Contract[] contract;
-  private Payroll[] payroll;
-  private Attendance[] attendance;
-  private Absence[] absence;
+  private Evaluation[] evaluations;
+  private Contract[] contracts;
+  private Payroll[] payrolls;
+  private Attendance[] attendances;
+  private Absence[] absences;
   private Resignation resignation;
-  private Insurance[] insurance;
+  private Insurance[] insurances;
   private String taxId;
   private Position position;
   private Department department;
 
-  public Employee() {
-    this.id = "";
-    this.hireDate = LocalDate.parse("1000-01-01");
-    this.specialization = "";
-    this.status = EmployeeStatus.WORKING;
-    this.evaluation = new Evaluation[1000];
-    this.contract = new Contract[1000];
-    this.payroll = new Payroll[1000];
-    this.attendance = new Attendance[1000];
-    this.resignation = new Resignation[1000];
-    this.insurance = new Insurance[1000];
-    this.taxId = "";
-  }
-
-  public Employee(String id, LocalDate hireDate, String specialization, String status, Evaluation[] evaluation,
-      Contract[] contract, Payroll[] payroll, Attendance[] attendance, Absence[] absence, Resignation resignation,
-      Position position, Department department, String taxId, Insurance[] insurance) {
+  public Employee(String firstName, String lastName, String email, String phone, LocalDate dateOfBirth, String gender,
+      Address address, String id, LocalDate hireDate, String specialization, Employee.EmployeeStatus status,
+      Evaluation[] evaluations, Contract[] contracts, Payroll[] payrolls, Attendance[] attendances,
+      Resignation resignation, String taxId, Insurance[] insurances, Position position, Department department) {
+    super(firstName, lastName, email, phone, dateOfBirth, gender, address);
     this.id = id;
     this.hireDate = hireDate;
     this.specialization = specialization;
     this.status = status;
-    this.evaluation = evaluation;
-    this.contract = contract;
-    this.payroll = payroll;
-    this.attendance = attendance;
-    this.absence = absence;
+    this.evaluations = evaluations;
+    this.contracts = contracts;
+    this.payrolls = payrolls;
+    this.attendances = attendances;
     this.resignation = resignation;
+    this.taxId = taxId;
+    this.insurances = insurances;
     this.position = position;
     this.department = department;
-    this.taxId = taxId;
-    this.insurance = insurance;
   }
 
   public String getId() {
@@ -87,44 +74,44 @@ public class Employee extends Person {
     this.status = status;
   }
 
-  public Evaluation[] getEvaluation() {
-    return evaluation;
+  public Evaluation[] getEvaluations() {
+    return evaluations;
   }
 
-  public void setEvaluation(Evaluation[] evaluation) {
-    this.evaluation = evaluation;
+  public void setEvaluations(Evaluation[] evaluation) {
+    this.evaluations = evaluation;
   }
 
-  public Contract[] getContract() {
-    return contract;
+  public Contract[] getContracts() {
+    return contracts;
   }
 
-  public void setContract(Contract[] contract) {
-    this.contract = contract;
+  public void setContracts(Contract[] contract) {
+    this.contracts = contract;
   }
 
-  public Payroll[] getPayroll() {
-    return payroll;
+  public Payroll[] getPayrolls() {
+    return payrolls;
   }
 
-  public void setPayroll(Payroll[] payroll) {
-    this.payroll = payroll;
+  public void setPayrolls(Payroll[] payroll) {
+    this.payrolls = payroll;
   }
 
-  public Attendance[] getAttendance() {
-    return attendance;
+  public Attendance[] getAttendances() {
+    return attendances;
   }
 
-  public void setAttendance(Attendance[] attendance) {
-    this.attendance = attendance;
+  public void setAttendances(Attendance[] attendance) {
+    this.attendances = attendance;
   }
 
-  public Absence[] getAbsence() {
-    return absence;
+  public Absence[] getAbsences() {
+    return absences;
   }
 
-  public void setAbsence(Absence[] absence) {
-    this.absence = absence;
+  public void setAbsences(Absence[] absence) {
+    this.absences = absence;
   }
 
   public Resignation getResignation() {
@@ -135,12 +122,12 @@ public class Employee extends Person {
     this.resignation = resignation;
   }
 
-  public Insurance[] getInsurance() {
-    return insurance;
+  public Insurance[] getInsurances() {
+    return insurances;
   }
 
-  public void setInsurance(Insurance[] insurance) {
-    this.insurance = insurance;
+  public void setInsurances(Insurance[] insurance) {
+    this.insurances = insurance;
   }
 
   public String getTaxId() {
