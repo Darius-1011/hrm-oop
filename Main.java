@@ -5,10 +5,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
-  private static Account[] accounts = new Account[500];
-  private static Employee[] employees = new Employee[500];
-  private static Department[] departments = new Department[20];
-  private static Position[] positions = new Position[20];
+  private static int maxAccounts;
+  private static int maxEmployees;
+  private static int maxDepartments;
+  private static int maxPositions;
+  private static int maxEvaluations;
+  private static int maxContracts;
+  private static int maxPayrolls;
+  private static int maxAttendances;
+  private static int maxInsurances;
+
+  private static Account[] accounts = new Account[maxAccounts];
+  private static Employee[] employees = new Employee[maxEmployees];
+  private static Department[] departments = new Department[maxDepartments];
+  private static Position[] positions = new Position[maxPositions];
+
+  private static int accountsOccupied = -1;
+  private static int employeesOccupied = -1;
+  private static int departmentsOccupied = -1;
+  private static int positionsOccupied = -1;
 
   private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
   private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -190,7 +205,7 @@ public class Main {
         default:
           break;
       }
-    } while (typeNum < 1 || 3 < typeNum);
+    } while (statusNum < 1 || 3 < statusNum);
 
     return new Contract(startDate, endDate, type, status);
   }
@@ -291,86 +306,80 @@ public class Main {
     return new Insurance(insuranceNumber, type, startDate, endDate, rate);
   }
 
-  private static Employee createEmployee(Scanner sc) {
-    System.out.println("First name: ");
-    String firstName = sc.nextLine();
+  private static Employee.EmployeeStatus chooseEmployeeStatus(Scanner sc) {
+    int statusChoice;
+    do {
+      System.out.println("[1] Working");
+      System.out.println("[2] On leave");
+      System.out.println("[3] Resigned");
+      System.out.println("Status:");
 
-    System.out.println("Last name: ");
-    String lastName = sc.nextLine();
+      statusChoice = Integer.parseInt(sc.nextLine());
+      switch (statusChoice) {
+        case 1:
+          return Employee.EmployeeStatus.WORKING;
+        case 2:
+          return Employee.EmployeeStatus.ON_LEAVE;
+        case 3:
+          return Employee.EmployeeStatus.RESIGNED;
 
-    System.out.println("Email: ");
-    String email = sc.nextLine();
+        default:
+          break;
+      }
+    } while (statusChoice < 1 || 3 < statusChoice);
 
-    System.out.println("Phone number: ");
-    String phone = sc.nextLine();
+    return Employee.EmployeeStatus.RESIGNED;
+  }
 
-    System.out.println("Date of birth (dd/MM/yyyy): ");
-    LocalDate dateOfBirth = LocalDate.parse(sc.nextLine(), dateFormatter);
-
-    System.out.println("Gender: ");
-    String gender = sc.nextLine();
-
-    System.out.println("Address");
-    Address address = createAddress(sc);
-
-    System.out.println("Id: ");
-    String id = sc.nextLine();
-
-    System.out.println("Hire date (dd/MM/yyyy): ");
-    LocalDate hireDate = LocalDate.parse(sc.nextLine(), dateFormatter);
-
-    System.out.println("Specialization: ");
-    String specialization = sc.nextLine();
-
-    System.out.println("[1] Working");
-    System.out.println("[2] On leave");
-    System.out.println("[3] Resigned");
-    System.out.println("Status:");
-
-    Employee.EmployeeStatus status = Employee.EmployeeStatus.WORKING;
-    switch (Integer.parseInt(sc.nextLine())) {
-      case 1:
-        status = Employee.EmployeeStatus.WORKING;
-        break;
-      case 2:
-        status = Employee.EmployeeStatus.ON_LEAVE;
-        break;
-      case 3:
-        status = Employee.EmployeeStatus.RESIGNED;
-        break;
-
-      default:
-        break;
-    }
-
+  private static Evaluation[] createEvaluations(Scanner sc) {
     System.out.println("How many evaluations? ");
     int evaluationCount = Integer.parseInt(sc.nextLine());
-    Evaluation[] evaluations = new Evaluation[1000];
+
+    Evaluation[] evaluations = new Evaluation[maxEvaluations];
     for (int i = 0; i < evaluationCount; i++) {
       evaluations[i] = createEvaluation(sc);
     }
 
+    return evaluations;
+  }
+
+  private static Contract[] createContracts(Scanner sc) {
     System.out.println("How many contracts? ");
     int contractCount = Integer.parseInt(sc.nextLine());
-    Contract[] contracts = new Contract[1000];
+
+    Contract[] contracts = new Contract[maxContracts];
     for (int i = 0; i < contractCount; i++) {
       contracts[i] = createContract(sc);
     }
 
+    return contracts;
+  }
+
+  private static Payroll[] createPayrolls(Scanner sc) {
     System.out.println("How many payrolls? ");
     int payrollCount = Integer.parseInt(sc.nextLine());
-    Payroll[] payrolls = new Payroll[1000];
+
+    Payroll[] payrolls = new Payroll[maxPayrolls];
     for (int i = 0; i < payrollCount; i++) {
       payrolls[i] = createPayroll(sc);
     }
 
+    return payrolls;
+  }
+
+  private static Attendance[] createAttendances(Scanner sc) {
     System.out.println("How many attendances? ");
     int attendanceCount = Integer.parseInt(sc.nextLine());
-    Attendance[] attendances = new Attendance[1000];
+
+    Attendance[] attendances = new Attendance[maxAttendances];
     for (int i = 0; i < attendanceCount; i++) {
       attendances[i] = createAttendance(sc);
     }
 
+    return attendances;
+  }
+
+  private static Resignation createResignation(Scanner sc) {
     System.out.println("[0] No");
     System.out.println("[1] Yes");
     System.out.println("Have resignation: ");
@@ -415,29 +424,94 @@ public class Main {
       date = LocalDate.parse("01/01/1000", dateFormatter);
     }
 
-    Resignation resignation = new Resignation(reason, date, resigntationStatus);
+    return new Resignation(reason, date, resigntationStatus);
+  }
 
-    System.out.println("Tax id: ");
-    String taxId = sc.nextLine();
-
+  private static Insurance[] createInsurances(Scanner sc) {
     System.out.println("How many insurances? ");
     int insuranceCount = Integer.parseInt(sc.nextLine());
+
     Insurance[] insurances = new Insurance[1000];
     for (int i = 0; i < insuranceCount; i++) {
       insurances[i] = createInsurance(sc);
     }
 
+    return insurances;
+  }
+
+  private static Position choosePosition(Scanner sc) {
     for (int i = 0; i < positions.length; i++) {
+      if (positions[i] == null) {
+        break;
+      }
+
       System.out.printf("[%d] %s\n", i + 1, positions[i].getName());
     }
-    System.out.println("Choice positions: ");
-    Position position = positions[Integer.parseInt(sc.nextLine()) - 1];
 
+    System.out.println("Choice positions: ");
+    return positions[Integer.parseInt(sc.nextLine()) - 1];
+  }
+
+  private static Department chooseDepartment(Scanner sc) {
     for (int i = 0; i < departments.length; i++) {
-      System.out.printf("[%d] %s\n", i, departments[i].getName());
+      if (departments[i] == null) {
+        break;
+      }
+
+      System.out.printf("[%d] %s\n", i + 1, departments[i].getName());
     }
+
     System.out.println("Choice department: ");
-    Department department = departments[Integer.parseInt(sc.nextLine()) - 1];
+    return departments[Integer.parseInt(sc.nextLine()) - 1];
+  }
+
+  private static Employee createEmployee(Scanner sc) {
+    System.out.println("First name: ");
+    String firstName = sc.nextLine();
+
+    System.out.println("Last name: ");
+    String lastName = sc.nextLine();
+
+    System.out.println("Email: ");
+    String email = sc.nextLine();
+
+    System.out.println("Phone number: ");
+    String phone = sc.nextLine();
+
+    System.out.println("Date of birth (dd/MM/yyyy): ");
+    LocalDate dateOfBirth = LocalDate.parse(sc.nextLine(), dateFormatter);
+
+    System.out.println("Gender: ");
+    String gender = sc.nextLine();
+
+    System.out.println("Address");
+    Address address = createAddress(sc);
+
+    System.out.println("Id: ");
+    String id = sc.nextLine();
+
+    System.out.println("Hire date (dd/MM/yyyy): ");
+    LocalDate hireDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+
+    System.out.println("Specialization: ");
+    String specialization = sc.nextLine();
+
+    Employee.EmployeeStatus status = chooseEmployeeStatus(sc);
+
+    Evaluation[] evaluations = createEvaluations(sc);
+    Contract[] contracts = createContracts(sc);
+    Payroll[] payrolls = createPayrolls(sc);
+    Attendance[] attendances = createAttendances(sc);
+
+    Resignation resignation = createResignation(sc);
+
+    System.out.println("Tax id: ");
+    String taxId = sc.nextLine();
+
+    Insurance[] insurances = createInsurances(sc);
+
+    Position position = choosePosition(sc);
+    Department department = chooseDepartment(sc);
 
     return new Employee(firstName, lastName, email, phone, dateOfBirth, gender, address, id, hireDate, specialization,
         status, evaluations, contracts, payrolls, attendances, resignation, taxId, insurances, position, department);
@@ -461,7 +535,7 @@ public class Main {
     String name = sc.nextLine();
 
     System.out.println("Position coefficient: ");
-    Double positionCoefficient = Double.parseDouble(sc.nextLine());
+    double positionCoefficient = Double.parseDouble(sc.nextLine());
 
     System.out.println("Responsibilities: ");
     String responsibilities = sc.nextLine();
@@ -508,28 +582,47 @@ public class Main {
 
   private static void createFirstN(Scanner sc) {
     CreatingType type = choiceType(sc);
-    int count = choiceCount(sc);
+    if (type == null) {
+      return;
+    }
 
-    int accountsOccupied = -1;
-    int employeesOccupied = -1;
-    int departmentsOccupied = -1;
-    int positionsOccupied = -1;
+    int count = choiceCount(sc);
 
     for (int i = 0; i < count; i++) {
       switch (type) {
         case ACCOUNT:
+          if (accountsOccupied + 1 >= accounts.length) {
+            System.out.println("Account storage is full");
+            break;
+          }
+
           accounts[accountsOccupied + 1] = createAccount(sc);
           accountsOccupied++;
           break;
         case EMPLOYEE:
+          if (employeesOccupied + 1 >= employees.length) {
+            System.out.println("Employee storage is full");
+            break;
+          }
+
           employees[employeesOccupied + 1] = createEmployee(sc);
           employeesOccupied++;
           break;
         case DEPARTMENT:
+          if (departmentsOccupied + 1 >= departments.length) {
+            System.out.println("Department storage is full");
+            break;
+          }
+
           departments[departmentsOccupied + 1] = createDepartment(sc);
           departmentsOccupied++;
           break;
         case POSITION:
+          if (positionsOccupied + 1 >= positions.length) {
+            System.out.println("Position storage is full");
+            break;
+          }
+
           positions[positionsOccupied + 1] = createPosition(sc);
           positionsOccupied++;
           break;
@@ -541,16 +634,13 @@ public class Main {
   }
 
   private static int getIndex(String username) {
-    int index = -1;
-
     for (int i = 0; i < accounts.length; i++) {
-      if (accounts[i].getUsername() == username) {
-        index = i;
-        break;
+      if (accounts[i] != null && accounts[i].getUsername().equals(username)) {
+        return i;
       }
     }
 
-    return index;
+    return -1;
   }
 
   private static boolean logIn(int index, Scanner sc) {
@@ -562,11 +652,15 @@ public class Main {
     System.out.println("Password: ");
     String password = sc.nextLine();
 
-    if (password == accounts[index].getPassword()) {
-      return true;
-    } else {
+    if (!password.equals(accounts[index].getPassword())) {
       return false;
     }
+
+    if (accounts[index].getStatus() != Account.AccountStatus.ACTIVE) {
+      return false;
+    }
+
+    return true;
   }
 
   private static void runEmployeeUI(EmployeeAccount account, Scanner sc) {
@@ -749,7 +843,7 @@ public class Main {
           System.out.println("Reply: ");
           String reply = sc.nextLine();
 
-          account.replyRequest(accounts, username, reply);
+          account.replyRequest(accounts, replyUsername, reply);
           break;
         case 11:
           account.searchEmployee(accounts);
@@ -762,6 +856,32 @@ public class Main {
           break;
       }
     } while (choice < 0 || options.length < choice);
+  }
+
+  private static void setup(Scanner sc) {
+    System.out.println("Max accounts: ");
+    maxAccounts = Integer.parseInt(sc.nextLine());
+
+    System.out.println("Max employees: ");
+    maxEmployees = Integer.parseInt(sc.nextLine());
+
+    System.out.println("Max departments: ");
+    maxDepartments = Integer.parseInt(sc.nextLine());
+
+    System.out.println("Max positions: ");
+    maxPositions = Integer.parseInt(sc.nextLine());
+
+    System.out.println("Max contracts: ");
+    maxContracts = Integer.parseInt(sc.nextLine());
+
+    System.out.println("Max payrolls: ");
+    maxPayrolls = Integer.parseInt(sc.nextLine());
+
+    System.out.println("Max attendances: ");
+    maxAttendances = Integer.parseInt(sc.nextLine());
+
+    System.out.println("Max insurances: ");
+    maxInsurances = Integer.parseInt(sc.nextLine());
   }
 
   private static void runUI(Scanner sc) {
@@ -803,6 +923,7 @@ public class Main {
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
 
+    setup(sc);
     runUI(sc);
 
     sc.close();
