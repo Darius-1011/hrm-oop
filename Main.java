@@ -79,7 +79,7 @@ public class Main {
       }
     } while (statusNum < 1 || 6 < statusNum);
 
-    int type = Integer.parseInt(sc.nextLine());
+    int type;
     do {
       System.out.println("[1] Admin");
       System.out.println("[2] Employee");
@@ -143,11 +143,19 @@ public class Main {
   }
 
   private static Contract createContract(Scanner sc) {
-    System.out.println("Start date: ");
-    LocalDate startDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+    LocalDate startDate;
+    LocalDate endDate;
+    do {
+      System.out.println("Start date: ");
+      startDate = LocalDate.parse(sc.nextLine(), dateFormatter);
 
-    System.out.println("End date: ");
-    LocalDate endDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+      System.out.println("End date: ");
+      endDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+
+      if (startDate.isAfter(endDate)) {
+        System.out.println("Start date should be before end date");
+      }
+    } while (startDate.isBefore(endDate));
 
     int typeNum = 0;
     Contract.ContractType type = Contract.ContractType.TEMPORARY;
@@ -161,30 +169,31 @@ public class Main {
       System.out.println("Type: ");
 
       typeNum = Integer.parseInt(sc.nextLine());
-      switch (typeNum) {
-        case 1:
-          type = Contract.ContractType.PROBATION;
-          break;
-        case 2:
-          type = Contract.ContractType.FULL_TIME;
-          break;
-        case 3:
-          type = Contract.ContractType.PART_TIME;
-          break;
-        case 4:
-          type = Contract.ContractType.TEMPORARY;
-          break;
-        case 5:
-          type = Contract.ContractType.FIXED_TERM;
-          break;
-        case 6:
-          type = Contract.ContractType.PERMANENT;
-          break;
-
-        default:
-          break;
-      }
     } while (typeNum < 1 || 6 < typeNum);
+
+    switch (typeNum) {
+      case 1:
+        type = Contract.ContractType.PROBATION;
+        break;
+      case 2:
+        type = Contract.ContractType.FULL_TIME;
+        break;
+      case 3:
+        type = Contract.ContractType.PART_TIME;
+        break;
+      case 4:
+        type = Contract.ContractType.TEMPORARY;
+        break;
+      case 5:
+        type = Contract.ContractType.FIXED_TERM;
+        break;
+      case 6:
+        type = Contract.ContractType.PERMANENT;
+        break;
+
+      default:
+        break;
+    }
 
     int statusNum = 0;
     Contract.ContractStatus status = Contract.ContractStatus.ACTIVE;
@@ -195,21 +204,22 @@ public class Main {
       System.out.println("Status: ");
 
       statusNum = Integer.parseInt(sc.nextLine());
-      switch (statusNum) {
-        case 1:
-          status = Contract.ContractStatus.DRAFT;
-          break;
-        case 2:
-          status = Contract.ContractStatus.ACTIVE;
-          break;
-        case 3:
-          status = Contract.ContractStatus.EXPIRED;
-          break;
-
-        default:
-          break;
-      }
     } while (statusNum < 1 || 3 < statusNum);
+
+    switch (statusNum) {
+      case 1:
+        status = Contract.ContractStatus.DRAFT;
+        break;
+      case 2:
+        status = Contract.ContractStatus.ACTIVE;
+        break;
+      case 3:
+        status = Contract.ContractStatus.EXPIRED;
+        break;
+
+      default:
+        break;
+    }
 
     return new Contract(startDate, endDate, type, status);
   }
@@ -256,11 +266,19 @@ public class Main {
     System.out.println("Date (dd/MM/yyyy): ");
     LocalDate date = LocalDate.parse(sc.nextLine(), dateFormatter);
 
-    System.out.println("Clock in (HH:mm): ");
-    LocalTime clockIn = LocalTime.parse(sc.nextLine(), timeFormatter);
+    LocalTime clockIn;
+    LocalTime clockOut;
+    do {
+      System.out.println("Clock in (HH:mm): ");
+      clockIn = LocalTime.parse(sc.nextLine(), timeFormatter);
 
-    System.out.println("Clock out (HH:mm): ");
-    LocalTime clockOut = LocalTime.parse(sc.nextLine(), timeFormatter);
+      System.out.println("Clock out (HH:mm): ");
+      clockOut = LocalTime.parse(sc.nextLine(), timeFormatter);
+
+      if (clockIn.isAfter(clockOut)) {
+        System.out.println("Clock in time should be before clock out time");
+      }
+    } while (clockIn.isBefore(clockOut));
 
     return new Attendance(date, clockIn, clockOut);
   }
@@ -278,31 +296,39 @@ public class Main {
       System.out.println("[4] Unemployment");
       System.out.println("Type: ");
       typeNum = Integer.parseInt(sc.nextLine());
-
-      switch (typeNum) {
-        case 1:
-          type = Insurance.InsuranceType.LIFE;
-          break;
-        case 2:
-          type = Insurance.InsuranceType.HEALTH;
-          break;
-        case 3:
-          type = Insurance.InsuranceType.SOCIAL;
-          break;
-        case 4:
-          type = Insurance.InsuranceType.UNEMPLOYMENT;
-          break;
-
-        default:
-          break;
-      }
     } while (typeNum < 1 || 4 < typeNum);
 
-    System.out.println("Start date (dd/MM/yyyy): ");
-    LocalDate startDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+    switch (typeNum) {
+      case 1:
+        type = Insurance.InsuranceType.LIFE;
+        break;
+      case 2:
+        type = Insurance.InsuranceType.HEALTH;
+        break;
+      case 3:
+        type = Insurance.InsuranceType.SOCIAL;
+        break;
+      case 4:
+        type = Insurance.InsuranceType.UNEMPLOYMENT;
+        break;
 
-    System.out.println("End date (dd/MM/yyyy): ");
-    LocalDate endDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+      default:
+        break;
+    }
+
+    LocalDate startDate;
+    LocalDate endDate;
+    do {
+      System.out.println("Start date (dd/MM/yyyy): ");
+      startDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+
+      System.out.println("End date (dd/MM/yyyy): ");
+      endDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+
+      if (startDate.isAfter(endDate)) {
+        System.out.println("Start date should be before end date");
+      }
+    } while (startDate.isBefore(endDate));
 
     System.out.println("Rate: ");
     double rate = Double.parseDouble(sc.nextLine());
@@ -317,26 +343,26 @@ public class Main {
       System.out.println("[2] On leave");
       System.out.println("[3] Resigned");
       System.out.println("Status:");
-
       statusChoice = Integer.parseInt(sc.nextLine());
-      switch (statusChoice) {
-        case 1:
-          return Employee.EmployeeStatus.WORKING;
-        case 2:
-          return Employee.EmployeeStatus.ON_LEAVE;
-        case 3:
-          return Employee.EmployeeStatus.RESIGNED;
-
-        default:
-          break;
-      }
     } while (statusChoice < 1 || 3 < statusChoice);
+
+    switch (statusChoice) {
+      case 1:
+        return Employee.EmployeeStatus.WORKING;
+      case 2:
+        return Employee.EmployeeStatus.ON_LEAVE;
+      case 3:
+        return Employee.EmployeeStatus.RESIGNED;
+
+      default:
+        break;
+    }
 
     return Employee.EmployeeStatus.RESIGNED;
   }
 
   private static Evaluation[] createEvaluations(Scanner sc) {
-    int evaluationCount = Integer.parseInt(sc.nextLine());
+    int evaluationCount;
     do {
       System.out.println("How many evaluations? ");
       evaluationCount = Integer.parseInt(sc.nextLine());
@@ -344,7 +370,6 @@ public class Main {
       if (evaluationCount < 0 || maxEvaluations < evaluationCount) {
         System.out.println("Invalid evaluation count");
         System.out.printf("Min: 0, Max: %d", maxEvaluations);
-        return new Evaluation[maxEvaluations];
       }
     } while (evaluationCount < 0 || maxEvaluations < evaluationCount);
 
@@ -419,10 +444,13 @@ public class Main {
   }
 
   private static Resignation createResignation(Scanner sc) {
-    System.out.println("[0] No");
-    System.out.println("[1] Yes");
-    System.out.println("Have resignation: ");
-    int resignationChoice = Integer.parseInt(sc.nextLine());
+    int resignationChoice;
+    do {
+      System.out.println("[0] No");
+      System.out.println("[1] Yes");
+      System.out.println("Have resignation: ");
+      resignationChoice = Integer.parseInt(sc.nextLine());
+    } while (resignationChoice != 0 && resignationChoice != 1);
 
     String reason;
     LocalDate date;
@@ -516,6 +544,7 @@ public class Main {
   private static Department chooseDepartment(Scanner sc) {
     if (departmentsOccupied < 0) {
       System.out.println("No departments available");
+      return null;
     }
 
     int index;
@@ -650,9 +679,7 @@ public class Main {
   }
 
   private static int choiceCount(Scanner sc) {
-    System.out.println("How many: ");
-    int count = Integer.parseInt(sc.nextLine());
-    return count;
+    return inputNonNegative(sc, "How many");
   }
 
   private static void createFirstN(Scanner sc) {
@@ -738,6 +765,18 @@ public class Main {
     return true;
   }
 
+  private static boolean usernameExist(Account[] accounts, Account currentAccount, String username) {
+    for (Account account : accounts) {
+      if (account != null && account.getUsername().equals(username)
+          && account.getUsername().equals(currentAccount.getUsername())) {
+        System.out.println(username + " already exists");
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   private static void runEmployeeUI(EmployeeAccount account, Scanner sc) {
     String[] options = { "Logout", "Change password", "Get info", "Set info", "Submit absence", "Submit resignation",
         "Check in", "Check out", "View attendance" };
@@ -761,8 +800,11 @@ public class Main {
           account.getInfo();
           break;
         case 3:
-          System.out.println("Set username: ");
-          String username = sc.nextLine();
+          String username;
+          do {
+            System.out.println("Set username: ");
+            username = sc.nextLine();
+          } while (usernameExist(accounts, account, username));
 
           int statusNum = 0;
           Account.AccountStatus status = Account.AccountStatus.ACTIVE;
@@ -833,7 +875,7 @@ public class Main {
     int choice;
     do {
       for (int i = 0; i < options.length; i++) {
-        System.out.printf("[%d] %s\n", 1, options[i]);
+        System.out.printf("[%d] %s\n", i, options[i]);
       }
       System.out.println("Choice: ");
       choice = Integer.parseInt(sc.nextLine());
@@ -933,38 +975,37 @@ public class Main {
     } while (true);
   }
 
+  private static int inputNonNegative(Scanner sc, String name) {
+    int num;
+
+    do {
+      System.out.println(name + ": ");
+      num = Integer.parseInt(sc.nextLine());
+
+      if (num < 0) {
+        System.out.println("This cannot be negative");
+      }
+    } while (num < 0);
+
+    return num;
+  }
+
   private static void setup(Scanner sc) {
-    System.out.println("Max accounts: ");
-    maxAccounts = Integer.parseInt(sc.nextLine());
-
-    System.out.println("Max employees: ");
-    maxEmployees = Integer.parseInt(sc.nextLine());
-
-    System.out.println("Max departments: ");
-    maxDepartments = Integer.parseInt(sc.nextLine());
-
-    System.out.println("Max positions: ");
-    maxPositions = Integer.parseInt(sc.nextLine());
+    maxAccounts = inputNonNegative(sc, "Max accounts");
+    maxEmployees = inputNonNegative(sc, "Max employees");
+    maxDepartments = inputNonNegative(sc, "Max departments");
+    maxPositions = inputNonNegative(sc, "Max positions");
 
     accounts = new Account[maxAccounts];
     employees = new Employee[maxEmployees];
     departments = new Department[maxDepartments];
     positions = new Position[maxPositions];
 
-    System.out.println("Max evaluations: ");
-    maxEvaluations = Integer.parseInt(sc.nextLine());
-
-    System.out.println("Max contracts: ");
-    maxContracts = Integer.parseInt(sc.nextLine());
-
-    System.out.println("Max payrolls: ");
-    maxPayrolls = Integer.parseInt(sc.nextLine());
-
-    System.out.println("Max attendances: ");
-    maxAttendances = Integer.parseInt(sc.nextLine());
-
-    System.out.println("Max insurances: ");
-    maxInsurances = Integer.parseInt(sc.nextLine());
+    maxEvaluations = inputNonNegative(sc, "Max evaluations");
+    maxContracts = inputNonNegative(sc, "Max contracts");
+    maxPayrolls = inputNonNegative(sc, "Max payrolls");
+    maxAttendances = inputNonNegative(sc, "Max attendances");
+    maxInsurances = inputNonNegative(sc, "Max insurances");
   }
 
   private static void runUI(Scanner sc) {
