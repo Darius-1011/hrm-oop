@@ -765,16 +765,80 @@ public class Main {
     return true;
   }
 
-  private static boolean usernameExist(Account[] accounts, Account currentAccount, String username) {
+  private static boolean usernameExist(Account[] accounts, Account current, String username) {
     for (Account account : accounts) {
       if (account != null && account.getUsername().equals(username)
-          && account.getUsername().equals(currentAccount.getUsername())) {
+          && account.getUsername().equals(current.getUsername())) {
         System.out.println(username + " already exists");
         return true;
       }
     }
 
     return false;
+  }
+
+  private static void setAccountName(Scanner sc, Account[] accounts, Account current) {
+    String username;
+    do {
+      System.out.println("Set username: ");
+      username = sc.nextLine();
+    } while (usernameExist(accounts, current, username));
+
+    current.setUsername(username);
+  }
+
+  private static void setAccountPassword(Scanner sc, Account[] accounts, Account current) {
+    String oldPassword;
+    do {
+      System.out.println("Old password: ");
+      oldPassword = sc.nextLine();
+
+      if (!current.getPassword().equals(oldPassword)) {
+        System.out.println("Wrong password");
+      }
+    } while (!current.getPassword().equals(oldPassword));
+
+    System.out.println("New password: ");
+    current.setPassword(sc.nextLine());
+  }
+
+  private static void setAccountStatus(Scanner sc, Account[] accounts, Account current) {
+    int statusNum = 0;
+    do {
+      System.out.println("[1] Active");
+      System.out.println("[2] Inactive");
+      System.out.println("[3] Suspended");
+      System.out.println("[4] Pending");
+      System.out.println("[5] Locked");
+      System.out.println("[6] Terminated");
+      System.out.println("Status:");
+
+      statusNum = Integer.parseInt(sc.nextLine());
+    } while (statusNum < 1 || 6 < statusNum);
+
+    switch (statusNum) {
+      case 1:
+        current.setStatus(Account.AccountStatus.ACTIVE);
+        break;
+      case 2:
+        current.setStatus(Account.AccountStatus.INACTIVE);
+        break;
+      case 3:
+        current.setStatus(Account.AccountStatus.SUSPENDED);
+        break;
+      case 4:
+        current.setStatus(Account.AccountStatus.PENDING);
+        break;
+      case 5:
+        current.setStatus(Account.AccountStatus.LOCKED);
+        break;
+      case 6:
+        current.setStatus(Account.AccountStatus.TERMINATED);
+        break;
+
+      default:
+        break;
+    }
   }
 
   private static void runEmployeeUI(EmployeeAccount account, Scanner sc) {
@@ -793,57 +857,31 @@ public class Main {
         case 0:
           return;
         case 1:
-          System.out.println("Change password: ");
-          account.changePassword(sc.nextLine());
+          setAccountPassword(sc, accounts, account);
           break;
         case 2:
           account.getInfo();
           break;
         case 3:
-          String username;
+          int setChoice;
           do {
-            System.out.println("Set username: ");
-            username = sc.nextLine();
-          } while (usernameExist(accounts, account, username));
+            System.out.println("[0] Exit");
+            System.out.println("[1] Set username");
+            System.out.println("[2] Set status");
+            setChoice = Integer.parseInt(sc.nextLine());
+          } while (setChoice < 0 || 2 < setChoice);
 
-          int statusNum = 0;
-          Account.AccountStatus status = Account.AccountStatus.ACTIVE;
-          do {
-            System.out.println("[1] Active");
-            System.out.println("[2] Inactive");
-            System.out.println("[3] Suspended");
-            System.out.println("[4] Pending");
-            System.out.println("[5] Locked");
-            System.out.println("[6] Terminated");
-            System.out.println("Status:");
+          switch (setChoice) {
+            case 1:
+              setAccountName(sc, accounts, account);
+              break;
+            case 2:
+              setAccountStatus(sc, accounts, account);
+              break;
 
-            statusNum = Integer.parseInt(sc.nextLine());
-            switch (statusNum) {
-              case 1:
-                status = Account.AccountStatus.ACTIVE;
-                break;
-              case 2:
-                status = Account.AccountStatus.INACTIVE;
-                break;
-              case 3:
-                status = Account.AccountStatus.SUSPENDED;
-                break;
-              case 4:
-                status = Account.AccountStatus.PENDING;
-                break;
-              case 5:
-                status = Account.AccountStatus.LOCKED;
-                break;
-              case 6:
-                status = Account.AccountStatus.TERMINATED;
-                break;
-
-              default:
-                break;
-            }
-          } while (statusNum < 1 || 6 < statusNum);
-
-          account.setInfo(username, status);
+            default:
+              break;
+          }
           break;
         case 4:
           account.submitAbsence();
@@ -884,54 +922,31 @@ public class Main {
         case 0:
           return;
         case 1:
-          System.out.println("Change password: ");
-          account.changePassword(sc.nextLine());
+          setAccountPassword(sc, accounts, account);
           break;
         case 2:
           account.getInfo();
           break;
         case 3:
-          System.out.println("Set username: ");
-          String username = sc.nextLine();
-
-          int statusNum = 0;
-          Account.AccountStatus status = Account.AccountStatus.ACTIVE;
+          int setChoice;
           do {
-            System.out.println("[1] Active");
-            System.out.println("[2] Inactive");
-            System.out.println("[3] Suspended");
-            System.out.println("[4] Pending");
-            System.out.println("[5] Locked");
-            System.out.println("[6] Terminated");
-            System.out.println("Status:");
+            System.out.println("[0] Exit");
+            System.out.println("[1] Set username");
+            System.out.println("[2] Set status");
+            setChoice = Integer.parseInt(sc.nextLine());
+          } while (setChoice < 0 || 2 < setChoice);
 
-            statusNum = Integer.parseInt(sc.nextLine());
-            switch (statusNum) {
-              case 1:
-                status = Account.AccountStatus.ACTIVE;
-                break;
-              case 2:
-                status = Account.AccountStatus.INACTIVE;
-                break;
-              case 3:
-                status = Account.AccountStatus.SUSPENDED;
-                break;
-              case 4:
-                status = Account.AccountStatus.PENDING;
-                break;
-              case 5:
-                status = Account.AccountStatus.LOCKED;
-                break;
-              case 6:
-                status = Account.AccountStatus.TERMINATED;
-                break;
+          switch (setChoice) {
+            case 1:
+              setAccountName(sc, accounts, account);
+              break;
+            case 2:
+              setAccountStatus(sc, accounts, account);
+              break;
 
-              default:
-                break;
-            }
-          } while (statusNum < 1 || 6 < statusNum);
-
-          account.setInfo(username, status);
+            default:
+              break;
+          }
           break;
         case 4:
           account.addEmployee(accounts, createEmployee(sc));
@@ -1024,9 +1039,17 @@ public class Main {
           createFirstN(sc);
           break;
         case 2:
-          System.out.println("Username: ");
-          String username = sc.nextLine();
-          int index = getIndex(username);
+          String username;
+          int index;
+          do {
+            System.out.println("Username: ");
+            username = sc.nextLine();
+            index = getIndex(username);
+
+            if (index == -1) {
+              System.out.println("Username not exists");
+            }
+          } while (index == -1);
           boolean isLoggedIn = logIn(index, sc);
 
           if (isLoggedIn) {
