@@ -83,14 +83,15 @@ public class Main {
     do {
       System.out.println("[1] Admin");
       System.out.println("[2] Employee");
+      System.out.println("Choose: ");
       type = Integer.parseInt(sc.nextLine());
-
-      if (type == 1) {
-        return new AdminAccount(username, password, status);
-      } else if (type == 2) {
-        return new EmployeeAccount(username, password, status);
-      }
     } while (type != 1 && type != 2);
+
+    if (type == 1) {
+      return new AdminAccount(username, password, status);
+    } else {
+      return new EmployeeAccount(username, password, status);
+    }
   }
 
   private static Address createAddress(Scanner sc) {
