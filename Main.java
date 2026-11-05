@@ -54,30 +54,31 @@ public class Main {
       System.out.println("Status:");
 
       statusNum = Integer.parseInt(sc.nextLine());
-      switch (statusNum) {
-        case 1:
-          status = Account.AccountStatus.ACTIVE;
-          break;
-        case 2:
-          status = Account.AccountStatus.INACTIVE;
-          break;
-        case 3:
-          status = Account.AccountStatus.SUSPENDED;
-          break;
-        case 4:
-          status = Account.AccountStatus.PENDING;
-          break;
-        case 5:
-          status = Account.AccountStatus.LOCKED;
-          break;
-        case 6:
-          status = Account.AccountStatus.TERMINATED;
-          break;
-
-        default:
-          break;
-      }
     } while (statusNum < 1 || 6 < statusNum);
+
+    switch (statusNum) {
+      case 1:
+        status = Account.AccountStatus.ACTIVE;
+        break;
+      case 2:
+        status = Account.AccountStatus.INACTIVE;
+        break;
+      case 3:
+        status = Account.AccountStatus.SUSPENDED;
+        break;
+      case 4:
+        status = Account.AccountStatus.PENDING;
+        break;
+      case 5:
+        status = Account.AccountStatus.LOCKED;
+        break;
+      case 6:
+        status = Account.AccountStatus.TERMINATED;
+        break;
+
+      default:
+        break;
+    }
 
     int type;
     do {
@@ -470,22 +471,22 @@ public class Main {
         System.out.println("[3] Approved");
         System.out.println("Status: ");
         statusNum = Integer.parseInt(sc.nextLine());
-
-        switch (statusNum) {
-          case 1:
-            resigntationStatus = Resignation.ResignationStatus.PENDING;
-            break;
-          case 2:
-            resigntationStatus = Resignation.ResignationStatus.REJECTED;
-            break;
-          case 3:
-            resigntationStatus = Resignation.ResignationStatus.APPROVED;
-            break;
-
-          default:
-            break;
-        }
       } while (statusNum < 1 || 3 < statusNum);
+
+      switch (statusNum) {
+        case 1:
+          resigntationStatus = Resignation.ResignationStatus.PENDING;
+          break;
+        case 2:
+          resigntationStatus = Resignation.ResignationStatus.REJECTED;
+          break;
+        case 3:
+          resigntationStatus = Resignation.ResignationStatus.APPROVED;
+          break;
+
+        default:
+          break;
+      }
     } else {
       reason = "";
       date = LocalDate.parse("01/01/1000", dateFormatter);
@@ -1023,12 +1024,149 @@ public class Main {
     maxInsurances = inputNonNegative(sc, "Max insurances");
   }
 
+  private static void createSampleData() {
+    if (maxAccounts < 2 || maxEmployees < 1 ||
+        maxDepartments < 2 || maxPositions < 2 ||
+        maxEvaluations < 1 || maxContracts < 1 ||
+        maxPayrolls < 1 || maxAttendances < 1 ||
+        maxInsurances < 1) {
+      throw new IllegalStateException(
+          "Not enough capacity. Increase the maximum values in setup().");
+    }
+
+    accounts[0] = new AdminAccount(
+        "admin",
+        "admin123",
+        Account.AccountStatus.ACTIVE);
+
+    accounts[1] = new EmployeeAccount(
+        "john",
+        "john123",
+        Account.AccountStatus.ACTIVE);
+
+    accountsOccupied = 1;
+
+    departments[0] = new Department(
+        "IT",
+        "0901234567",
+        "Software Development");
+
+    departments[1] = new Department(
+        "Human Resources",
+        "0907654321",
+        "Recruitment");
+
+    departmentsOccupied = 1;
+
+    positions[0] = new Position(
+        "Develop and maintain software",
+        "Software Developer",
+        2.5);
+
+    positions[1] = new Position(
+        "Manage recruitment and employee relations",
+        "HR Manager",
+        3.0);
+
+    positionsOccupied = 1;
+
+    Address address = new Address(
+        25,
+        "Nguyen Hue",
+        "Ben Nghe",
+        "District 1",
+        "Ho Chi Minh City");
+
+    Evaluation[] evaluations = new Evaluation[maxEvaluations];
+
+    evaluations[0] = new Evaluation(
+        "October 2026",
+        "Excellent performance",
+        9.0,
+        9.5,
+        9.0,
+        9.0,
+        8.5,
+        9.0);
+
+    Contract[] contracts = new Contract[maxContracts];
+
+    contracts[0] = new Contract(
+        LocalDate.of(2025, 1, 1),
+        LocalDate.of(2027, 12, 31),
+        Contract.ContractType.FULL_TIME,
+        Contract.ContractStatus.ACTIVE);
+
+    Payroll[] payrolls = new Payroll[maxPayrolls];
+
+    payrolls[0] = new Payroll(
+        10,
+        2026,
+        20000000,
+        2000000,
+        1000000,
+        500000,
+        1500000,
+        1000000,
+        176,
+        10,
+        LocalDate.of(2026, 1, 1));
+
+    Attendance[] attendances = new Attendance[maxAttendances];
+
+    attendances[0] = new Attendance(
+        LocalDate.of(2026, 10, 5),
+        LocalTime.of(8, 0),
+        LocalTime.of(17, 0));
+
+    Resignation resignation = new Resignation(
+        "",
+        LocalDate.of(1000, 1, 1),
+        Resignation.ResignationStatus.REJECTED);
+
+    Insurance[] insurances = new Insurance[maxInsurances];
+
+    insurances[0] = new Insurance(
+        "INS001",
+        Insurance.InsuranceType.HEALTH,
+        LocalDate.of(2025, 1, 1),
+        LocalDate.of(2027, 12, 31),
+        0.08);
+
+    employees[0] = new Employee(
+        "John",
+        "Smith",
+        "john.smith@example.com",
+        "0912345678",
+        LocalDate.of(1998, 6, 15),
+        "Male",
+        address,
+        "EMP001",
+        LocalDate.of(2025, 1, 1),
+        "Backend Development",
+        Employee.EmployeeStatus.WORKING,
+        evaluations,
+        contracts,
+        payrolls,
+        attendances,
+        resignation,
+        "TAX001",
+        insurances,
+        positions[0],
+        departments[0]);
+
+    employeesOccupied = 0;
+
+    System.out.println("Sample data created successfully!");
+  }
+
   private static void runUI(Scanner sc) {
     int choice;
     do {
       System.out.println("[0] Exit");
       System.out.println("[1] Create first N");
       System.out.println("[2] Login");
+      System.out.println("[3] Create sample data");
       System.out.println("Choice: ");
       choice = Integer.parseInt(sc.nextLine());
 
@@ -1059,6 +1197,9 @@ public class Main {
               runAdminUI((AdminAccount) accounts[index], sc);
             }
           }
+          break;
+        case 3:
+          createSampleData();
           break;
 
         default:
