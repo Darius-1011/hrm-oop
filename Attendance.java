@@ -1,31 +1,36 @@
-public class Attendance {
-    private String date;
-    private int clockInHour;
-    private int clockInMinute;
-    private int clockOutHour;
-    private int clockOutMinute;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
-    public Attendance(String date, int clockInHour,
-            int clockInMinute, int clockOutHour,
-            int clockOutMinute) {
+public class Attendance {
+    private LocalDate date;
+    private LocalTime clockIn;
+    private LocalTime clockOut;
+
+    public Attendance(LocalDate date, LocalTime clockIn, LocalTime clockOut) {
         this.date = date;
-        this.clockInHour = clockInHour;
-        this.clockInMinute = clockInMinute;
-        this.clockOutHour = clockOutHour;
-        this.clockOutMinute = clockOutMinute;
+        this.clockIn = clockIn;
+        this.clockOut = clockOut;
     }
 
     public double calculateWorkedHours() {
-        int totalClockInMinutes = clockInHour * 60 + clockInMinute;
-        int totalClockOutMinutes = clockOutHour * 60 + clockOutMinute;
-        int workedMinutes = totalClockOutMinutes - totalClockInMinutes;
+        long workedMinutes = Duration.between(clockIn, clockOut).toMinutes();
+
+        if (workedMinutes < 0) {
+            workedMinutes += 24 * 60;
+        }
+
         return workedMinutes / 60.0;
     }
 
     public void displayAttendance() {
-        System.out.println("Ngay: " + date);
-        System.out.println("Gio vao: " + clockInHour + ":" + clockInMinute);
-        System.out.println("Gio ra: " + clockOutHour + ":" + clockOutMinute);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        System.out.println("Ngay: " + date.format(dateFormatter));
+        System.out.println("Gio vao: " + clockIn.format(timeFormatter));
+        System.out.println("Gio ra: " + clockOut.format(timeFormatter));
         System.out.println("So gio lam: " + calculateWorkedHours());
     }
 }
