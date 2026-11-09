@@ -3,11 +3,11 @@ public class AdminAccount extends Account {
         super(username, password, status);
     }
 
-    public void addEmployee(Account[] accounts, Account account) {
-        for (int i = 0; i < accounts.length; i++) {
-            if (accounts[i] == null) {
-                accounts[i] = account;
-                System.out.println("Da them tai khoan: " + account.getUsername());
+    public void addEmployee(Employee[] employees, Employee employee) {
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] == null) {
+                employees[i] = employee;
+                System.out.println("Da them tai khoan: " + employee.getFirstName());
                 return;
             }
         }
@@ -45,9 +45,34 @@ public class AdminAccount extends Account {
         System.out.println("Khong tim thay tai khoan: " + username);
     }
 
-    public void createAccount(Account[] accounts, String username, String password, AccountStatus status) {
-        this.addEmployee(accounts, new EmployeeAccount(username, password, status));
+    public void editEmployee(Account[] accounts, String username) {
+        System.out.println("Edit employee");
     }
+
+    public void printEmployee(Employee[] employees) {
+        System.out.println("Print Employee");
+    }
+
+    public void printDepartments(Department[] departments) {
+        System.out.println("Print Departments");
+    }
+
+    public void printPayrolls() {
+        System.out.println("Print Payroll");
+    }
+
+    public void searchEmployee(Employee[] employees) {
+        System.out.println("Search employee");
+    }
+
+    public void searchDepartment(Department[] departments) {
+        System.out.println("Search departments");
+    }
+
+    // public void createAccount(Account[] accounts, String username, String
+    // password, AccountStatus status) {
+    // this.addEmployee(accounts, new EmployeeAccount(username, password, status));
+    // }
 
     public void resetPassword(Account[] accounts, String username, String password) {
         for (int i = 0; i < accounts.length; i++) {

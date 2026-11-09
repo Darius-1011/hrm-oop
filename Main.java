@@ -35,10 +35,10 @@ public class Main {
   }
 
   private static Account createAccount(Scanner sc) {
-    System.out.println("Username: ");
+    System.out.print("Username: ");
     String username = sc.nextLine();
 
-    System.out.println("Password: ");
+    System.out.print("Password: ");
     String password = sc.nextLine();
 
     int statusNum = 0;
@@ -50,7 +50,7 @@ public class Main {
       System.out.println("[4] Pending");
       System.out.println("[5] Locked");
       System.out.println("[6] Terminated");
-      System.out.println("Status:");
+      System.out.print("Status:");
 
       statusNum = Integer.parseInt(sc.nextLine());
     } while (statusNum < 1 || 6 < statusNum);
@@ -83,7 +83,7 @@ public class Main {
     do {
       System.out.println("[1] Admin");
       System.out.println("[2] Employee");
-      System.out.println("Choose: ");
+      System.out.print("Choose: ");
       type = Integer.parseInt(sc.nextLine());
     } while (type != 1 && type != 2);
 
@@ -95,47 +95,47 @@ public class Main {
   }
 
   private static Address createAddress(Scanner sc) {
-    System.out.println("Number: ");
+    System.out.print("Number: ");
     int number = Integer.parseInt(sc.nextLine());
 
-    System.out.println("Street: ");
+    System.out.print("Street: ");
     String street = sc.nextLine();
 
-    System.out.println("Ward: ");
+    System.out.print("Ward: ");
     String ward = sc.nextLine();
 
-    System.out.println("District: ");
+    System.out.print("District: ");
     String district = sc.nextLine();
 
-    System.out.println("City: ");
+    System.out.print("City: ");
     String city = sc.nextLine();
 
     return new Address(number, street, ward, district, city);
   }
 
   private static Evaluation createEvaluation(Scanner sc) {
-    System.out.println("Month: ");
+    System.out.print("Month: ");
     String month = sc.nextLine();
 
-    System.out.println("Comment");
+    System.out.print("Comment");
     String comment = sc.nextLine();
 
-    System.out.println("Work score: ");
+    System.out.print("Work score: ");
     double workScore = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Attitude score: ");
+    System.out.print("Attitude score: ");
     double attitudeScore = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Discipline score: ");
+    System.out.print("Discipline score: ");
     double disciplineScore = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Work quality: ");
+    System.out.print("Work quality: ");
     double workQuality = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Productivity: ");
+    System.out.print("Productivity: ");
     double productivity = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Team work: ");
+    System.out.print("Team work: ");
     double teamWork = Double.parseDouble(sc.nextLine());
 
     return new Evaluation(month, comment, workScore, attitudeScore, disciplineScore, workQuality, productivity,
@@ -146,10 +146,10 @@ public class Main {
     LocalDate startDate;
     LocalDate endDate;
     do {
-      System.out.println("Start date: ");
+      System.out.print("Start date: ");
       startDate = LocalDate.parse(sc.nextLine(), dateFormatter);
 
-      System.out.println("End date: ");
+      System.out.print("End date: ");
       endDate = LocalDate.parse(sc.nextLine(), dateFormatter);
 
       if (startDate.isAfter(endDate)) {
@@ -166,7 +166,7 @@ public class Main {
       System.out.println("[4] Temporary");
       System.out.println("[5] Fixed term");
       System.out.println("[6] Permanent");
-      System.out.println("Type: ");
+      System.out.print("Type: ");
 
       typeNum = Integer.parseInt(sc.nextLine());
     } while (typeNum < 1 || 6 < typeNum);
@@ -201,7 +201,7 @@ public class Main {
       System.out.println("[1] Draft");
       System.out.println("[2] Active");
       System.out.println("[3] Expired");
-      System.out.println("Status: ");
+      System.out.print("Status: ");
 
       statusNum = Integer.parseInt(sc.nextLine());
     } while (statusNum < 1 || 3 < statusNum);
@@ -225,37 +225,37 @@ public class Main {
   }
 
   private static Payroll createPayroll(Scanner sc) {
-    System.out.println("Month: ");
+    System.out.print("Month: ");
     int month = Integer.parseInt(sc.nextLine());
 
-    System.out.println("Year: ");
+    System.out.print("Year: ");
     int year = Integer.parseInt(sc.nextLine());
 
-    System.out.println("Base Salary");
+    System.out.print("Base Salary");
     double baseSalary = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Bonus: ");
+    System.out.print("Bonus: ");
     double bonus = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Allowance: ");
+    System.out.print("Allowance: ");
     double allowance = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Deduction: ");
+    System.out.print("Deduction: ");
     double deduction = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Tax amount: ");
+    System.out.print("Tax amount: ");
     double taxAmount = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Insurance amount: ");
+    System.out.print("Insurance amount: ");
     double insuranceAmount = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Worked hours: ");
+    System.out.print("Worked hours: ");
     int workedHours = Integer.parseInt(sc.nextLine());
 
-    System.out.println("Overtime hours: ");
+    System.out.print("Overtime hours: ");
     int overtimeHours = Integer.parseInt(sc.nextLine());
 
-    System.out.println("Last salary increase (dd/MM/yyyy): ");
+    System.out.print("Last salary increase (dd/MM/yyyy): ");
     LocalDate lastSalaryIncreaseDate = LocalDate.parse(sc.nextLine(), dateFormatter);
 
     return new Payroll(month, year, baseSalary, bonus, allowance, deduction, taxAmount, insuranceAmount, workedHours,
@@ -263,16 +263,16 @@ public class Main {
   }
 
   private static Attendance createAttendance(Scanner sc) {
-    System.out.println("Date (dd/MM/yyyy): ");
+    System.out.print("Date (dd/MM/yyyy): ");
     LocalDate date = LocalDate.parse(sc.nextLine(), dateFormatter);
 
     LocalTime clockIn;
     LocalTime clockOut;
     do {
-      System.out.println("Clock in (HH:mm): ");
+      System.out.print("Clock in (HH:mm): ");
       clockIn = LocalTime.parse(sc.nextLine(), timeFormatter);
 
-      System.out.println("Clock out (HH:mm): ");
+      System.out.print("Clock out (HH:mm): ");
       clockOut = LocalTime.parse(sc.nextLine(), timeFormatter);
 
       if (clockIn.isAfter(clockOut)) {
@@ -284,7 +284,7 @@ public class Main {
   }
 
   private static Insurance createInsurance(Scanner sc) {
-    System.out.println("Insurance number: ");
+    System.out.print("Insurance number: ");
     String insuranceNumber = sc.nextLine();
 
     int typeNum;
@@ -294,7 +294,7 @@ public class Main {
       System.out.println("[2] Health");
       System.out.println("[3] Social");
       System.out.println("[4] Unemployment");
-      System.out.println("Type: ");
+      System.out.print("Type: ");
       typeNum = Integer.parseInt(sc.nextLine());
     } while (typeNum < 1 || 4 < typeNum);
 
@@ -319,10 +319,10 @@ public class Main {
     LocalDate startDate;
     LocalDate endDate;
     do {
-      System.out.println("Start date (dd/MM/yyyy): ");
+      System.out.print("Start date (dd/MM/yyyy): ");
       startDate = LocalDate.parse(sc.nextLine(), dateFormatter);
 
-      System.out.println("End date (dd/MM/yyyy): ");
+      System.out.print("End date (dd/MM/yyyy): ");
       endDate = LocalDate.parse(sc.nextLine(), dateFormatter);
 
       if (startDate.isAfter(endDate)) {
@@ -330,7 +330,7 @@ public class Main {
       }
     } while (startDate.isBefore(endDate));
 
-    System.out.println("Rate: ");
+    System.out.print("Rate: ");
     double rate = Double.parseDouble(sc.nextLine());
 
     return new Insurance(insuranceNumber, type, startDate, endDate, rate);
@@ -342,7 +342,7 @@ public class Main {
       System.out.println("[1] Working");
       System.out.println("[2] On leave");
       System.out.println("[3] Resigned");
-      System.out.println("Status:");
+      System.out.print("Status:");
       statusChoice = Integer.parseInt(sc.nextLine());
     } while (statusChoice < 1 || 3 < statusChoice);
 
@@ -364,11 +364,11 @@ public class Main {
   private static Evaluation[] createEvaluations(Scanner sc) {
     int evaluationCount;
     do {
-      System.out.println("How many evaluations? ");
+      System.out.print("How many evaluations? ");
       evaluationCount = Integer.parseInt(sc.nextLine());
 
       if (evaluationCount < 0 || maxEvaluations < evaluationCount) {
-        System.out.println("Invalid evaluation count");
+        System.out.print("Invalid evaluation count");
         System.out.printf("Min: 0, Max: %d", maxEvaluations);
       }
     } while (evaluationCount < 0 || maxEvaluations < evaluationCount);
@@ -384,12 +384,12 @@ public class Main {
   private static Contract[] createContracts(Scanner sc) {
     int contractCount;
     do {
-      System.out.println("How many contracts? ");
+      System.out.print("How many contracts? ");
       contractCount = Integer.parseInt(sc.nextLine());
 
       if (contractCount < 0 || maxContracts < contractCount) {
         System.out.println("Invalid contract count");
-        System.out.printf("Min: 0, Max: %d", maxContracts);
+        System.out.printf("Min: 0, Max: %d\n", maxContracts);
       }
     } while (contractCount < 0 || maxContracts < contractCount);
 
@@ -405,12 +405,12 @@ public class Main {
     int payrollCount;
 
     do {
-      System.out.println("How many payrolls? ");
+      System.out.print("How many payrolls? ");
       payrollCount = Integer.parseInt(sc.nextLine());
 
       if (payrollCount < 0 || maxPayrolls < payrollCount) {
         System.out.println("Invalid payroll count");
-        System.out.printf("Min: 0, Max: %d", maxPayrolls);
+        System.out.printf("Min: 0, Max: %d\n", maxPayrolls);
       }
     } while (payrollCount < 0 || maxPayrolls < payrollCount);
 
@@ -426,12 +426,12 @@ public class Main {
     int attendanceCount;
 
     do {
-      System.out.println("How many attendances? ");
+      System.out.print("How many attendances? ");
       attendanceCount = Integer.parseInt(sc.nextLine());
 
       if (attendanceCount < 0 || maxAttendances < attendanceCount) {
         System.out.println("Invalid attendance count");
-        System.out.printf("Min: 0, Max: %d", maxAttendances);
+        System.out.printf("Min: 0, Max: %d\n", maxAttendances);
       }
     } while (attendanceCount < 0 || maxAttendances < attendanceCount);
 
@@ -448,7 +448,7 @@ public class Main {
     do {
       System.out.println("[0] No");
       System.out.println("[1] Yes");
-      System.out.println("Have resignation: ");
+      System.out.print("Have resignation: ");
       resignationChoice = Integer.parseInt(sc.nextLine());
     } while (resignationChoice != 0 && resignationChoice != 1);
 
@@ -457,10 +457,10 @@ public class Main {
     Resignation.ResignationStatus resigntationStatus = Resignation.ResignationStatus.REJECTED;
 
     if (resignationChoice == 1) {
-      System.out.println("Reason: ");
+      System.out.print("Reason: ");
       reason = sc.nextLine();
 
-      System.out.println("Date (dd/MM/yyyy): ");
+      System.out.print("Date (dd/MM/yyyy): ");
       date = LocalDate.parse(sc.nextLine(), dateFormatter);
 
       int statusNum;
@@ -468,7 +468,7 @@ public class Main {
         System.out.println("[1] Pending");
         System.out.println("[2] Rejected");
         System.out.println("[3] Approved");
-        System.out.println("Status: ");
+        System.out.print("Status: ");
         statusNum = Integer.parseInt(sc.nextLine());
       } while (statusNum < 1 || 3 < statusNum);
 
@@ -497,7 +497,7 @@ public class Main {
   private static Insurance[] createInsurances(Scanner sc) {
     int insuranceCount;
     do {
-      System.out.println("How many insurances? ");
+      System.out.print("How many insurances? ");
       insuranceCount = Integer.parseInt(sc.nextLine());
 
       if (insuranceCount < 0 || maxInsurances < insuranceCount) {
@@ -530,7 +530,7 @@ public class Main {
         System.out.printf("[%d] %s\n", i + 1, positions[i].getName());
       }
 
-      System.out.println("Choose positions: ");
+      System.out.print("Choose positions: ");
       index = Integer.parseInt(sc.nextLine()) - 1;
 
       if (index < 0 || index > positionsOccupied) {
@@ -557,7 +557,7 @@ public class Main {
         System.out.printf("[%d] %s\n", i + 1, departments[i].getName());
       }
 
-      System.out.println("Choose department: ");
+      System.out.print("Choose department: ");
       index = Integer.parseInt(sc.nextLine()) - 1;
 
       if (index < 0 || index > departmentsOccupied) {
@@ -569,34 +569,34 @@ public class Main {
   }
 
   private static Employee createEmployee(Scanner sc) {
-    System.out.println("First name: ");
+    System.out.print("First name: ");
     String firstName = sc.nextLine();
 
-    System.out.println("Last name: ");
+    System.out.print("Last name: ");
     String lastName = sc.nextLine();
 
-    System.out.println("Email: ");
+    System.out.print("Email: ");
     String email = sc.nextLine();
 
-    System.out.println("Phone number: ");
+    System.out.print("Phone number: ");
     String phone = sc.nextLine();
 
-    System.out.println("Date of birth (dd/MM/yyyy): ");
+    System.out.print("Date of birth (dd/MM/yyyy): ");
     LocalDate dateOfBirth = LocalDate.parse(sc.nextLine(), dateFormatter);
 
-    System.out.println("Gender: ");
+    System.out.print("Gender: ");
     String gender = sc.nextLine();
 
-    System.out.println("Address");
+    System.out.print("Address");
     Address address = createAddress(sc);
 
-    System.out.println("Id: ");
+    System.out.print("Id: ");
     String id = sc.nextLine();
 
-    System.out.println("Hire date (dd/MM/yyyy): ");
+    System.out.print("Hire date (dd/MM/yyyy): ");
     LocalDate hireDate = LocalDate.parse(sc.nextLine(), dateFormatter);
 
-    System.out.println("Specialization: ");
+    System.out.print("Specialization: ");
     String specialization = sc.nextLine();
 
     Employee.EmployeeStatus status = chooseEmployeeStatus(sc);
@@ -608,7 +608,7 @@ public class Main {
 
     Resignation resignation = createResignation(sc);
 
-    System.out.println("Tax id: ");
+    System.out.print("Tax id: ");
     String taxId = sc.nextLine();
 
     Insurance[] insurances = createInsurances(sc);
@@ -621,26 +621,26 @@ public class Main {
   }
 
   private static Department createDepartment(Scanner sc) {
-    System.out.println("Name: ");
+    System.out.print("Name: ");
     String name = sc.nextLine();
 
-    System.out.println("Phone: ");
+    System.out.print("Phone: ");
     String phone = sc.nextLine();
 
-    System.out.println("Position: ");
+    System.out.print("Position: ");
     String position = sc.nextLine();
 
     return new Department(name, phone, position);
   }
 
   private static Position createPosition(Scanner sc) {
-    System.out.println("Name: ");
+    System.out.print("Name: ");
     String name = sc.nextLine();
 
-    System.out.println("Position coefficient: ");
+    System.out.print("Position coefficient: ");
     double positionCoefficient = Double.parseDouble(sc.nextLine());
 
-    System.out.println("Responsibilities: ");
+    System.out.print("Responsibilities: ");
     String responsibilities = sc.nextLine();
 
     return new Position(responsibilities, name, positionCoefficient);
@@ -655,7 +655,7 @@ public class Main {
       System.out.println("[2] Employee");
       System.out.println("[3] Department");
       System.out.println("[4] Position");
-      System.out.println("Create: ");
+      System.out.print("Create: ");
 
       choice = Integer.parseInt(sc.nextLine());
       switch (choice) {
@@ -751,17 +751,21 @@ public class Main {
       return false;
     }
 
-    System.out.println("Password: ");
+    System.out.print("Password: ");
     String password = sc.nextLine();
 
     if (!password.equals(accounts[index].getPassword())) {
+      System.out.println("Wrong password");
       return false;
     }
 
     if (accounts[index].getStatus() != Account.AccountStatus.ACTIVE) {
+      System.out.println("Account is not active");
       return false;
     }
 
+    System.out.print("\033[H\033[2J");
+    System.out.println("Login successfully");
     return true;
   }
 
@@ -780,25 +784,27 @@ public class Main {
   private static void setAccountName(Scanner sc, Account[] accounts, Account current) {
     String username;
     do {
-      System.out.println("Set username: ");
+      System.out.print("Set username: ");
       username = sc.nextLine();
     } while (usernameExist(accounts, current, username));
 
     current.setUsername(username);
+    System.out.print("\033[H\033[2J");
+    System.out.println("Set successfully");
   }
 
   private static void setAccountPassword(Scanner sc, Account[] accounts, Account current) {
     String oldPassword;
     do {
-      System.out.println("Old password: ");
+      System.out.print("Old password: ");
       oldPassword = sc.nextLine();
 
       if (!current.getPassword().equals(oldPassword)) {
-        System.out.println("Wrong password");
+        System.out.print("Wrong password");
       }
     } while (!current.getPassword().equals(oldPassword));
 
-    System.out.println("New password: ");
+    System.out.print("New password: ");
     current.setPassword(sc.nextLine());
   }
 
@@ -811,7 +817,7 @@ public class Main {
       System.out.println("[4] Pending");
       System.out.println("[5] Locked");
       System.out.println("[6] Terminated");
-      System.out.println("Status:");
+      System.out.print("Status:");
 
       statusNum = Integer.parseInt(sc.nextLine());
     } while (statusNum < 1 || 6 < statusNum);
@@ -839,6 +845,9 @@ public class Main {
       default:
         break;
     }
+
+    System.out.print("\033[H\033[2J");
+    System.out.println("Set successfully");
   }
 
   private static void runEmployeeUI(EmployeeAccount account, Scanner sc) {
@@ -850,8 +859,10 @@ public class Main {
       for (int i = 0; i < options.length; i++) {
         System.out.printf("[%d] %s\n", i, options[i]);
       }
-      System.out.println("Choice: ");
+      System.out.print("Choice: ");
       choice = Integer.parseInt(sc.nextLine());
+
+      System.out.print("\033[H\033[2J");
 
       switch (choice) {
         case 0:
@@ -868,6 +879,7 @@ public class Main {
             System.out.println("[0] Exit");
             System.out.println("[1] Set username");
             System.out.println("[2] Set status");
+            System.out.print("Choice: ");
             setChoice = Integer.parseInt(sc.nextLine());
           } while (setChoice < 0 || 2 < setChoice);
 
@@ -918,6 +930,8 @@ public class Main {
       System.out.println("Choice: ");
       choice = Integer.parseInt(sc.nextLine());
 
+      System.out.print("\033[H\033[2J");
+
       switch (choice) {
         case 0:
           return;
@@ -933,7 +947,10 @@ public class Main {
             System.out.println("[0] Exit");
             System.out.println("[1] Set username");
             System.out.println("[2] Set status");
+            System.out.print("Choice: ");
             setChoice = Integer.parseInt(sc.nextLine());
+
+            System.out.print("\033[H\033[2J");
           } while (setChoice < 0 || 2 < setChoice);
 
           switch (setChoice) {
@@ -949,7 +966,7 @@ public class Main {
           }
           break;
         case 4:
-          account.addEmployee(accounts, createEmployee(sc));
+          account.addEmployee(employees, createEmployee(sc));
           break;
         case 5:
           String editUsername = sc.nextLine();
@@ -960,7 +977,7 @@ public class Main {
           account.removeEmployee(accounts, removeEmployee);
           break;
         case 7:
-          account.printEmployee(accounts);
+          account.printEmployee(employees);
           break;
         case 8:
           account.printDepartments(departments);
@@ -969,16 +986,16 @@ public class Main {
           account.printPayrolls();
           break;
         case 10:
-          System.out.println("Reply to username: ");
+          System.out.print("Reply to username: ");
           String replyUsername = sc.nextLine();
 
-          System.out.println("Reply: ");
+          System.out.print("Reply: ");
           String reply = sc.nextLine();
 
           account.replyRequest(accounts, replyUsername, reply);
           break;
         case 11:
-          account.searchEmployee(accounts);
+          account.searchEmployee(employees);
           break;
         case 12:
           account.searchDepartment(departments);
@@ -994,7 +1011,7 @@ public class Main {
     int num;
 
     do {
-      System.out.println(name + ": ");
+      System.out.print(name + ": ");
       num = Integer.parseInt(sc.nextLine());
 
       if (num < 0) {
@@ -1006,6 +1023,8 @@ public class Main {
   }
 
   private static void setup(Scanner sc) {
+    System.out.println("Setup system");
+
     maxAccounts = inputNonNegative(sc, "Max accounts");
     maxEmployees = inputNonNegative(sc, "Max employees");
     maxDepartments = inputNonNegative(sc, "Max departments");
@@ -1021,6 +1040,8 @@ public class Main {
     maxPayrolls = inputNonNegative(sc, "Max payrolls");
     maxAttendances = inputNonNegative(sc, "Max attendances");
     maxInsurances = inputNonNegative(sc, "Max insurances");
+
+    System.out.print("\033[H\033[2J");
   }
 
   private static void createSampleData() {
@@ -1166,8 +1187,10 @@ public class Main {
       System.out.println("[1] Create first N");
       System.out.println("[2] Login");
       System.out.println("[3] Create sample data");
-      System.out.println("Choice: ");
+      System.out.print("Choice: ");
       choice = Integer.parseInt(sc.nextLine());
+
+      System.out.print("\033[H\033[2J");
 
       switch (choice) {
         case 0:
@@ -1179,7 +1202,7 @@ public class Main {
           String username;
           int index;
           do {
-            System.out.println("Username: ");
+            System.out.print("Username: ");
             username = sc.nextLine();
             index = getIndex(username);
 
