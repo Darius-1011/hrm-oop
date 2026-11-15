@@ -64,11 +64,10 @@ public class ConsoleUI {
     return printChoice(sc);
   }
 
-  public void printResult(String title, String result, Scanner sc) {
-    printHeader(title);
+  public void printResult(String subtitle, String result, Scanner sc) {
+    printHeader(subtitle);
 
     String[] lines = result.split("\n");
-    int height = 4 + lines.length;
 
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     for (int i = 0; i < lines.length; i++) {

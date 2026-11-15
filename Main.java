@@ -854,8 +854,7 @@ public class Main {
       choice = console.printUI(title, subtitle, options, sc);
 
       if (choice < 0 || 2 < choice) {
-        System.out.print("\033[H\033[2J");
-        System.out.println("Invalid choice");
+        console.printResult(subtitle, "Invalid choice", sc);
       }
     } while (choice < 0 || 2 < choice);
 
