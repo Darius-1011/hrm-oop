@@ -47,13 +47,13 @@ public class ConsoleUI {
 
   public int printMenu(String subtitle, String content, Scanner sc) {
     String[] lines = content.split("\n");
-    int height = 4 + lines.length;
 
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     printSubtitle(subtitle);
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     for (int i = 0; i < lines.length; i++) {
-      printContent(lines[i]);
+      String line = "[" + i + "] " + lines[i];
+      printContent(line);
     }
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
