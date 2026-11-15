@@ -64,13 +64,16 @@ public class ConsoleUI {
       printSubtitle(subtitle);
     }
 
-    System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
-    for (int i = 0; i < options.length; i++) {
-      String line = "[" + i + "] " + options[i];
-      printContent(line);
+    if (options.length != 0) {
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+      for (int i = 0; i < options.length; i++) {
+        String line = "[" + i + "] " + options[i];
+        printContent(line);
+      }
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+      System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
     }
-    System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
-    System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
+
     return printChoice(sc);
   }
 
@@ -80,13 +83,16 @@ public class ConsoleUI {
       printSubtitle(subtitle);
     }
 
-    System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
-    for (int i = 0; i < options.length; i++) {
-      String line = "[" + i + "] " + options[i];
-      printContent(line);
+    if (options.length != 0) {
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+      for (int i = 0; i < options.length; i++) {
+        String line = "[" + i + "] " + options[i];
+        printContent(line);
+      }
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+      System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
     }
-    System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
-    System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
+
     return printChoice(input, sc);
   }
 
@@ -100,8 +106,8 @@ public class ConsoleUI {
     return printMenu(subtitle, options, input, sc);
   }
 
-  public void printResult(String subtitle, String result, Scanner sc) {
-    printHeader(subtitle);
+  public void printResult(String title, String result, Scanner sc) {
+    printHeader(title);
 
     String[] lines = result.split("\n");
 

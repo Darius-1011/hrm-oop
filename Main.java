@@ -920,9 +920,17 @@ public class Main {
         case 2:
           title = "Login";
           subtitle = "";
+          String[] loginOptions = {};
           String input = "Username";
-          String username = console.printUI(title, subtitle, options, input, sc);
+
+          String username = console.printUI(title, subtitle, loginOptions, input, sc);
           int index = getIndex(data, username);
+
+          if (index == -1) {
+            console.printResult(title, "Account not exist", sc);
+            break;
+          }
+
           boolean isLoggedIn = data.getAccounts()[index].login(sc);
 
           if (isLoggedIn) {

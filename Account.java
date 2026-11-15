@@ -21,21 +21,24 @@ public abstract class Account {
     }
 
     public boolean login(Scanner sc) {
-        System.out.print("Password: ");
-        String password = sc.nextLine();
+        ConsoleUI console = new ConsoleUI();
+        String title = "Login";
+        String[] options = {};
+        String input = "Password";
+
+        String password = console.printUI(title, "", options, input, sc);
 
         if (!password.equals(getPassword())) {
-            System.out.println("Wrong password");
+            console.printResult(title, "Wrong password", sc);
             return false;
         }
 
         if (getStatus() != Account.AccountStatus.ACTIVE) {
-            System.out.println("Account is not active");
+            console.printResult(title, "Account is not active", sc);
             return false;
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.println("Login successfully");
+        console.printResult(title, "Login successfully", sc);
         return true;
     }
 
