@@ -654,6 +654,7 @@ public class DataHandler {
     String data = "";
 
     String[][] samples = {
+        // John Smith
         {
             "John", "Smith",
             "john.smith@example.com",
@@ -668,18 +669,80 @@ public class DataHandler {
             "Backend Development",
             "WORKING",
 
-            "{", "}", // Evaluations
-            "{", "}", // Contracts
-            "{", "}", // Payrolls
-            "{", "}", // Attendances
-            "{", "}", // Absences
-            "{", "}", // Resignations
-            "{", "}", // Insurances
+            // Evaluations
+            "{",
+            "{",
+            "2025-01",
+            "Excellent performance in backend development",
+            "9.0", "8.5", "9.0", "9.5", "9.0", "8.5",
+            "}",
+            "}",
+
+            // Contracts
+            "{",
+            "{",
+            "2025-01-01",
+            "2026-01-01",
+            "FULL_TIME",
+            "ACTIVE",
+            "}",
+            "}",
+
+            // Payrolls
+            "{",
+            "{",
+            "1", "2025",
+            "15000000", "2000000", "1000000",
+            "500000", "1000000", "500000",
+            "176", "10",
+            "2025-01-01",
+            "}",
+            "}",
+
+            // Attendances
+            "{",
+            "{",
+            "2025-01-02",
+            "08:00", "17:00",
+            "}",
+            "}",
+
+            // Absences
+            "{",
+            "{",
+            "Personal leave",
+            "2025-01-10",
+            "2025-01-10",
+            "REJECTED",
+            "}",
+            "}",
+
+            // Resignations
+            "{",
+            "{",
+            "Personal reasons",
+            "2025-01-15",
+            "REJECTED",
+            "}",
+            "}",
+
+            // Insurances
+            "{",
+            "{",
+            "INS001",
+            "HEALTH",
+            "2025-01-01",
+            "2025-12-31",
+            "4.5",
+            "}",
+            "}",
 
             "TAX001",
-            "2", // Position: Senior Developer
-            "0" // Department: IT Department
+            "2",
+            "0"
         },
+
+        // Mary Jones
         {
             "Mary", "Jones",
             "mary.jones@example.com",
@@ -694,18 +757,80 @@ public class DataHandler {
             "Human Resources",
             "WORKING",
 
-            "{", "}",
-            "{", "}",
-            "{", "}",
-            "{", "}",
-            "{", "}",
-            "{", "}",
-            "{", "}",
+            // Evaluations
+            "{",
+            "{",
+            "2025-02",
+            "Excellent communication and teamwork",
+            "9.5", "9.0", "9.0", "9.0", "8.5", "9.5",
+            "}",
+            "}",
+
+            // Contracts
+            "{",
+            "{",
+            "2025-02-01",
+            "2026-02-01",
+            "FULL_TIME",
+            "ACTIVE",
+            "}",
+            "}",
+
+            // Payrolls
+            "{",
+            "{",
+            "2", "2025",
+            "12000000", "1500000", "800000",
+            "300000", "800000", "400000",
+            "168", "5",
+            "2025-02-01",
+            "}",
+            "}",
+
+            // Attendances
+            "{",
+            "{",
+            "2025-02-03",
+            "08:15", "17:15",
+            "}",
+            "}",
+
+            // Absences
+            "{",
+            "{",
+            "Medical appointment",
+            "2025-02-10",
+            "2025-02-10",
+            "REJECTED",
+            "}",
+            "}",
+
+            // Resignations
+            "{",
+            "{",
+            "Career change",
+            "2025-02-15",
+            "REJECTED",
+            "}",
+            "}",
+
+            // Insurances
+            "{",
+            "{",
+            "INS002",
+            "HEALTH",
+            "2025-02-01",
+            "2026-01-31",
+            "4.5",
+            "}",
+            "}",
 
             "TAX002",
-            "4", // Position: HR Specialist
-            "1" // Department: HR Department
+            "4",
+            "1"
         },
+
+        // David Wilson
         {
             "David", "Wilson",
             "david.wilson@example.com",
@@ -720,17 +845,77 @@ public class DataHandler {
             "Software Development",
             "WORKING",
 
-            "{", "}",
-            "{", "}",
-            "{", "}",
-            "{", "}",
-            "{", "}",
-            "{", "}",
-            "{", "}",
+            // Evaluations
+            "{",
+            "{",
+            "2025-03",
+            "Good progress in software development",
+            "8.0", "8.5", "9.0", "8.0", "8.5", "8.0",
+            "}",
+            "}",
+
+            // Contracts
+            "{",
+            "{",
+            "2025-03-01",
+            "2026-03-01",
+            "FULL_TIME",
+            "ACTIVE",
+            "}",
+            "}",
+
+            // Payrolls
+            "{",
+            "{",
+            "3", "2025",
+            "10000000", "1000000", "500000",
+            "200000", "600000", "300000",
+            "176", "8",
+            "2025-03-01",
+            "}",
+            "}",
+
+            // Attendances
+            "{",
+            "{",
+            "2025-03-03",
+            "08:00", "17:00",
+            "}",
+            "}",
+
+            // Absences
+            "{",
+            "{",
+            "Family matters",
+            "2025-03-12",
+            "2025-03-12",
+            "REJECTED",
+            "}",
+            "}",
+
+            // Resignations
+            "{",
+            "{",
+            "Personal reasons",
+            "2025-03-20",
+            "REJECTED",
+            "}",
+            "}",
+
+            // Insurances
+            "{",
+            "{",
+            "INS003",
+            "HEALTH",
+            "2025-03-01",
+            "2026-02-28",
+            "4.5",
+            "}",
+            "}",
 
             "TAX003",
-            "3", // Position: Junior Developer
-            "0" // Department: IT Department
+            "3",
+            "0"
         }
     };
 
