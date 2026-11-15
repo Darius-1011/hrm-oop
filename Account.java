@@ -20,8 +20,23 @@ public abstract class Account {
         this.status = status;
     }
 
-    public void login() {
-        System.out.println(this.username + " login...");
+    public boolean login(Scanner sc) {
+        System.out.print("Password: ");
+        String password = sc.nextLine();
+
+        if (!password.equals(getPassword())) {
+            System.out.println("Wrong password");
+            return false;
+        }
+
+        if (getStatus() != Account.AccountStatus.ACTIVE) {
+            System.out.println("Account is not active");
+            return false;
+        }
+
+        System.out.print("\033[H\033[2J");
+        System.out.println("Login successfully");
+        return true;
     }
 
     public void logout() {

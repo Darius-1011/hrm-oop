@@ -560,7 +560,7 @@ public class Main {
         status, evaluations, contracts, payrolls, attendances, resignations, taxId, insurances, position, department);
   }
 
-  private static int getIndex(String username) {
+  private static int getIndex(DataHandler data, String username) {
     for (int i = 0; i < data.getAccounts().length; i++) {
       if (data.getAccounts()[i] != null && data.getAccounts()[i].getUsername().equals(username)) {
         return i;
@@ -568,30 +568,6 @@ public class Main {
     }
 
     return -1;
-  }
-
-  private static boolean logIn(int index, Scanner sc) {
-    if (index == -1) {
-      System.out.println("Username not exists");
-      return false;
-    }
-
-    System.out.print("Password: ");
-    String password = sc.nextLine();
-
-    if (!password.equals(data.getAccounts()[index].getPassword())) {
-      System.out.println("Wrong password");
-      return false;
-    }
-
-    if (data.getAccounts()[index].getStatus() != Account.AccountStatus.ACTIVE) {
-      System.out.println("Account is not active");
-      return false;
-    }
-
-    System.out.print("\033[H\033[2J");
-    System.out.println("Login successfully");
-    return true;
   }
 
   private static boolean usernameExist(Account[] accounts, Account current, String username) {
@@ -851,7 +827,7 @@ public class Main {
     int choice;
     do {
       String[] options = { "Exit", "Manually", "Load sample data" };
-      choice = console.printUI(title, subtitle, options, sc);
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 2 < choice) {
         console.printResult(subtitle, "Invalid choice", sc);
@@ -916,13 +892,15 @@ public class Main {
   }
 
   private static void runUI(Scanner sc) {
-    String title = "Human Resource Management";
-    String subtitle = "Choose an option";
+    String title;
+    String subtitle;
 
     int choice;
     do {
+      title = "Human Resource Management";
+      subtitle = "Choose an option";
       String[] options = { "Exit", "Create admin account", "Login" };
-      choice = console.printUI(title, subtitle, options, sc);
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
       switch (choice) {
         case 0:
@@ -940,18 +918,12 @@ public class Main {
 
           break;
         case 2:
-          String username;
-          int index;
-          do {
-            System.out.print("Username: ");
-            username = sc.nextLine();
-            index = getIndex(username);
-
-            if (index == -1) {
-              System.out.println("Username not exists");
-            }
-          } while (index == -1);
-          boolean isLoggedIn = logIn(index, sc);
+          title = "Login";
+          subtitle = "";
+          String input = "Username";
+          String username = console.printUI(title, subtitle, options, input, sc);
+          int index = getIndex(data, username);
+          boolean isLoggedIn = data.getAccounts()[index].login(sc);
 
           if (isLoggedIn) {
             if (data.getAccounts()[index] instanceof EmployeeAccount) {

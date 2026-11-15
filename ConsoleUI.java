@@ -32,7 +32,7 @@ public class ConsoleUI {
     System.out.printf("║ %s" + " ".repeat(rightPadding) + "║%n", content);
   }
 
-  private int printChoice(Scanner sc) {
+  private String printChoice(Scanner sc) {
     int rightPadding = CONTENT_WIDTH - 1 - 8;
     System.out.printf("║ Choice: " + " ".repeat(rightPadding) + "║%n");
     System.out.println("╚" + "═".repeat(CONTENT_WIDTH) + "╝");
@@ -42,10 +42,23 @@ public class ConsoleUI {
     System.out.print("\u001B[10C");
     System.out.flush();
 
-    return Integer.parseInt(sc.nextLine());
+    return sc.nextLine();
   }
 
-  private int printMenu(String subtitle, String[] options, Scanner sc) {
+  private String printChoice(String input, Scanner sc) {
+    int rightPadding = CONTENT_WIDTH - 1 - input.length() - 2;
+    System.out.printf("║ %s: " + " ".repeat(rightPadding) + "║%n", input);
+    System.out.println("╚" + "═".repeat(CONTENT_WIDTH) + "╝");
+
+    System.out.print("\u001B[1A");
+    System.out.print("\u001B[1A");
+    System.out.printf("\u001B[" + (input.length() + 4) + "C");
+    System.out.flush();
+
+    return sc.nextLine();
+  }
+
+  private String printMenu(String subtitle, String[] options, Scanner sc) {
     if (!subtitle.isEmpty()) {
       System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
       printSubtitle(subtitle);
@@ -61,9 +74,30 @@ public class ConsoleUI {
     return printChoice(sc);
   }
 
-  public int printUI(String title, String subtitle, String[] options, Scanner sc) {
+  private String printMenu(String subtitle, String[] options, String input, Scanner sc) {
+    if (!subtitle.isEmpty()) {
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+      printSubtitle(subtitle);
+    }
+
+    System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+    for (int i = 0; i < options.length; i++) {
+      String line = "[" + i + "] " + options[i];
+      printContent(line);
+    }
+    System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+    System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
+    return printChoice(input, sc);
+  }
+
+  public String printUI(String title, String subtitle, String[] options, Scanner sc) {
     printHeader(title);
     return printMenu(subtitle, options, sc);
+  }
+
+  public String printUI(String title, String subtitle, String[] options, String input, Scanner sc) {
+    printHeader(title);
+    return printMenu(subtitle, options, input, sc);
   }
 
   public void printResult(String subtitle, String result, Scanner sc) {
