@@ -45,7 +45,7 @@ public class ConsoleUI {
     return Integer.parseInt(sc.nextLine());
   }
 
-  private void printMenu(String subtitle, String[] options, Scanner sc) {
+  private int printMenu(String subtitle, String[] options, Scanner sc) {
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     printSubtitle(subtitle);
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
@@ -55,13 +55,12 @@ public class ConsoleUI {
     }
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
-    printChoice(sc);
+    return printChoice(sc);
   }
 
   public int printUI(String title, String subtitle, String[] options, Scanner sc) {
     printHeader(title);
-    printMenu(subtitle, options, sc);
-    return printChoice(sc);
+    return printMenu(subtitle, options, sc);
   }
 
   public void printResult(String subtitle, String result, Scanner sc) {

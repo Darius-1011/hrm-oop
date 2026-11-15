@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
   private static LimitHandler limits = new LimitHandler();
   private static DataHandler data;
-  private static ConsoleUI console;
+  private static ConsoleUI console = new ConsoleUI();
 
   private static int accountsOccupied = -1;
   private static int employeesOccupied = -1;
