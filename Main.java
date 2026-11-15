@@ -916,15 +916,13 @@ public class Main {
   }
 
   private static void runUI(Scanner sc) {
+    String title = "Human Resource Management";
+    String subtitle = "Choose an option";
+
     int choice;
     do {
-      System.out.println("[0] Exit");
-      System.out.println("[1] Create admin account");
-      System.out.println("[2] Login");
-      System.out.print("Choice: ");
-      choice = Integer.parseInt(sc.nextLine());
-
-      System.out.print("\033[H\033[2J");
+      String[] options = { "Exit", "Create admin account", "Login" };
+      choice = console.printUI(title, subtitle, options, sc);
 
       switch (choice) {
         case 0:
