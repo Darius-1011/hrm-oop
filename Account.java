@@ -47,26 +47,60 @@ public abstract class Account {
     }
 
     public void resetPassword(Scanner sc) {
-        System.out.println("Reset Password");
+        ConsoleUI console = new ConsoleUI();
+        String title = "Reset Password";
+        String subtitle = "";
+        String[] options = {};
+        String input;
+
         String oldPassword;
         do {
-            System.out.print("Old password: ");
-            oldPassword = sc.nextLine();
+            input = "Old password";
+
+            oldPassword = console.printUI(title, subtitle, options, input, sc);
 
             if (!getPassword().equals(oldPassword)) {
-                System.out.println("Wrong password");
+                console.printResult(title, "Wrong password", sc);
             }
         } while (!getPassword().equals(oldPassword));
 
-        System.out.print("New password: ");
-        setPassword(sc.nextLine());
+        input = "New password";
+        setPassword(console.printUI(title, subtitle, options, input, sc));
 
-        System.out.print("\033[H\033[2J");
-        System.out.println("Reset password successfully");
+        console.printResult(title, "Reset password successfully", sc);
     }
 
-    public void getInfo() {
-        System.out.println("Username: " + this.username + " | Status: " + this.status);
+    public void getInfo(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String result = "Username: " + this.username + "\n" +
+                "Status: " + this.status;
+        console.printResult("Employee Information", result, sc);
+    }
+
+    private boolean usernameExist(Account[] accounts, String username) {
+        for (Account account : accounts) {
+            if (account != null && account.getUsername().equals(username)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void setAccountName(Scanner sc, Account[] accounts, Account current) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Set New Username";
+        String[] options = {};
+
+        String username;
+        username = console.printUI(title, "", options, "New username", sc);
+        if (usernameExist(accounts, username)) {
+            console.printResult(title, username + " already exists", sc);
+            return;
+        }
+
+        current.setUsername(username);
+        console.printResult(title, "Set new username successfully", sc);
     }
 
     public void setInfo(String username, AccountStatus status) {

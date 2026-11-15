@@ -19,12 +19,12 @@ public class AdminAccount extends Account {
         System.out.println("Mang nhan vien da day, khong them duoc.");
     }
 
-    public void listEmployee(Account[] accounts) {
+    public void listEmployee(Account[] accounts, Scanner sc) {
         System.out.println("Danh sach tai khoan:");
         for (int i = 0; i < accounts.length; i++) {
             if (accounts[i] != null) {
                 System.out.print((i + 1) + ". ");
-                accounts[i].getInfo();
+                accounts[i].getInfo(sc);
             }
         }
     }

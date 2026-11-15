@@ -570,30 +570,6 @@ public class Main {
     return -1;
   }
 
-  private static boolean usernameExist(Account[] accounts, Account current, String username) {
-    for (Account account : accounts) {
-      if (account != null && account.getUsername().equals(username)
-          && account.getUsername().equals(current.getUsername())) {
-        System.out.println(username + " already exists");
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  private static void setAccountName(Scanner sc, Account[] accounts, Account current) {
-    String username;
-    do {
-      System.out.print("Set username: ");
-      username = sc.nextLine();
-    } while (usernameExist(data.getAccounts(), current, username));
-
-    current.setUsername(username);
-    System.out.print("\033[H\033[2J");
-    System.out.println("Set successfully");
-  }
-
   private static void setAccountStatus(Scanner sc, Account[] accounts, Account current) {
     int statusNum = 0;
     do {
@@ -637,18 +613,14 @@ public class Main {
   }
 
   private static void runEmployeeUI(EmployeeAccount account, Scanner sc) {
+    String title = "Employee Account";
+    String subtitle = "Choose an option";
     String[] options = { "Logout", "Change password", "Get info", "Set info", "Submit absence", "Submit resignation",
         "Check in", "Check out", "View attendance" };
 
     int choice;
     do {
-      for (int i = 0; i < options.length; i++) {
-        System.out.printf("[%d] %s\n", i, options[i]);
-      }
-      System.out.print("Choice: ");
-      choice = Integer.parseInt(sc.nextLine());
-
-      System.out.print("\033[H\033[2J");
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
       switch (choice) {
         case 0:
@@ -657,24 +629,23 @@ public class Main {
           account.resetPassword(sc);
           break;
         case 2:
-          account.getInfo();
+          account.getInfo(sc);
           break;
         case 3:
+          String setTitle = "Set Employee Information";
           int setChoice;
           do {
-            System.out.println("[0] Exit");
-            System.out.println("[1] Set username");
-            System.out.println("[2] Set status");
-            System.out.print("Choice: ");
-            setChoice = Integer.parseInt(sc.nextLine());
-          } while (setChoice < 0 || 2 < setChoice);
+            String[] setOptions = { "Exit", "Set username" };
+            setChoice = Integer.parseInt(console.printUI(setTitle, subtitle, setOptions, sc));
+
+            if (setChoice < 0 || 1 < setChoice) {
+              console.printResult(title, "Invalid choice", sc);
+            }
+          } while (setChoice < 0 || 1 < setChoice);
 
           switch (setChoice) {
             case 1:
-              setAccountName(sc, data.getAccounts(), account);
-              break;
-            case 2:
-              setAccountStatus(sc, data.getAccounts(), account);
+              account.setAccountName(sc, data.getAccounts(), account);
               break;
 
             default:
@@ -726,7 +697,7 @@ public class Main {
           account.resetPassword(sc);
           break;
         case 2:
-          account.getInfo();
+          account.getInfo(sc);
           break;
         case 3:
           int setChoice;
@@ -742,7 +713,7 @@ public class Main {
 
           switch (setChoice) {
             case 1:
-              setAccountName(sc, data.getAccounts(), account);
+              account.setAccountName(sc, data.getAccounts(), account);
               break;
             case 2:
               setAccountStatus(sc, data.getAccounts(), account);
