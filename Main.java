@@ -736,7 +736,7 @@ public class Main {
       for (int i = 0; i < options.length; i++) {
         System.out.printf("[%d] %s\n", i, options[i]);
       }
-      System.out.println("Choice: ");
+      System.out.print("Choice: ");
       choice = Integer.parseInt(sc.nextLine());
 
       System.out.print("\033[H\033[2J");
