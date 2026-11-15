@@ -907,12 +907,19 @@ public class Main {
           return;
         case 1:
           if (accountsOccupied >= data.getAccounts().length) {
-            System.out.println("Accounts storage is full");
+            console.printResult(title, "Accounts storage is full", sc);
+            break;
           }
 
-          System.out.print("Username: ");
-          String adminUsername = sc.nextLine();
-          String adminPassword = sc.nextLine();
+          title = "Creat admin account";
+          subtitle = "";
+          String[] createOptions = {};
+
+          String createInput = "Username";
+          String adminUsername = console.printUI(title, subtitle, createOptions, createInput, sc);
+          createInput = "Password";
+          String adminPassword = console.printUI(title, subtitle, createOptions, createInput, sc);
+
           data.getAccounts()[accountsOccupied + 1] = new AdminAccount(adminUsername, adminPassword,
               Account.AccountStatus.ACTIVE);
 
