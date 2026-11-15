@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Main {
   private static LimitHandler limits = new LimitHandler();
   private static DataHandler data;
+  private static ConsoleUI console;
 
   private static int accountsOccupied = -1;
   private static int employeesOccupied = -1;
@@ -844,16 +845,13 @@ public class Main {
   }
 
   private static void setup(Scanner sc) {
-    String title = "Setup system";
+    String title = "Human Resource Management";
+    String subtitle = "Setup system";
 
     int choice;
     do {
       String[] options = { "Exit", "Manually", "Load sample data" };
-      System.out.println("[0] Exit");
-      System.out.println("[1] Manually");
-      System.out.println("[2] Load sample data");
-      System.out.print("Choice: ");
-      choice = Integer.parseInt(sc.nextLine());
+      choice = console.printUI(title, subtitle, options, sc);
 
       if (choice < 0 || 2 < choice) {
         System.out.print("\033[H\033[2J");

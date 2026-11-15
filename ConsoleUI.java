@@ -13,7 +13,7 @@ public class ConsoleUI {
         "", content, "");
   }
 
-  public void printHeader(String title) {
+  private void printHeader(String title) {
     System.out.print("\033[H\033[2J");
     System.out.println("╔" + "═".repeat(CONTENT_WIDTH) + "╗");
     printCentered(title);
@@ -45,14 +45,12 @@ public class ConsoleUI {
     return Integer.parseInt(sc.nextLine());
   }
 
-  private void printMenu(String subtitle, String content, Scanner sc) {
-    String[] lines = content.split("\n");
-
+  private void printMenu(String subtitle, String[] options, Scanner sc) {
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     printSubtitle(subtitle);
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
-    for (int i = 0; i < lines.length; i++) {
-      String line = "[" + i + "] " + lines[i];
+    for (int i = 0; i < options.length; i++) {
+      String line = "[" + i + "] " + options[i];
       printContent(line);
     }
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
@@ -60,9 +58,9 @@ public class ConsoleUI {
     printChoice(sc);
   }
 
-  public int printUI(String title, String subtitle, String content, Scanner sc) {
+  public int printUI(String title, String subtitle, String[] options, Scanner sc) {
     printHeader(title);
-    printMenu(subtitle, content, sc);
+    printMenu(subtitle, options, sc);
     return printChoice(sc);
   }
 
