@@ -45,7 +45,7 @@ public class ConsoleUI {
     return Integer.parseInt(sc.nextLine());
   }
 
-  public int printMenu(String subtitle, String content, Scanner sc) {
+  private void printMenu(String subtitle, String content, Scanner sc) {
     String[] lines = content.split("\n");
 
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
@@ -57,14 +57,17 @@ public class ConsoleUI {
     }
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
+    printChoice(sc);
+  }
+
+  public int printUI(String title, String subtitle, String content, Scanner sc) {
+    printHeader(title);
+    printMenu(subtitle, content, sc);
     return printChoice(sc);
   }
 
   public void printResult(String title, String result, Scanner sc) {
-    System.out.print("\033[H\033[2J");
-    System.out.println("╔" + "═".repeat(CONTENT_WIDTH) + "╗");
-    printCentered(title);
-    System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
+    printHeader(title);
 
     String[] lines = result.split("\n");
     int height = 4 + lines.length;

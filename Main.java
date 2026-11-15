@@ -844,10 +844,11 @@ public class Main {
   }
 
   private static void setup(Scanner sc) {
-    System.out.println("Setup system");
+    String title = "Setup system";
 
     int choice;
     do {
+      String[] options = { "Exit", "Manually", "Load sample data" };
       System.out.println("[0] Exit");
       System.out.println("[1] Manually");
       System.out.println("[2] Load sample data");
