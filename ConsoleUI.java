@@ -46,8 +46,11 @@ public class ConsoleUI {
   }
 
   private int printMenu(String subtitle, String[] options, Scanner sc) {
-    System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
-    printSubtitle(subtitle);
+    if (!subtitle.isEmpty()) {
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+      printSubtitle(subtitle);
+    }
+
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     for (int i = 0; i < options.length; i++) {
       String line = "[" + i + "] " + options[i];
