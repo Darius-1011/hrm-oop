@@ -757,8 +757,8 @@ public class Main {
     String title = "Admin Account";
     String subtitle = "Choose an option";
     String[] options = { "Logout", "Change password", "Get info", "Set info", "Add employee", "Edit employee",
-        "Remove employee", "Print employees", "Print departments", "Print payrolls", "Reply request", "Search employee",
-        "Search department", "Create Position", "Create Department" };
+        "Remove employee", "Print employees", "Print departments", "Print positions", "Print payrolls", "Reply request",
+        "Search employee", "Search department", "Create Position", "Create Department" };
 
     int choice;
     do {
@@ -826,6 +826,12 @@ public class Main {
           console.printResult(title, content, sc);
           break;
         case 9:
+          title = "Print Position";
+          content = account.getPositions(data.getPositions());
+
+          console.printResult(title, content, sc);
+          break;
+        case 10:
           title = "Print payrolls";
           subtitle = "";
           content = "";
@@ -836,7 +842,7 @@ public class Main {
           content = account.printPayrolls(data.getEmployees(), id, sc);
           console.printResult(title, content, sc);
           break;
-        case 10:
+        case 11:
           title = "Reply to username: ";
           subtitle = "";
           content = "";
@@ -849,22 +855,22 @@ public class Main {
 
           account.replyRequest(data.getAccounts(), replyUsername, reply, sc);
           break;
-        case 11:
+        case 12:
           account.searchEmployee(data.getEmployees(), sc);
           break;
-        case 12:
+        case 13:
           account.searchDepartment(data.getDepartments(), sc);
           break;
-        case 13:
-          for (int i = 0; i < data.getPositions().length; i++) {
+        case 14:
+          for (int i = 1; i < data.getPositions().length; i++) {
             if (data.getPositions()[i] == null) {
               data.getPositions()[i] = account.createPosition(sc, data.getPositions());
               break;
             }
           }
           break;
-        case 14:
-          for (int i = 0; i < data.getDepartments().length; i++) {
+        case 15:
+          for (int i = 1; i < data.getDepartments().length; i++) {
             if (data.getDepartments()[i] == null) {
               data.getDepartments()[i] = account.createDepartment(sc, data.getDepartments());
               break;
