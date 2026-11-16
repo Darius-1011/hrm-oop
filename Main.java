@@ -17,6 +17,14 @@ public class Main {
   private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
   private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
+  private static int validateInt(String str) {
+    if (str.matches("[0-9]+")) {
+      return Integer.parseInt(str);
+    }
+
+    return -1;
+  }
+
   private static Address createAddress(Scanner sc) {
     String title = "Create Employee";
     String subtitle = "Create Address";
@@ -99,7 +107,7 @@ public class Main {
     Contract.ContractType type = Contract.ContractType.TEMPORARY;
     do {
       String[] typeOptions = { "Probation", "Full time", "Part time", "Temporary", "Fixed term", "Permanent" };
-      typeNum = Integer.parseInt(console.printUI(title, subtitle, typeOptions, input, sc));
+      typeNum = validateInt(console.printUI(title, subtitle, typeOptions, input, sc));
 
       if (typeNum < 0 || 5 < typeNum) {
         console.printResult(title, "Invalid choice", sc);
@@ -134,7 +142,7 @@ public class Main {
     Contract.ContractStatus status = Contract.ContractStatus.ACTIVE;
     do {
       String[] statusOptions = { "Draft", "Active", "Expired" };
-      statusNum = Integer.parseInt(console.printUI(title, subtitle, statusOptions, input, sc));
+      statusNum = validateInt(console.printUI(title, subtitle, statusOptions, input, sc));
 
       if (statusNum < 0 || 2 < statusNum) {
         console.printResult(title, "Invalid choice", sc);
@@ -166,10 +174,10 @@ public class Main {
     String input;
 
     input = "Month: ";
-    int month = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
+    int month = validateInt(console.printUI(title, subtitle, options, input, sc));
 
     input = "Year: ";
-    int year = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
+    int year = validateInt(console.printUI(title, subtitle, options, input, sc));
 
     input = "Base Salary";
     double baseSalary = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
@@ -190,10 +198,10 @@ public class Main {
     double insuranceAmount = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
     input = "Worked hours: ";
-    int workedHours = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
+    int workedHours = validateInt(console.printUI(title, subtitle, options, input, sc));
 
     input = "Overtime hours: ";
-    int overtimeHours = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
+    int overtimeHours = validateInt(console.printUI(title, subtitle, options, input, sc));
 
     input = "Last salary increase (dd/MM/yyyy): ";
     LocalDate lastSalaryIncreaseDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc),
@@ -242,7 +250,7 @@ public class Main {
     Insurance.InsuranceType type = Insurance.InsuranceType.HEALTH;
     do {
       String[] typeOptions = { "Life", "Health", "Social", "Unemployment" };
-      typeNum = Integer.parseInt(console.printUI(title, subtitle, typeOptions, sc));
+      typeNum = validateInt(console.printUI(title, subtitle, typeOptions, sc));
     } while (typeNum < 0 || 3 < typeNum);
 
     switch (typeNum) {
@@ -290,7 +298,7 @@ public class Main {
 
     int statusChoice;
     do {
-      statusChoice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      statusChoice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (statusChoice < 0 || 2 < statusChoice) {
         console.printResult(title, "Invalid choice", sc);
@@ -322,7 +330,7 @@ public class Main {
 
     int choice;
     do {
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 1 < choice) {
         console.printResult(title, "Invalid choice", sc);
@@ -355,7 +363,7 @@ public class Main {
 
     int choice;
     do {
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 1 < choice) {
         console.printResult(title, "Invalid choice", sc);
@@ -388,7 +396,7 @@ public class Main {
 
     int choice;
     do {
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 1 < choice) {
         console.printResult(title, "Invalid choice", sc);
@@ -421,7 +429,7 @@ public class Main {
 
     int choice;
     do {
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 1 < choice) {
         console.printResult(title, "Invalid choice", sc);
@@ -459,22 +467,22 @@ public class Main {
     int statusNum;
     do {
       String[] statusOptions = { "Pending", "Rejected", "Approved" };
-      statusNum = Integer.parseInt(console.printUI(title, subtitle, statusOptions, sc));
+      statusNum = validateInt(console.printUI(title, subtitle, statusOptions, sc));
 
-      if (statusNum < 1 || 3 < statusNum) {
+      if (statusNum < 0 || 2 < statusNum) {
         console.printResult(title, "Invalid choice", sc);
       }
-    } while (statusNum < 1 || 3 < statusNum);
+    } while (statusNum < 0 || 2 < statusNum);
 
     Resignation.ResignationStatus resignationStatus = Resignation.ResignationStatus.PENDING;
     switch (statusNum) {
-      case 1:
+      case 0:
         resignationStatus = Resignation.ResignationStatus.PENDING;
         break;
-      case 2:
+      case 1:
         resignationStatus = Resignation.ResignationStatus.REJECTED;
         break;
-      case 3:
+      case 2:
         resignationStatus = Resignation.ResignationStatus.APPROVED;
         break;
 
@@ -495,7 +503,7 @@ public class Main {
 
     int choice;
     do {
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 1 < choice) {
         console.printResult(title, "Invalid choice", sc);
@@ -528,7 +536,7 @@ public class Main {
 
     int choice;
     do {
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 1 < choice) {
         console.printResult(title, "Invalid choice", sc);
@@ -573,7 +581,7 @@ public class Main {
         positionOptions[i] = data.getPositions()[i].getName();
       }
 
-      index = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      index = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (index < 0 || index > positionsOccupied) {
         console.printResult(title, "Invalid choice", sc);
@@ -605,7 +613,7 @@ public class Main {
         departmentOptions[i] = data.getDepartments()[i].getName();
       }
 
-      index = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      index = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (index < 0 || index > departmentsOccupied) {
         console.printResult(title, "Invalid choice", sc);
@@ -689,7 +697,7 @@ public class Main {
 
     int choice;
     do {
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       switch (choice) {
         case 0:
@@ -705,7 +713,7 @@ public class Main {
           int setChoice;
           do {
             String[] setOptions = { "Exit", "Set username" };
-            setChoice = Integer.parseInt(console.printUI(setTitle, subtitle, setOptions, sc));
+            setChoice = validateInt(console.printUI(setTitle, subtitle, setOptions, sc));
 
             if (setChoice < 0 || 1 < setChoice) {
               console.printResult(title, "Invalid choice", sc);
@@ -754,7 +762,7 @@ public class Main {
 
     int choice;
     do {
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       String id;
       switch (choice) {
@@ -772,7 +780,7 @@ public class Main {
           int setChoice;
           do {
             String[] setOptions = { "Exit", "Set username", "Set status" };
-            setChoice = Integer.parseInt(console.printUI(setTitle, subtitle, setOptions, sc));
+            setChoice = validateInt(console.printUI(setTitle, subtitle, setOptions, sc));
           } while (setChoice < 0 || 2 < setChoice);
 
           switch (setChoice) {
@@ -877,7 +885,7 @@ public class Main {
 
     do {
       System.out.print(name + ": ");
-      num = Integer.parseInt(sc.nextLine());
+      num = validateInt(sc.nextLine());
 
       if (num < 0) {
         System.out.println("This cannot be negative");
@@ -922,7 +930,7 @@ public class Main {
     int choice;
     do {
       String[] options = { "Exit", "Manually", "Load sample data" };
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 2 < choice) {
         console.printResult(subtitle, "Invalid choice", sc);
@@ -998,7 +1006,7 @@ public class Main {
       title = "Human Resource Management";
       subtitle = "Choose an option";
       String[] options = { "Exit", "Create admin account", "Login" };
-      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       switch (choice) {
         case 0:
@@ -1048,6 +1056,8 @@ public class Main {
           break;
 
         default:
+          title = "Human Resource Management";
+          console.printResult(title, "Invalid choice", sc);
           break;
       }
     } while (true);
