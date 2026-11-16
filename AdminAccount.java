@@ -7,16 +7,22 @@ public class AdminAccount extends Account {
         super(username, password, status);
     }
 
-    public void addEmployee(Employee[] employees, Employee employee) {
+    public void addEmployee(Employee[] employees, Employee employee, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Thêm nhân viên";
+
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) {
                 employees[i] = employee;
-                System.out.println("Da them nhan vien: " + employee.getId()
-                        + " - " + employee.getFirstName() + " " + employee.getLastName());
+
+                String result = "Da them nhan vien: " + employee.getId()
+                        + " - " + employee.getFirstName() + " " + employee.getLastName();
+                console.printResult(title, result, sc);
                 return;
             }
         }
-        System.out.println("Mang nhan vien da day, khong them duoc.");
+
+        console.printResult(title, "Mang nhan vien da day, khong them duoc.", sc);
     }
 
     public void listEmployee(Account[] accounts, Scanner sc) {
@@ -29,25 +35,34 @@ public class AdminAccount extends Account {
         }
     }
 
-    public void removeEmployee(Account[] accounts, String username) {
+    public void removeEmployee(Account[] accounts, String username, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Remove Employee";
+
         for (int i = 0; i < accounts.length; i++) {
             if (accounts[i] != null && accounts[i].getUsername().equals(username)) {
                 accounts[i] = null;
-                System.out.println("Da xoa tai khoan: " + username);
+                console.printResult(title, "Da xoa tai khoan: " + username, sc);
                 return;
             }
         }
-        System.out.println("Khong tim thay tai khoan: " + username);
+
+        console.printResult(title, "Khong tim thay tai khoan: " + username, sc);
     }
 
-    public void replyRequest(Account[] accounts, String username, String reply) {
+    public void replyRequest(Account[] accounts, String username, String reply, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Reply Request";
+
         for (int i = 0; i < accounts.length; i++) {
             if (accounts[i] != null && accounts[i].getUsername().equals(username)) {
-                System.out.println("Admin phan hoi " + username + ": " + reply);
+                console.printResult(title, "Admin phan hoi " + username + ": " + reply, sc);
                 return;
             }
         }
-        System.out.println("Khong tim thay tai khoan: " + username);
+        console.printResult(title, "Khong tim thay tai khoan: " + username, sc);
     }
 
     public Employee searchEmployee(Employee[] employees, String id) {
@@ -59,68 +74,75 @@ public class AdminAccount extends Account {
         return null;
     }
 
-    public void printPositions(Position[] positions) {
-        System.out.println("Danh sach vi tri:");
+    public String getPositions(Position[] positions) {
+        String content = "";
+        content += "Danh sach vi tri:\n";
         for (int i = 0; i < positions.length; i++) {
             if (positions[i] != null) {
-                System.out.println((i + 1) + ". " + positions[i].getName()
+                content += ("[" + (i + 1) + "] " + positions[i].getName()
                         + " | Position Coefficient: " + positions[i].getPositionCoefficient()
-                        + " | Responsibilities: " + positions[i].getResponsibilities());
+                        + " | Responsibilities: " + positions[i].getResponsibilities()) + "\n";
             }
         }
+
+        return content;
     }
 
-    public void printDepartments(Department[] departments) {
-        System.out.println("Danh sach phong ban:");
+    public String getDepartments(Department[] departments) {
+        String content = "";
+        content += "Danh sach phong ban:\n";
         for (int i = 0; i < departments.length; i++) {
             if (departments[i] != null) {
-                System.out.println((i + 1) + ". " + departments[i].getName()
+                content += ("[" + (i + 1) + "] " + departments[i].getName()
                         + " | SDT: " + departments[i].getPhone()
-                        + " | Vi tri: " + departments[i].getPosition());
+                        + " | Vi tri: " + departments[i].getPosition()) + "\n";
             }
         }
+
+        return content;
     }
 
     private void editEmployeeHireDate(Scanner sc, Employee employee) {
-        System.out.println("Set Hire Date");
-
-        System.out.println("Current hire date: " + employee.getHireDate());
-
-        System.out.print("Hire date (dd/MM/yyyy): ");
+        ConsoleUI console = new ConsoleUI();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate hireDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+
+        String title = "Edit Employee";
+        String subtitle = "Edit Hire Date";
+        String content = "Current hire date: " + employee.getHireDate();
+        String input;
+
+        input = "Hire date (dd/MM/yyyy)";
+        LocalDate hireDate = LocalDate.parse(console.printUI(title, subtitle, content, input, sc), dateFormatter);
         employee.setHireDate(hireDate);
 
-        System.out.print("\033[H\033[2J");
-        System.out.println("Set hire date successfully");
+        console.printResult(title, "Set hire date successfully", sc);
     }
 
     private void editEmployeeSpecialization(Scanner sc, Employee employee) {
-        System.out.println("Set Specialization");
+        ConsoleUI console = new ConsoleUI();
 
-        System.out.println("Current specialization: " + employee.getSpecialization());
+        String title = "Edit Employee";
+        String subtitle = "Set Specialization";
+        String content = "Current specialization: " + employee.getSpecialization();
 
-        System.out.print("Specialization: ");
-        employee.setSpecialization(sc.nextLine());
+        String input = "Specialization";
+        employee.setSpecialization(console.printUI(title, subtitle, content, input, sc));
 
-        System.out.print("\033[H\033[2J");
-        System.out.println("Set specialization successfully");
+        console.printResult(title, "Set specialization successfully", sc);
     }
 
     private void editEmployeeStatus(Scanner sc, Employee employee) {
-        System.out.println("Set Employee Status");
+        ConsoleUI console = new ConsoleUI();
 
-        System.out.println("Current employee status: " + employee.getStatus());
+        String title = "Edit Employee";
+        String subtitle = "Set Status";
+        String content = "Current status: " + employee.getStatus();
 
         int statusNum = 0;
         do {
-            System.out.println("[1] Working");
-            System.out.println("[2] On leave");
-            System.out.println("[3] Resigned");
-            System.out.print("Status:");
-
-            statusNum = Integer.parseInt(sc.nextLine());
-        } while (statusNum < 1 || 3 < statusNum);
+            String[] options = { "Working", "On leave", "Resigned" };
+            statusNum = Integer.parseInt(console.printUI(title, subtitle, content, options, sc));
+        } while (statusNum < 0 || 2 < statusNum);
 
         switch (statusNum) {
             case 1:
@@ -137,85 +159,78 @@ public class AdminAccount extends Account {
                 break;
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.println("Set status successfully");
+        console.printResult(title, "Set status successfully", sc);
     }
 
     private void editEmployeeTaxId(Scanner sc, Employee employee) {
-        System.out.println("Set Tax Id");
+        ConsoleUI console = new ConsoleUI();
 
-        System.out.println("Current tax id: " + employee.getTaxId());
+        String title = "Edit Employee";
+        String subtitle = "Set Tax Id";
+        String content = "Current tax id: " + employee.getTaxId();
 
-        System.out.print("Tax id: ");
-        employee.setTaxId(sc.nextLine());
+        String input = "Tax id";
+        employee.setTaxId(console.printUI(title, subtitle, content, input, sc));
 
-        System.out.print("\033[H\033[2J");
-        System.out.println("Set tax id successfully");
+        console.printResult(title, "Set tax id successfully", sc);
     }
 
     private void editEmployeePosition(Scanner sc, Employee employee, Position[] positions) {
-        System.out.println("Set Position");
+        ConsoleUI console = new ConsoleUI();
 
-        System.out.println("Current position: " + employee.getPosition().getName());
+        String title = "Edit Employee";
+        String subtitle = "Set Position";
+        String content = "Current position: " + employee.getPosition().getName() + "\n";
 
         int choice;
         do {
-            printPositions(positions);
-            System.out.print("Position number: ");
-            choice = Integer.parseInt(sc.nextLine());
+            content += getPositions(positions);
+            choice = Integer.parseInt(console.printUI(title, subtitle, content, sc));
 
-            if (positions[choice] == null) {
-                System.out.print("\033[H\033[2J");
-                System.out.println("Position not exist");
+            if (positions[choice - 1] == null) {
+                console.printResult(title, "Position not exist", sc);
             }
-        } while (positions[choice] == null);
+        } while (positions[choice - 1] == null);
 
-        System.out.print("\033[H\033[2J");
-        System.out.println("Set position successfully");
+        console.printResult(title, "Set position successfully", sc);
     }
 
     private void editEmployeeDepartment(Scanner sc, Employee employee, Department[] departments) {
-        System.out.println("Set Department");
+        ConsoleUI console = new ConsoleUI();
 
-        System.out.println("Current department: " + employee.getDepartment().getName());
+        String title = "Edit Employee";
+        String subtitle = "Set Department";
+        String content = "Current department: " + employee.getDepartment().getName() + "\n";
 
         int choice;
         do {
-            printDepartments(departments);
-            System.out.print("Department number: ");
-            choice = Integer.parseInt(sc.nextLine());
+            content += getDepartments(departments);
+            choice = Integer.parseInt(console.printUI(title, subtitle, content, sc));
 
-            if (departments[choice] == null) {
-                System.out.print("\033[H\033[2J");
-                System.out.println("Department not exist");
+            if (departments[choice - 1] == null) {
+                console.printResult(title, "Department not exist", sc);
             }
-        } while (departments[choice] == null);
+        } while (departments[choice - 1] == null);
 
-        System.out.print("\033[H\033[2J");
-        System.out.println("Set department successfully");
+        console.printResult(title, "Set department successfully", sc);
     }
 
     public void editEmployee(Scanner sc, Employee[] employees, String id, Position[] positions,
             Department[] departments) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Edit Employee";
+        String subtitle = "Choose an option";
+
         Employee employee = this.searchEmployee(employees, id);
         if (employee == null) {
-            System.out.println("Khong tim thay nhan vien: " + id);
+            console.printResult(title, "Khong tim thay nhan vien: " + id, sc);
             return;
         }
 
         int setChoice;
         do {
-            System.out.println("[0] Exit");
-            System.out.println("[1] Hire date");
-            System.out.println("[2] Specialization");
-            System.out.println("[3] Status");
-            System.out.println("[4] Tax id");
-            System.out.println("[5] Position");
-            System.out.println("[6] Department");
-            System.out.print("Choice: ");
-            setChoice = Integer.parseInt(sc.nextLine());
-
-            System.out.print("\033[H\033[2J");
+            String[] options = { "Exit", "Hire date", "Specialization", "Status", "Tax id", "Position", "Department" };
+            setChoice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
             switch (setChoice) {
                 case 0:
@@ -240,53 +255,107 @@ public class AdminAccount extends Account {
                     break;
 
                 default:
-                    System.out.print("\033[H\033[2J");
-                    System.out.println("Wrong input");
+                    console.printResult(title, "Invalid choice", sc);
                     break;
             }
         } while (setChoice != 0);
 
-        System.out.println("Da sua nhan vien: " + id);
+        console.printResult(title, "Da sua nhan vien: " + id, sc);
     }
 
-    public void printEmployees(Employee[] employees) {
-        System.out.println("Danh sach nhan vien:");
+    public void printEmployees(Employee[] employees, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Remove Employee";
+        String subtitle = "";
+        String content = "";
+
+        content += "Danh sach nhan vien:\n";
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
-                System.out.println((i + 1) + ". " + employees[i].getId()
+                content += ((i + 1) + ". " + employees[i].getId()
                         + " | " + employees[i].getFirstName() + " " + employees[i].getLastName()
                         + " | " + employees[i].getDepartment().getName()
-                        + " | " + employees[i].getStatus());
+                        + " | " + employees[i].getStatus()) + "\n";
             }
         }
+
+        console.printResult(title, content, sc);
     }
 
-    public void printPayrolls(Employee[] employees, String id) {
+    public String printPayrolls(Employee[] employees, String id, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Print Payrolls";
+        String content = "";
+
         Employee employee = this.searchEmployee(employees, id);
         if (employee == null) {
-            System.out.println("Khong tim thay nhan vien: " + id);
-            return;
+            return "Khong tim thay nhan vien: " + id;
         }
-        System.out.println("Bang luong cua " + employee.getId() + ":");
+
+        content += "Bang luong cua " + employee.getId() + ":\n";
+
         Payroll[] payrolls = employee.getPayrolls();
         boolean found = false;
         for (int i = 0; i < payrolls.length; i++) {
             if (payrolls[i] != null) {
-                payrolls[i].displayPayroll();
+                content += payrolls[i].getPayroll();
                 found = true;
             }
         }
         if (!found) {
-            System.out.println("Chua co bang luong.");
+            return "Chua co bang luong";
+        }
+
+        return content;
+    }
+
+    public void searchEmployee(Employee[] employees, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Search Employee";
+        String subtitle = "";
+        String content = "";
+        String input = "Id";
+
+        String id = console.printUI(title, subtitle, content, input, sc).toLowerCase();
+
+        boolean found = false;
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null && employees[i].getId().toLowerCase().equals(id)) {
+                content = employees[i].getInfo(sc);
+                found = true;
+            }
+        }
+
+        if (found) {
+            console.printResult(title, content, sc);
+        } else {
+            console.printResult(title, "Employee not exists", sc);
         }
     }
 
-    public void searchEmployee(Employee[] employees) {
-        System.out.println("Search employee");
-    }
+    public void searchDepartment(Department[] departments, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Search departments";
+        String subtitle = "";
+        String content = "";
+        String input = "Id";
 
-    public void searchDepartment(Department[] departments) {
-        System.out.println("Search departments");
+        String name = console.printUI(title, subtitle, content, input, sc).toLowerCase();
+
+        boolean found = false;
+        for (int i = 0; i < departments.length; i++) {
+            if (departments[i] != null && departments[i].getName().toLowerCase().equals(name)) {
+                content = departments[i].getInfo(sc);
+                found = true;
+            }
+        }
+
+        if (found) {
+            console.printResult(title, content, sc);
+        } else {
+            console.printResult(title, "Department not exists", sc);
+        }
     }
 
     public Account createAccount(Scanner sc) {
@@ -352,31 +421,47 @@ public class AdminAccount extends Account {
     }
 
     public Department createDepartment(Scanner sc, Department[] departments) {
-        System.out.print("\033[H\033[2J");
-        System.out.println("Create Department");
-        System.out.print("Name: ");
-        String name = sc.nextLine();
+        ConsoleUI console = new ConsoleUI();
+        String title = "Create Department";
+        String subtitle = "";
+        String content = "";
 
-        System.out.print("Phone: ");
-        String phone = sc.nextLine();
+        String input = "Name";
+        String name = console.printUI(title, subtitle, subtitle, input, sc);
+        content += "Name: " + name + "\n";
 
-        System.out.print("Position: ");
-        String position = sc.nextLine();
+        input = "Phone";
+        String phone = console.printUI(title, subtitle, content, input, sc);
+        content += "Phone: " + phone + "\n";
+
+        input = "Position";
+        String position = console.printUI(title, subtitle, content, input, sc);
+        content += "Position: " + position + "\n";
+
+        console.printResult(title, content, sc);
 
         return new Department(name, phone, position);
     }
 
     public Position createPosition(Scanner sc, Position[] positions) {
-        System.out.print("\033[H\033[2J");
-        System.out.println("Create Position");
-        System.out.print("Name: ");
-        String name = sc.nextLine();
+        ConsoleUI console = new ConsoleUI();
+        String title = "Create Position";
+        String subtitle = "";
+        String content = "";
 
-        System.out.print("Position coefficient: ");
-        double positionCoefficient = Double.parseDouble(sc.nextLine());
+        String input = "Name";
+        String name = console.printUI(title, subtitle, subtitle, input, sc);
+        content += "Name: " + name + "\n";
 
-        System.out.print("Responsibilities: ");
-        String responsibilities = sc.nextLine();
+        input = "Position coefficient";
+        double positionCoefficient = Double.parseDouble(console.printUI(title, subtitle, content, input, sc));
+        content += "Position coefficient: " + positionCoefficient + "\n";
+
+        input = "Responsibilities";
+        String responsibilities = console.printUI(title, subtitle, content, input, sc);
+        content += "Responsibilities: " + responsibilities + "\n";
+
+        console.printResult(title, content, sc);
 
         return new Position(responsibilities, name, positionCoefficient);
     }

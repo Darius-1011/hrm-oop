@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Department {
   private String name;
   private String phone;
@@ -13,6 +15,16 @@ public class Department {
     this.name = name;
     this.phone = phone;
     this.position = position;
+  }
+
+  public String getInfo(Scanner sc) {
+    String content = "";
+
+    content += "Name: " + getName() + "\n";
+    content += "Phone: " + getPhone() + "\n";
+    content += "Position: " + getPosition() + "\n";
+
+    return content;
   }
 
   public String getName() {

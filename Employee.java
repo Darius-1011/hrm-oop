@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Employee extends Person {
   public enum EmployeeStatus {
@@ -58,6 +59,26 @@ public class Employee extends Person {
     this.insurances = insurances;
     this.position = position;
     this.department = department;
+  }
+
+  public String getInfo(Scanner sc) {
+    String content = "";
+
+    content += "Id: " + getId() + "\n";
+    content += "Hire date: " + getHireDate() + "\n";
+    content += "Specialization: " + getSpecialization() + "\n";
+    content += "Status: " + getStatus() + "\n";
+    content += "Evaluation count: " + getEvaluations().length + "\n";
+    content += "Contract count: " + getContracts().length + "\n";
+    content += "Payroll count: " + getPayrolls().length + "\n";
+    content += "Attendance count: " + getAttendances().length + "\n";
+    content += "Resignation count: " + getResignations().length + "\n";
+    content += "Tax id: " + getTaxId() + "\n";
+    content += "Insurance count: " + getInsurances().length + "\n";
+    content += "Position: " + getPosition().getName() + "\n";
+    content += "Department: " + getDepartment().getName() + "\n";
+
+    return content;
   }
 
   public String getId() {

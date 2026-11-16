@@ -103,6 +103,48 @@ public abstract class Account {
         console.printResult(title, "Set new username successfully", sc);
     }
 
+    public void setAccountStatus(Scanner sc, Account current) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Set Account Status";
+        String subtitle = "Choose an option";
+
+        int statusNum = 0;
+        do {
+            String[] options = { "Active", "Inactive", "Suspended", "Pending", "Locked", "Terminated" };
+            statusNum = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+
+            if (statusNum < 1 || 6 < statusNum) {
+                console.printResult(title, "Invalid choice", sc);
+            }
+        } while (statusNum < 1 || 6 < statusNum);
+
+        switch (statusNum) {
+            case 1:
+                current.setStatus(Account.AccountStatus.ACTIVE);
+                break;
+            case 2:
+                current.setStatus(Account.AccountStatus.INACTIVE);
+                break;
+            case 3:
+                current.setStatus(Account.AccountStatus.SUSPENDED);
+                break;
+            case 4:
+                current.setStatus(Account.AccountStatus.PENDING);
+                break;
+            case 5:
+                current.setStatus(Account.AccountStatus.LOCKED);
+                break;
+            case 6:
+                current.setStatus(Account.AccountStatus.TERMINATED);
+                break;
+
+            default:
+                break;
+        }
+
+        console.printResult(title, "Set account status successfully", sc);
+    }
+
     public void setInfo(String username, AccountStatus status) {
         this.username = username;
         this.status = status;

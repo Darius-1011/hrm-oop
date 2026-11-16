@@ -18,62 +18,77 @@ public class Main {
   private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
   private static Address createAddress(Scanner sc) {
-    System.out.print("Number: ");
-    String number = sc.nextLine();
+    String title = "Create Employee";
+    String subtitle = "Create Address";
+    String[] options = {};
+    String input;
 
-    System.out.print("Street: ");
-    String street = sc.nextLine();
+    input = "Number";
+    String number = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("Ward: ");
-    String ward = sc.nextLine();
+    input = "Street";
+    String street = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("District: ");
-    String district = sc.nextLine();
+    input = "Ward";
+    String ward = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("City: ");
-    String city = sc.nextLine();
+    input = "District";
+    String district = console.printUI(title, subtitle, options, input, sc);
+
+    input = "City";
+    String city = console.printUI(title, subtitle, options, input, sc);
 
     return new Address(number, street, ward, district, city);
   }
 
   private static Evaluation createEvaluation(Scanner sc) {
-    System.out.print("Month: ");
-    String month = sc.nextLine();
+    String title = "Create Employee";
+    String subtitle = "Create Evaluation";
+    String[] options = {};
+    String input;
 
-    System.out.print("Comment");
-    String comment = sc.nextLine();
+    input = "Month: ";
+    String month = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("Work score: ");
-    double workScore = Double.parseDouble(sc.nextLine());
+    input = "Comment";
+    String comment = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("Attitude score: ");
-    double attitudeScore = Double.parseDouble(sc.nextLine());
+    input = "Work score: ";
+    double workScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Discipline score: ");
-    double disciplineScore = Double.parseDouble(sc.nextLine());
+    input = "Attitude score: ";
+    double attitudeScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Work quality: ");
-    double workQuality = Double.parseDouble(sc.nextLine());
+    input = "Discipline score: ";
+    double disciplineScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Productivity: ");
-    double productivity = Double.parseDouble(sc.nextLine());
+    input = "Work quality: ";
+    double workQuality = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Team work: ");
-    double teamWork = Double.parseDouble(sc.nextLine());
+    input = "Productivity: ";
+    double productivity = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+    input = "Team work: ";
+    double teamWork = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
     return new Evaluation(month, comment, workScore, attitudeScore, disciplineScore, workQuality, productivity,
         teamWork);
   }
 
   private static Contract createContract(Scanner sc) {
+    String title = "Create Employee";
+    String subtitle = "Create Contracts";
+    String[] options = {};
+    String input;
+
     LocalDate startDate;
     LocalDate endDate;
     do {
-      System.out.print("Start date: ");
-      startDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+      input = "Start date: ";
+      startDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
-      System.out.print("End date: ");
-      endDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+      input = "End date: ";
+      endDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
       if (startDate.isAfter(endDate)) {
         System.out.println("Start date should be before end date");
@@ -83,34 +98,31 @@ public class Main {
     int typeNum = 0;
     Contract.ContractType type = Contract.ContractType.TEMPORARY;
     do {
-      System.out.println("[1] Probation");
-      System.out.println("[2] Full time");
-      System.out.println("[3] Part time");
-      System.out.println("[4] Temporary");
-      System.out.println("[5] Fixed term");
-      System.out.println("[6] Permanent");
-      System.out.print("Type: ");
+      String[] typeOptions = { "Probation", "Full time", "Part time", "Temporary", "Fixed term", "Permanent" };
+      typeNum = Integer.parseInt(console.printUI(title, subtitle, typeOptions, input, sc));
 
-      typeNum = Integer.parseInt(sc.nextLine());
-    } while (typeNum < 1 || 6 < typeNum);
+      if (typeNum < 0 || 5 < typeNum) {
+        console.printResult(title, "Invalid choice", sc);
+      }
+    } while (typeNum < 0 || 5 < typeNum);
 
     switch (typeNum) {
-      case 1:
+      case 0:
         type = Contract.ContractType.PROBATION;
         break;
-      case 2:
+      case 1:
         type = Contract.ContractType.FULL_TIME;
         break;
-      case 3:
+      case 2:
         type = Contract.ContractType.PART_TIME;
         break;
-      case 4:
+      case 3:
         type = Contract.ContractType.TEMPORARY;
         break;
-      case 5:
+      case 4:
         type = Contract.ContractType.FIXED_TERM;
         break;
-      case 6:
+      case 5:
         type = Contract.ContractType.PERMANENT;
         break;
 
@@ -121,22 +133,22 @@ public class Main {
     int statusNum = 0;
     Contract.ContractStatus status = Contract.ContractStatus.ACTIVE;
     do {
-      System.out.println("[1] Draft");
-      System.out.println("[2] Active");
-      System.out.println("[3] Expired");
-      System.out.print("Status: ");
+      String[] statusOptions = { "Draft", "Active", "Expired" };
+      statusNum = Integer.parseInt(console.printUI(title, subtitle, statusOptions, input, sc));
 
-      statusNum = Integer.parseInt(sc.nextLine());
-    } while (statusNum < 1 || 3 < statusNum);
+      if (statusNum < 0 || 2 < statusNum) {
+        console.printResult(title, "Invalid choice", sc);
+      }
+    } while (statusNum < 0 || 2 < statusNum);
 
     switch (statusNum) {
-      case 1:
+      case 0:
         status = Contract.ContractStatus.DRAFT;
         break;
-      case 2:
+      case 1:
         status = Contract.ContractStatus.ACTIVE;
         break;
-      case 3:
+      case 2:
         status = Contract.ContractStatus.EXPIRED;
         break;
 
@@ -148,58 +160,69 @@ public class Main {
   }
 
   private static Payroll createPayroll(Scanner sc) {
-    System.out.print("Month: ");
-    int month = Integer.parseInt(sc.nextLine());
+    String title = "Create Employee";
+    String subtitle = "Create Payrolls";
+    String[] options = {};
+    String input;
 
-    System.out.print("Year: ");
-    int year = Integer.parseInt(sc.nextLine());
+    input = "Month: ";
+    int month = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Base Salary");
-    double baseSalary = Double.parseDouble(sc.nextLine());
+    input = "Year: ";
+    int year = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Bonus: ");
-    double bonus = Double.parseDouble(sc.nextLine());
+    input = "Base Salary";
+    double baseSalary = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Allowance: ");
-    double allowance = Double.parseDouble(sc.nextLine());
+    input = "Bonus: ";
+    double bonus = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Deduction: ");
-    double deduction = Double.parseDouble(sc.nextLine());
+    input = "Allowance: ";
+    double allowance = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Tax amount: ");
-    double taxAmount = Double.parseDouble(sc.nextLine());
+    input = "Deduction: ";
+    double deduction = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Insurance amount: ");
-    double insuranceAmount = Double.parseDouble(sc.nextLine());
+    input = "Tax amount: ";
+    double taxAmount = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Worked hours: ");
-    int workedHours = Integer.parseInt(sc.nextLine());
+    input = "Insurance amount: ";
+    double insuranceAmount = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Overtime hours: ");
-    int overtimeHours = Integer.parseInt(sc.nextLine());
+    input = "Worked hours: ";
+    int workedHours = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
 
-    System.out.print("Last salary increase (dd/MM/yyyy): ");
-    LocalDate lastSalaryIncreaseDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+    input = "Overtime hours: ";
+    int overtimeHours = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
+
+    input = "Last salary increase (dd/MM/yyyy): ";
+    LocalDate lastSalaryIncreaseDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc),
+        dateFormatter);
 
     return new Payroll(month, year, baseSalary, bonus, allowance, deduction, taxAmount, insuranceAmount, workedHours,
         overtimeHours, lastSalaryIncreaseDate);
   }
 
   private static Attendance createAttendance(Scanner sc) {
-    System.out.print("Date (dd/MM/yyyy): ");
-    LocalDate date = LocalDate.parse(sc.nextLine(), dateFormatter);
+    String title = "Create Employee";
+    String subtitle = "Create Attendance";
+    String[] options = {};
+    String input;
+
+    input = "Date (dd/MM/yyyy): ";
+    LocalDate date = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
     LocalTime clockIn;
     LocalTime clockOut;
     do {
-      System.out.print("Clock in (HH:mm): ");
-      clockIn = LocalTime.parse(sc.nextLine(), timeFormatter);
+      input = "Clock in (HH:mm): ";
+      clockIn = LocalTime.parse(console.printUI(title, subtitle, options, input, sc), timeFormatter);
 
-      System.out.print("Clock out (HH:mm): ");
-      clockOut = LocalTime.parse(sc.nextLine(), timeFormatter);
+      input = "Clock out (HH:mm): ";
+      clockOut = LocalTime.parse(console.printUI(title, subtitle, options, input, sc), timeFormatter);
 
       if (clockIn.isAfter(clockOut)) {
-        System.out.println("Clock in time should be before clock out time");
+        console.printResult(title, "Clock in time should be before clock out time", sc);
       }
     } while (clockIn.isBefore(clockOut));
 
@@ -207,31 +230,32 @@ public class Main {
   }
 
   private static Insurance createInsurance(Scanner sc) {
-    System.out.print("Insurance number: ");
-    String insuranceNumber = sc.nextLine();
+    String title = "Create Employee";
+    String subtitle = "Create Insurance";
+    String[] options = {};
+    String input;
+
+    input = "Insurance number: ";
+    String insuranceNumber = console.printUI(title, subtitle, options, input, sc);
 
     int typeNum;
     Insurance.InsuranceType type = Insurance.InsuranceType.HEALTH;
     do {
-      System.out.println("[1] Life");
-      System.out.println("[2] Health");
-      System.out.println("[3] Social");
-      System.out.println("[4] Unemployment");
-      System.out.print("Type: ");
-      typeNum = Integer.parseInt(sc.nextLine());
-    } while (typeNum < 1 || 4 < typeNum);
+      String[] typeOptions = { "Life", "Health", "Social", "Unemployment" };
+      typeNum = Integer.parseInt(console.printUI(title, subtitle, typeOptions, sc));
+    } while (typeNum < 0 || 3 < typeNum);
 
     switch (typeNum) {
-      case 1:
+      case 0:
         type = Insurance.InsuranceType.LIFE;
         break;
-      case 2:
+      case 1:
         type = Insurance.InsuranceType.HEALTH;
         break;
-      case 3:
+      case 2:
         type = Insurance.InsuranceType.SOCIAL;
         break;
-      case 4:
+      case 3:
         type = Insurance.InsuranceType.UNEMPLOYMENT;
         break;
 
@@ -242,39 +266,43 @@ public class Main {
     LocalDate startDate;
     LocalDate endDate;
     do {
-      System.out.print("Start date (dd/MM/yyyy): ");
-      startDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+      input = "Start date (dd/MM/yyyy): ";
+      startDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
-      System.out.print("End date (dd/MM/yyyy): ");
-      endDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+      input = "End date (dd/MM/yyyy): ";
+      endDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
       if (startDate.isAfter(endDate)) {
-        System.out.println("Start date should be before end date");
+        console.printResult(title, "Start date should be before end date", sc);
       }
     } while (startDate.isBefore(endDate));
 
-    System.out.print("Rate: ");
-    double rate = Double.parseDouble(sc.nextLine());
+    input = "Rate: ";
+    double rate = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
     return new Insurance(insuranceNumber, type, startDate, endDate, rate);
   }
 
   private static Employee.EmployeeStatus chooseEmployeeStatus(Scanner sc) {
+    String title = "Create Employee";
+    String subtitle = "";
+    String[] options = { "Working", "On leave", "Resigned" };
+
     int statusChoice;
     do {
-      System.out.println("[1] Working");
-      System.out.println("[2] On leave");
-      System.out.println("[3] Resigned");
-      System.out.print("Status:");
-      statusChoice = Integer.parseInt(sc.nextLine());
-    } while (statusChoice < 1 || 3 < statusChoice);
+      statusChoice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+
+      if (statusChoice < 0 || 2 < statusChoice) {
+        console.printResult(title, "Invalid choice", sc);
+      }
+    } while (statusChoice < 0 || 2 < statusChoice);
 
     switch (statusChoice) {
-      case 1:
+      case 0:
         return Employee.EmployeeStatus.WORKING;
-      case 2:
+      case 1:
         return Employee.EmployeeStatus.ON_LEAVE;
-      case 3:
+      case 2:
         return Employee.EmployeeStatus.RESIGNED;
 
       default:
@@ -285,194 +313,270 @@ public class Main {
   }
 
   private static Evaluation[] createEvaluations(Scanner sc) {
-    int evaluationCount;
-    do {
-      System.out.print("How many evaluations? ");
-      evaluationCount = Integer.parseInt(sc.nextLine());
+    String title = "Create Employee";
+    String subtitle = "Create Evaluation";
+    String[] options = { "Exit", "Create an evaluation" };
 
-      if (evaluationCount < 0 || limits.getMaxEvaluations() < evaluationCount) {
-        System.out.print("Invalid evaluation count");
-        System.out.printf("Min: 0, Max: %d", limits.getMaxEvaluations());
-      }
-    } while (evaluationCount < 0 || limits.getMaxEvaluations() < evaluationCount);
-
+    int index = 0;
     Evaluation[] evaluations = new Evaluation[limits.getMaxEvaluations()];
-    for (int i = 0; i < evaluationCount; i++) {
-      evaluations[i] = createEvaluation(sc);
-    }
+
+    int choice;
+    do {
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+
+      if (choice < 0 || 1 < choice) {
+        console.printResult(title, "Invalid choice", sc);
+        continue;
+      }
+
+      if (choice == 0) {
+        break;
+      }
+
+      if (index + 1 < limits.getMaxEvaluations()) {
+        String result = "Evaluation storage is full\n" + "Max: %d" + limits.getMaxEvaluations();
+        console.printResult(title, result, sc);
+      }
+
+      evaluations[index] = createEvaluation(sc);
+      index++;
+    } while (choice < 0 || 1 < choice);
 
     return evaluations;
   }
 
   private static Contract[] createContracts(Scanner sc) {
-    int contractCount;
-    do {
-      System.out.print("How many contracts? ");
-      contractCount = Integer.parseInt(sc.nextLine());
+    String title = "Create Employee";
+    String subtitle = "Create Contracts";
+    String[] options = { "Exit", "Create a contract" };
 
-      if (contractCount < 0 || limits.getMaxContracts() < contractCount) {
-        System.out.println("Invalid contract count");
-        System.out.printf("Min: 0, Max: %d\n", limits.getMaxContracts());
-      }
-    } while (contractCount < 0 || limits.getMaxContracts() < contractCount);
-
+    int index = 0;
     Contract[] contracts = new Contract[limits.getMaxContracts()];
-    for (int i = 0; i < contractCount; i++) {
-      contracts[i] = createContract(sc);
-    }
+
+    int choice;
+    do {
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+
+      if (choice < 0 || 1 < choice) {
+        console.printResult(title, "Invalid choice", sc);
+        continue;
+      }
+
+      if (choice == 0) {
+        break;
+      }
+
+      if (index + 1 < limits.getMaxContracts()) {
+        String result = "Contracts storage is full\n" + "Max: %d" + limits.getMaxContracts();
+        console.printResult(title, result, sc);
+      }
+
+      contracts[index] = createContract(sc);
+      index++;
+    } while (choice < 0 || 1 < choice);
 
     return contracts;
   }
 
   private static Payroll[] createPayrolls(Scanner sc) {
-    int payrollCount;
+    String title = "Create Employee";
+    String subtitle = "Create Payrolls";
+    String[] options = { "Exit", "Create a Payroll" };
 
-    do {
-      System.out.print("How many payrolls? ");
-      payrollCount = Integer.parseInt(sc.nextLine());
-
-      if (payrollCount < 0 || limits.getMaxPayrolls() < payrollCount) {
-        System.out.println("Invalid payroll count");
-        System.out.printf("Min: 0, Max: %d\n", limits.getMaxPayrolls());
-      }
-    } while (payrollCount < 0 || limits.getMaxPayrolls() < payrollCount);
-
+    int index = 0;
     Payroll[] payrolls = new Payroll[limits.getMaxPayrolls()];
-    for (int i = 0; i < payrollCount; i++) {
-      payrolls[i] = createPayroll(sc);
-    }
+
+    int choice;
+    do {
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+
+      if (choice < 0 || 1 < choice) {
+        console.printResult(title, "Invalid choice", sc);
+        continue;
+      }
+
+      if (choice == 0) {
+        break;
+      }
+
+      if (index + 1 < limits.getMaxPayrolls()) {
+        String result = "Payrolls storage is full\n" + "Max: %d" + limits.getMaxPayrolls();
+        console.printResult(title, result, sc);
+      }
+
+      payrolls[index] = createPayroll(sc);
+      index++;
+    } while (choice < 0 || 1 < choice);
 
     return payrolls;
   }
 
   private static Attendance[] createAttendances(Scanner sc) {
-    int attendanceCount;
+    String title = "Create Employee";
+    String subtitle = "Create Attendances";
+    String[] options = { "Exit", "Create a attendance" };
 
-    do {
-      System.out.print("How many attendances? ");
-      attendanceCount = Integer.parseInt(sc.nextLine());
-
-      if (attendanceCount < 0 || limits.getMaxAttendances() < attendanceCount) {
-        System.out.println("Invalid attendance count");
-        System.out.printf("Min: 0, Max: %d\n", limits.getMaxAttendances());
-      }
-    } while (attendanceCount < 0 || limits.getMaxAttendances() < attendanceCount);
-
+    int index = 0;
     Attendance[] attendances = new Attendance[limits.getMaxAttendances()];
-    for (int i = 0; i < attendanceCount; i++) {
-      attendances[i] = createAttendance(sc);
-    }
+
+    int choice;
+    do {
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+
+      if (choice < 0 || 1 < choice) {
+        console.printResult(title, "Invalid choice", sc);
+        continue;
+      }
+
+      if (choice == 0) {
+        break;
+      }
+
+      if (index + 1 < limits.getMaxAttendances()) {
+        String result = "Attendance storage is full\n" + "Max: %d" + limits.getMaxAttendances();
+        console.printResult(title, result, sc);
+      }
+
+      attendances[index] = createAttendance(sc);
+      index++;
+    } while (choice < 0 || 1 < choice);
 
     return attendances;
   }
 
-  private static Resignation[] createResignation(Scanner sc) {
-    int resignationChoice;
-    do {
-      System.out.println("[0] No");
-      System.out.println("[1] Yes");
-      System.out.print("Have resignation: ");
-      resignationChoice = Integer.parseInt(sc.nextLine());
-    } while (resignationChoice != 0 && resignationChoice != 1);
+  private static Resignation createResignation(Scanner sc) {
+    String title = "Create Employee";
+    String subtitle = "Create Resignation";
+    String[] options = {};
+    String input;
 
+    input = "Reason: ";
+    String reason = sc.nextLine();
+
+    input = "Date (dd/MM/yyyy): ";
+    LocalDate date = LocalDate.parse(sc.nextLine(), dateFormatter);
+
+    int statusNum;
+    do {
+      String[] statusOptions = { "Pending", "Rejected", "Approved" };
+      statusNum = Integer.parseInt(console.printUI(title, subtitle, statusOptions, sc));
+
+      if (statusNum < 1 || 3 < statusNum) {
+        console.printResult(title, "Invalid choice", sc);
+      }
+    } while (statusNum < 1 || 3 < statusNum);
+
+    Resignation.ResignationStatus resignationStatus = Resignation.ResignationStatus.PENDING;
+    switch (statusNum) {
+      case 1:
+        resignationStatus = Resignation.ResignationStatus.PENDING;
+        break;
+      case 2:
+        resignationStatus = Resignation.ResignationStatus.REJECTED;
+        break;
+      case 3:
+        resignationStatus = Resignation.ResignationStatus.APPROVED;
+        break;
+
+      default:
+        break;
+    }
+
+    return new Resignation(reason, date, resignationStatus);
+  }
+
+  private static Resignation[] createResignations(Scanner sc) {
+    String title = "Create Employee";
+    String subtitle = "Create Resignations";
+    String[] options = { "Exit", "Create a resignation" };
+
+    int index = 0;
     Resignation[] resignations = new Resignation[limits.getMaxResignations()];
 
-    String reason;
-    LocalDate date;
-    Resignation.ResignationStatus resigntationStatus = Resignation.ResignationStatus.REJECTED;
+    int choice;
+    do {
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
-    if (resignationChoice == 1) {
-      int resignationCount;
-
-      do {
-        System.out.print("How many resignations? ");
-        resignationCount = Integer.parseInt(sc.nextLine());
-
-        if (resignationCount < 0 || limits.getMaxResignations() < resignationCount) {
-          System.out.println("Invalid resignation count");
-          System.out.printf("Min: 0, Max: %d\n", limits.getMaxResignations());
-        }
-      } while (resignationCount < 0 || limits.getMaxResignations() < resignationCount);
-
-      for (int i = 0; i < resignationCount; i++) {
-        System.out.print("Reason: ");
-        reason = sc.nextLine();
-
-        System.out.print("Date (dd/MM/yyyy): ");
-        date = LocalDate.parse(sc.nextLine(), dateFormatter);
-
-        int statusNum;
-        do {
-          System.out.println("[1] Pending");
-          System.out.println("[2] Rejected");
-          System.out.println("[3] Approved");
-          System.out.print("Status: ");
-          statusNum = Integer.parseInt(sc.nextLine());
-        } while (statusNum < 1 || 3 < statusNum);
-
-        switch (statusNum) {
-          case 1:
-            resigntationStatus = Resignation.ResignationStatus.PENDING;
-            break;
-          case 2:
-            resigntationStatus = Resignation.ResignationStatus.REJECTED;
-            break;
-          case 3:
-            resigntationStatus = Resignation.ResignationStatus.APPROVED;
-            break;
-
-          default:
-            break;
-        }
-
-        resignations[i] = new Resignation(reason, date, resigntationStatus);
+      if (choice < 0 || 1 < choice) {
+        console.printResult(title, "Invalid choice", sc);
+        continue;
       }
-    }
+
+      if (choice == 0) {
+        break;
+      }
+
+      if (index + 1 < limits.getMaxResignations()) {
+        String result = "Resignation storage is full\n" + "Max: %d" + limits.getMaxResignations();
+        console.printResult(title, result, sc);
+      }
+
+      resignations[index] = createResignation(sc);
+      index++;
+    } while (choice < 0 || 1 < choice);
 
     return resignations;
   }
 
   private static Insurance[] createInsurances(Scanner sc) {
-    int insuranceCount;
-    do {
-      System.out.print("How many insurances? ");
-      insuranceCount = Integer.parseInt(sc.nextLine());
+    String title = "Create Employee";
+    String subtitle = "Create Insurances";
+    String[] options = { "Exit", "Create a insurance" };
 
-      if (insuranceCount < 0 || limits.getMaxInsurances() < insuranceCount) {
-        System.out.println("Invalid insurance count");
-        System.out.printf("Min: 0, Max: %d\n", limits.getMaxInsurances());
-      }
-    } while (insuranceCount < 0 || limits.getMaxInsurances() < insuranceCount);
-
+    int index = 0;
     Insurance[] insurances = new Insurance[limits.getMaxInsurances()];
-    for (int i = 0; i < insuranceCount; i++) {
-      insurances[i] = createInsurance(sc);
-    }
+
+    int choice;
+    do {
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
+
+      if (choice < 0 || 1 < choice) {
+        console.printResult(title, "Invalid choice", sc);
+        continue;
+      }
+
+      if (choice == 0) {
+        break;
+      }
+
+      if (index + 1 < limits.getMaxInsurances()) {
+        String result = "Insurance storage is full\n" + "Max: %d" + limits.getMaxInsurances();
+        console.printResult(title, result, sc);
+      }
+
+      insurances[index] = createInsurance(sc);
+      index++;
+    } while (choice < 0 || 1 < choice);
 
     return insurances;
   }
 
   private static Position choosePosition(Scanner sc) {
+    String title = "Create Employee";
+    String subtitle = "Choose Position";
+    String[] options = { "Exit", "Choose a position" };
+
     if (positionsOccupied < 0) {
-      System.out.println("No positions available");
+      console.printResult(title, "No positions available", sc);
       return null;
     }
 
     int index;
     do {
+      String[] positionOptions = new String[limits.getMaxPositions()];
+
       for (int i = 0; i < data.getPositions().length; i++) {
         if (data.getPositions()[i] == null) {
           break;
         }
 
-        System.out.printf("[%d] %s\n", i + 1, data.getPositions()[i].getName());
+        positionOptions[i] = data.getPositions()[i].getName();
       }
 
-      System.out.print("Choose positions: ");
-      index = Integer.parseInt(sc.nextLine()) - 1;
+      index = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
       if (index < 0 || index > positionsOccupied) {
-        System.out.println("Invalid position");
+        console.printResult(title, "Invalid choice", sc);
       }
     } while (index < 0 || index > positionsOccupied);
 
@@ -480,26 +584,31 @@ public class Main {
   }
 
   private static Department chooseDepartment(Scanner sc) {
+    String title = "Create Employee";
+    String subtitle = "Choose Department";
+    String[] options = { "Exit", "Choose a department" };
+
     if (departmentsOccupied < 0) {
-      System.out.println("No departments available");
+      console.printResult(title, "No departments available", sc);
       return null;
     }
 
     int index;
     do {
+      String[] departmentOptions = new String[limits.getMaxDepartments()];
+
       for (int i = 0; i < data.getDepartments().length; i++) {
         if (data.getDepartments()[i] == null) {
           break;
         }
 
-        System.out.printf("[%d] %s\n", i + 1, data.getDepartments()[i].getName());
+        departmentOptions[i] = data.getDepartments()[i].getName();
       }
 
-      System.out.print("Choose department: ");
-      index = Integer.parseInt(sc.nextLine()) - 1;
+      index = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
       if (index < 0 || index > departmentsOccupied) {
-        System.out.println("Invalid department");
+        console.printResult(title, "Invalid choice", sc);
       }
     } while (index < 0 || index > departmentsOccupied);
 
@@ -507,37 +616,40 @@ public class Main {
   }
 
   private static Employee createEmployee(Scanner sc) {
-    System.out.print("\033[H\033[2J");
-    System.out.println("Create Employee");
-    System.out.print("First name: ");
-    String firstName = sc.nextLine();
+    String title = "Create Employee";
+    String subtitle = "";
+    String[] options = {};
+    String input;
 
-    System.out.print("Last name: ");
-    String lastName = sc.nextLine();
+    input = "First name";
+    String firstName = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("Email: ");
-    String email = sc.nextLine();
+    input = "Last name";
+    String lastName = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("Phone number: ");
-    String phone = sc.nextLine();
+    input = "Email";
+    String email = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("Date of birth (dd/MM/yyyy): ");
-    LocalDate dateOfBirth = LocalDate.parse(sc.nextLine(), dateFormatter);
+    input = "Phone number";
+    String phone = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("Gender: ");
-    String gender = sc.nextLine();
+    input = "Date of birth (dd/MM/yyyy)";
+    LocalDate dateOfBirth = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
-    System.out.print("Address");
+    input = "Gender";
+    String gender = console.printUI(title, subtitle, options, input, sc);
+
+    input = "Address";
     Address address = createAddress(sc);
 
-    System.out.print("Id: ");
-    String id = sc.nextLine();
+    input = "Id";
+    String id = console.printUI(title, subtitle, options, input, sc);
 
-    System.out.print("Hire date (dd/MM/yyyy): ");
-    LocalDate hireDate = LocalDate.parse(sc.nextLine(), dateFormatter);
+    input = "Hire date (dd/MM/yyyy)";
+    LocalDate hireDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
-    System.out.print("Specialization: ");
-    String specialization = sc.nextLine();
+    input = "Specialization";
+    String specialization = console.printUI(title, subtitle, options, input, sc);
 
     Employee.EmployeeStatus status = chooseEmployeeStatus(sc);
 
@@ -545,11 +657,10 @@ public class Main {
     Contract[] contracts = createContracts(sc);
     Payroll[] payrolls = createPayrolls(sc);
     Attendance[] attendances = createAttendances(sc);
+    Resignation[] resignations = createResignations(sc);
 
-    Resignation[] resignations = createResignation(sc);
-
-    System.out.print("Tax id: ");
-    String taxId = sc.nextLine();
+    input = "Tax id";
+    String taxId = console.printUI(title, subtitle, options, input, sc);
 
     Insurance[] insurances = createInsurances(sc);
 
@@ -568,48 +679,6 @@ public class Main {
     }
 
     return -1;
-  }
-
-  private static void setAccountStatus(Scanner sc, Account[] accounts, Account current) {
-    int statusNum = 0;
-    do {
-      System.out.println("[1] Active");
-      System.out.println("[2] Inactive");
-      System.out.println("[3] Suspended");
-      System.out.println("[4] Pending");
-      System.out.println("[5] Locked");
-      System.out.println("[6] Terminated");
-      System.out.print("Status:");
-
-      statusNum = Integer.parseInt(sc.nextLine());
-    } while (statusNum < 1 || 6 < statusNum);
-
-    switch (statusNum) {
-      case 1:
-        current.setStatus(Account.AccountStatus.ACTIVE);
-        break;
-      case 2:
-        current.setStatus(Account.AccountStatus.INACTIVE);
-        break;
-      case 3:
-        current.setStatus(Account.AccountStatus.SUSPENDED);
-        break;
-      case 4:
-        current.setStatus(Account.AccountStatus.PENDING);
-        break;
-      case 5:
-        current.setStatus(Account.AccountStatus.LOCKED);
-        break;
-      case 6:
-        current.setStatus(Account.AccountStatus.TERMINATED);
-        break;
-
-      default:
-        break;
-    }
-
-    System.out.print("\033[H\033[2J");
-    System.out.println("Set successfully");
   }
 
   private static void runEmployeeUI(EmployeeAccount account, Scanner sc) {
@@ -669,25 +738,23 @@ public class Main {
           break;
 
         default:
+          title = "Employee Account";
+          console.printResult(title, "Invalid choice", sc);
           break;
       }
     } while (true);
   }
 
   private static void runAdminUI(AdminAccount account, Scanner sc) {
+    String title = "Admin Account";
+    String subtitle = "Choose an option";
     String[] options = { "Logout", "Change password", "Get info", "Set info", "Add employee", "Edit employee",
         "Remove employee", "Print employees", "Print departments", "Print payrolls", "Reply request", "Search employee",
         "Search department", "Create Position", "Create Department" };
 
     int choice;
     do {
-      for (int i = 0; i < options.length; i++) {
-        System.out.printf("[%d] %s\n", i, options[i]);
-      }
-      System.out.print("Choice: ");
-      choice = Integer.parseInt(sc.nextLine());
-
-      System.out.print("\033[H\033[2J");
+      choice = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
       String id;
       switch (choice) {
@@ -700,15 +767,12 @@ public class Main {
           account.getInfo(sc);
           break;
         case 3:
+          String setTitle = "Set Admin Information";
+
           int setChoice;
           do {
-            System.out.println("[0] Exit");
-            System.out.println("[1] Set username");
-            System.out.println("[2] Set status");
-            System.out.print("Choice: ");
-            setChoice = Integer.parseInt(sc.nextLine());
-
-            System.out.print("\033[H\033[2J");
+            String[] setOptions = { "Exit", "Set username", "Set status" };
+            setChoice = Integer.parseInt(console.printUI(setTitle, subtitle, setOptions, sc));
           } while (setChoice < 0 || 2 < setChoice);
 
           switch (setChoice) {
@@ -716,7 +780,7 @@ public class Main {
               account.setAccountName(sc, data.getAccounts(), account);
               break;
             case 2:
-              setAccountStatus(sc, data.getAccounts(), account);
+              account.setAccountStatus(sc, account);
               break;
 
             default:
@@ -724,53 +788,85 @@ public class Main {
           }
           break;
         case 4:
-          account.addEmployee(data.getEmployees(), createEmployee(sc));
+          account.addEmployee(data.getEmployees(), createEmployee(sc), sc);
           break;
         case 5:
-          System.out.println("Edit Employee");
-          System.out.print("Id: ");
-          id = sc.nextLine();
+          title = "Edit Employee";
+          subtitle = "";
+          String[] editOptions = {};
+          String input = "Id";
+
+          id = console.printUI(title, subtitle, editOptions, input, sc);
           account.editEmployee(sc, data.getEmployees(), id, data.getPositions(), data.getDepartments());
           break;
         case 6:
-          String removeEmployee = sc.nextLine();
-          account.removeEmployee(data.getAccounts(), removeEmployee);
+          title = "Remove Employee";
+          subtitle = "";
+          String[] removeOptions = {};
+          input = "Id";
+
+          String removeEmployee = console.printUI(title, subtitle, removeOptions, input, sc);
+          account.removeEmployee(data.getAccounts(), removeEmployee, sc);
           break;
         case 7:
-          account.printEmployees(data.getEmployees());
+          account.printEmployees(data.getEmployees(), sc);
           break;
         case 8:
-          account.printDepartments(data.getDepartments());
+          title = "Print Department";
+          String content = account.getDepartments(data.getDepartments());
+
+          console.printResult(title, content, sc);
           break;
         case 9:
-          System.out.println("Print payrolls");
-          System.out.print("Id: ");
-          id = sc.nextLine();
-          account.printPayrolls(data.getEmployees(), id);
+          title = "Print payrolls";
+          subtitle = "";
+          content = "";
+          input = "Id";
+
+          id = console.printUI(title, subtitle, content, input, sc);
+
+          content = account.printPayrolls(data.getEmployees(), id, sc);
+          console.printResult(title, content, sc);
           break;
         case 10:
-          System.out.print("Reply to username: ");
-          String replyUsername = sc.nextLine();
+          title = "Reply to username: ";
+          subtitle = "";
+          content = "";
 
-          System.out.print("Reply: ");
-          String reply = sc.nextLine();
+          input = "Username";
+          String replyUsername = console.printUI(title, subtitle, content, input, sc);
 
-          account.replyRequest(data.getAccounts(), replyUsername, reply);
+          input = "Reply";
+          String reply = console.printUI(title, subtitle, content, input, sc);
+
+          account.replyRequest(data.getAccounts(), replyUsername, reply, sc);
           break;
         case 11:
-          account.searchEmployee(data.getEmployees());
+          account.searchEmployee(data.getEmployees(), sc);
           break;
         case 12:
-          account.searchDepartment(data.getDepartments());
+          account.searchDepartment(data.getDepartments(), sc);
           break;
         case 13:
-          account.createPosition(sc, data.getPositions());
+          for (int i = 0; i < data.getPositions().length; i++) {
+            if (data.getPositions()[i] == null) {
+              data.getPositions()[i] = account.createPosition(sc, data.getPositions());
+              break;
+            }
+          }
           break;
         case 14:
-          account.createDepartment(sc, data.getDepartments());
+          for (int i = 0; i < data.getDepartments().length; i++) {
+            if (data.getDepartments()[i] == null) {
+              data.getDepartments()[i] = account.createDepartment(sc, data.getDepartments());
+              break;
+            }
+          }
           break;
 
         default:
+          title = "Admin Account";
+          console.printResult(title, "Invalid choice", sc);
           break;
       }
     } while (true);
@@ -789,6 +885,34 @@ public class Main {
     } while (num < 0);
 
     return num;
+  }
+
+  private static int getOccupied(Department[] departments) {
+    int occupied = 0;
+
+    for (int i = 0; i < departments.length; i++) {
+      if (departments[i] == null) {
+        break;
+      }
+
+      occupied++;
+    }
+
+    return occupied;
+  }
+
+  private static int getOccupied(Position[] positions) {
+    int occupied = 0;
+
+    for (int i = 0; i < positions.length; i++) {
+      if (positions[i] == null) {
+        break;
+      }
+
+      occupied++;
+    }
+
+    return occupied;
   }
 
   private static void setup(Scanner sc) {
@@ -853,6 +977,9 @@ public class Main {
 
         data.writeSampleData();
         data.readData();
+
+        departmentsOccupied = getOccupied(data.getDepartments());
+        positionsOccupied = getOccupied(data.getPositions());
         break;
 
       default:

@@ -74,20 +74,23 @@ public class Payroll {
                 - deduction - taxAmount - insuranceAmount;
     }
 
-    public void displayPayroll() {
-        System.out.println("Thang: " + month + "/" + year);
-        System.out.println("Luong co ban: " + baseSalary);
-        System.out.println("Tien thuong: " + bonus);
-        System.out.println("Phu cap: " + allowance);
-        System.out.println("Khau tru: " + deduction);
-        System.out.println("Tien thue: " + taxAmount);
-        System.out.println("Tien bao hiem: " + insuranceAmount);
-        System.out.println("So gio lam: " + workedHours);
-        System.out.println("So gio tang ca: " + overtimeHours);
-        System.out.println("Tien luong tang ca: " + calculateOvertimePay());
-        System.out.println("Tang luong gan nhat: "
-                + (lastSalaryIncreaseDate == null ? "Chua co" : lastSalaryIncreaseDate));
-        System.out.println("Luong thuc nhan: " + calculateNetSalary());
+    public String getPayroll() {
+        String content = "";
+        content += ("Thang: " + month + "/" + year) + "\n";
+        content += ("Luong co ban: " + baseSalary) + "\n";
+        content += ("Tien thuong: " + bonus) + "\n";
+        content += ("Phu cap: " + allowance) + "\n";
+        content += ("Khau tru: " + deduction) + "\n";
+        content += ("Tien thue: " + taxAmount) + "\n";
+        content += ("Tien bao hiem: " + insuranceAmount) + "\n";
+        content += ("So gio lam: " + workedHours) + "\n";
+        content += ("So gio tang ca: " + overtimeHours) + "\n";
+        content += ("Tien luong tang ca: " + calculateOvertimePay()) + "\n";
+        content += ("Tang luong gan nhat: "
+                + (lastSalaryIncreaseDate == null ? "Chua co" : lastSalaryIncreaseDate)) + "\n";
+        content += ("Luong thuc nhan: " + calculateNetSalary()) + "\n";
+
+        return content;
     }
 
     public int getMonth() {
