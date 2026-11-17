@@ -930,11 +930,11 @@ public class DataHandler {
     String data = "";
 
     String[][] samples = {
-        { "IT Department", "02812345678", "Information Technology" },
-        { "HR Department", "02812345679", "Human Resources" },
-        { "Finance Department", "02812345680", "Financial Management" },
-        { "Marketing Department", "02812345681", "Marketing and Communications" },
-        { "Sales Department", "02812345682", "Sales and Business Development" }
+        { "Information Technology", "02812345678", "C.A206" },
+        { "Human Resources", "02812345679", "1.B302" },
+        { "Financial Management", "02812345680", "2.D103" },
+        { "Marketing and Communications", "02812345681", "C.E403" },
+        { "Sales and Business Development", "02812345682", "C.A209" }
     };
 
     for (String[] sample : samples) {
