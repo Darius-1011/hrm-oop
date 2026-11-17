@@ -89,13 +89,54 @@ public class AdminAccount extends Account {
     }
 
     public String getDepartments(Department[] departments) {
+        final int TABLE_WIDTH = 109;
+        final int NUMBER_WIDTH = 3;
+        final int NAME_WIDTH = 30;
+        final int PHONE_WIDTH = 11;
+        final int POSITION_WIDTH = TABLE_WIDTH - NUMBER_WIDTH - NAME_WIDTH - PHONE_WIDTH -
+                (3 * 2 - 2);
+
+        int nameLeftPadding = (NAME_WIDTH - 4) / 2;
+        int phoneLeftPadding = (PHONE_WIDTH - 5) / 2;
+        int positionLeftPadding = (POSITION_WIDTH - 8) / 2;
+        int nameRightPadding = NAME_WIDTH - nameLeftPadding - 4;
+        int phoneRightPadding = PHONE_WIDTH - phoneLeftPadding - 5;
+        int positionRightPadding = POSITION_WIDTH - positionLeftPadding - 8;
+
+        String header = "| " + " ".repeat(NUMBER_WIDTH) + " | " +
+                " ".repeat(nameLeftPadding) + "Name" + " ".repeat(nameRightPadding) + " | " +
+                " ".repeat(phoneLeftPadding) + "Phone" + " ".repeat(phoneRightPadding) + " | " +
+                " ".repeat(positionLeftPadding) + "Position" + " ".repeat(positionRightPadding)
+                + " |\n";
+
+        String separateLine = "| " + "-".repeat(NUMBER_WIDTH) + " | " +
+                "-".repeat(NAME_WIDTH) + " | " +
+                "-".repeat(PHONE_WIDTH) + " | " +
+                "-".repeat(POSITION_WIDTH) + " |\n";
+
         String content = "";
-        content += "Danh sach phong ban:\n";
+
+        content += "Danh sach phong ban\n";
+        content += header;
+        content += separateLine;
         for (int i = 0; i < departments.length; i++) {
             if (departments[i] != null) {
-                content += ("[" + (i + 1) + "] " + departments[i].getName()
-                        + " | SDT: " + departments[i].getPhone()
-                        + " | Vi tri: " + departments[i].getPosition()) + "\n";
+                Department current = departments[i];
+
+                int numberLength = Integer.toString(i).length();
+                int nameLength = current.getName().length();
+                int phoneLength = current.getPhone().length();
+                int positionLength = current.getPosition().length();
+
+                int numberPadding = NUMBER_WIDTH - numberLength;
+                int namePadding = NAME_WIDTH - nameLength;
+                int phonePadding = PHONE_WIDTH - phoneLength;
+                int positionPadding = POSITION_WIDTH - positionLength;
+
+                content += "| " + " ".repeat(numberPadding) + (i + 1) + " | " +
+                        current.getName() + " ".repeat(namePadding) + " | " +
+                        " ".repeat(phonePadding) + current.getPhone() + " | " +
+                        current.getPosition() + " ".repeat(positionPadding) + " |\n";
             }
         }
 
