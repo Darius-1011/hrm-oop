@@ -75,13 +75,56 @@ public class AdminAccount extends Account {
     }
 
     public String getPositions(Position[] positions) {
+        final int TABLE_WIDTH = 109;
+        final int NUMBER_WIDTH = 3;
+        final int NAME_WIDTH = 30;
+        final int POSITION_COEFFICIENT_WIDTH = 25;
+        final int RESPONSIBILITY_WIDTH = TABLE_WIDTH - NUMBER_WIDTH - NAME_WIDTH - POSITION_COEFFICIENT_WIDTH -
+                (3 * 2 - 2);
+
+        int nameLeftPadding = (NAME_WIDTH - 4) / 2;
+        int positionCoefficientLeftPadding = (POSITION_COEFFICIENT_WIDTH - 20) / 2;
+        int responsibilityLeftPadding = (RESPONSIBILITY_WIDTH - 16) / 2;
+        int nameRightPadding = NAME_WIDTH - nameLeftPadding - 4;
+        int positionCoefficientRightPadding = POSITION_COEFFICIENT_WIDTH - positionCoefficientLeftPadding - 20;
+        int responsibilityRightPadding = RESPONSIBILITY_WIDTH - responsibilityLeftPadding - 16;
+
+        String header = "| " + " ".repeat(NUMBER_WIDTH) + " | " +
+                " ".repeat(nameLeftPadding) + "Name" + " ".repeat(nameRightPadding) + " | " +
+                " ".repeat(positionCoefficientLeftPadding) + "Position coefficient"
+                + " ".repeat(positionCoefficientRightPadding)
+                + " | " +
+                " ".repeat(responsibilityLeftPadding) + "Responsibilities" + " ".repeat(responsibilityRightPadding)
+                + " |\n";
+
+        String separateLine = "| " + "-".repeat(NUMBER_WIDTH) + " | " +
+                "-".repeat(NAME_WIDTH) + " | " +
+                "-".repeat(POSITION_COEFFICIENT_WIDTH) + " | " +
+                "-".repeat(RESPONSIBILITY_WIDTH) + " |\n";
+
         String content = "";
-        content += "Danh sach vi tri:\n";
+
+        content += "Danh sach vi tri\n\n";
+        content += header;
+        content += separateLine;
         for (int i = 0; i < positions.length; i++) {
             if (positions[i] != null) {
-                content += ("[" + (i + 1) + "] " + positions[i].getName()
-                        + " | Position Coefficient: " + positions[i].getPositionCoefficient()
-                        + " | Responsibilities: " + positions[i].getResponsibilities()) + "\n";
+                Position current = positions[i];
+
+                int numberLength = Integer.toString(i).length();
+                int nameLength = current.getName().length();
+                int positionCoefficientLength = Double.toString(current.getPositionCoefficient()).length();
+                int responsibilityLength = current.getResponsibilities().length();
+
+                int numberPadding = NUMBER_WIDTH - numberLength;
+                int namePadding = NAME_WIDTH - nameLength;
+                int positionCoefficientPadding = POSITION_COEFFICIENT_WIDTH - positionCoefficientLength;
+                int responsibilityPadding = RESPONSIBILITY_WIDTH - responsibilityLength;
+
+                content += "| " + " ".repeat(numberPadding) + (i + 1) + " | " +
+                        current.getName() + " ".repeat(namePadding) + " | " +
+                        " ".repeat(positionCoefficientPadding) + current.getPositionCoefficient() + " | " +
+                        current.getResponsibilities() + " ".repeat(responsibilityPadding) + " |\n";
             }
         }
 
@@ -116,7 +159,7 @@ public class AdminAccount extends Account {
 
         String content = "";
 
-        content += "Danh sach phong ban\n";
+        content += "Danh sach phong ban\n\n";
         content += header;
         content += separateLine;
         for (int i = 0; i < departments.length; i++) {
