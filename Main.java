@@ -103,13 +103,17 @@ public class Main {
       }
     } while (true);
   }
-
+ private static String askEmployeeId(String title, Scanner sc) {
+    return console.printUI(title, "", new String[] {}, "Id", sc);
+ }
   private static void runAdminUI(AdminAccount account, Scanner sc) {
     String title = "Admin Account";
     String subtitle = "Choose an option";
     String[] options = { "Logout", "Change password", "Get info", "Set info", "Add employee", "Edit employee",
         "Remove employee", "Print employees", "Print departments", "Print positions", "Print payrolls", "Reply request",
-        "Search employee", "Search department", "Create Position", "Create Department" };
+        "Search employee", "Search department", "Create Position", "Create Department",
+        "Print evaluations", "Print contracts", "Print attendances", "Print absences", "Print resignations",
+        "Print insurances" };
 
     int choice;
     do {
@@ -185,16 +189,9 @@ public class Main {
 
           console.printResult(title, content, sc);
           break;
-        case 10:
-          title = "Print payrolls";
-          subtitle = "";
-          content = "";
-          input = "Id";
-
-          id = console.printUI(title, subtitle, content, input, sc);
-
-          content = account.printPayrolls(data.getEmployees(), id, sc);
-          console.printResult(title, content, sc);
+       case 10:
+          id = askEmployeeId("Print payrolls", sc);
+          PrintTables.printPayrolls(data.getEmployees(), id, sc);
           break;
         case 11:
           title = "Reply to username: ";
@@ -230,6 +227,30 @@ public class Main {
               break;
             }
           }
+          break;
+           case 16:
+          id = askEmployeeId("Print evaluations", sc);
+          PrintTables.printEvaluations(data.getEmployees(), id, sc);
+          break;
+        case 17:
+          id = askEmployeeId("Print contracts", sc);
+          PrintTables.printContracts(data.getEmployees(), id, sc);
+          break;
+        case 18:
+          id = askEmployeeId("Print attendances", sc);
+          PrintTables.printAttendances(data.getEmployees(), id, sc);
+          break;
+        case 19:
+          id = askEmployeeId("Print absences", sc);
+          PrintTables.printAbsences(data.getEmployees(), id, sc);
+          break;
+        case 20:
+          id = askEmployeeId("Print resignations", sc);
+          PrintTables.printResignations(data.getEmployees(), id, sc);
+          break;
+        case 21:
+          id = askEmployeeId("Print insurances", sc);
+          PrintTables.printInsurances(data.getEmployees(), id, sc);
           break;
 
         default:
