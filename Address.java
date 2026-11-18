@@ -61,8 +61,7 @@ public class Address {
         this.city = city;
     }
 
-    public void printFullAddress() {
-        System.out
-                .println(this.number + " " + this.street + ", " + this.ward + ", " + this.district + ", " + this.city);
+    public String getFullAddress() {
+        return this.number + " " + this.street + ", " + this.ward + ", " + this.district + ", " + this.city;
     }
 }

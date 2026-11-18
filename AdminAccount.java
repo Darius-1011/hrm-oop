@@ -9,6 +9,16 @@ public class AdminAccount extends Account {
         super(username, password, status);
     }
 
+    @Override
+    public void getInfo(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String result = "";
+        result += "Username: " + this.getUsername() + "\n";
+        result += "Status: " + this.getStatus() + "\n";
+
+        console.printResult("Employee Information", result, sc);
+    }
+
     public void addEmployee(Employee[] employees, Employee employee, Scanner sc) {
         ConsoleUI console = new ConsoleUI();
         String title = "Thêm nhân viên";

@@ -70,12 +70,7 @@ public abstract class Account {
         console.printResult(title, "Reset password successfully", sc);
     }
 
-    public void getInfo(Scanner sc) {
-        ConsoleUI console = new ConsoleUI();
-        String result = "Username: " + this.username + "\n" +
-                "Status: " + this.status;
-        console.printResult("Employee Information", result, sc);
-    }
+    abstract void getInfo(Scanner sc);
 
     private boolean usernameExist(Account[] accounts, String username) {
         for (Account account : accounts) {

@@ -9,6 +9,37 @@ public class EmployeeAccount extends Account {
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    @Override
+    public void getInfo(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String result = "";
+        result += "Username: " + this.getUsername() + "\n";
+        result += "Status: " + this.getStatus() + "\n";
+        result += "First name: " + employee.getFirstName() + "\n";
+        result += "Last name: " + employee.getLastName() + "\n";
+        result += "Email: " + employee.getEmail() + "\n";
+        result += "Phone: " + employee.getPhone() + "\n";
+        result += "Date of birth: " + employee.getDateOfBirth() + "\n";
+        result += "Gender: " + employee.getGender() + "\n";
+        result += "Address: " + employee.getAddress().getFullAddress() + "\n";
+
+        result += "Id: " + employee.getId() + "\n";
+        result += "Hire date: " + employee.getHireDate() + "\n";
+        result += "Specialization: " + employee.getSpecialization() + "\n";
+        result += "Status: " + employee.getStatus() + "\n";
+        result += "Evaluation count: " + employee.getEvaluations().length + "\n";
+        result += "Contract count: " + employee.getContracts().length + "\n";
+        result += "Payroll count: " + employee.getPayrolls().length + "\n";
+        result += "Attendance count: " + employee.getAttendances().length + "\n";
+        result += "Resignation count: " + employee.getResignations().length + "\n";
+        result += "Tax id: " + employee.getTaxId() + "\n";
+        result += "Insurance count: " + employee.getInsurances().length + "\n";
+        result += "Position: " + employee.getPosition().getName() + "\n";
+        result += "Department: " + employee.getDepartment().getName() + "\n";
+
+        console.printResult("Employee Information", result, sc);
+    }
+
     public EmployeeAccount(String username, String password, AccountStatus status) {
         super(username, password, status);
     }
