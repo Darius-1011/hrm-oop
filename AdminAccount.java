@@ -238,7 +238,6 @@ public class AdminAccount extends Account {
 
     private void editEmployeeHireDate(Scanner sc, Employee employee) {
         ConsoleUI console = new ConsoleUI();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         String title = "Edit Employee";
         String subtitle = "Edit Hire Date";
@@ -246,7 +245,7 @@ public class AdminAccount extends Account {
         String input;
 
         input = "Hire date (dd/MM/yyyy)";
-        LocalDate hireDate = LocalDate.parse(console.printUI(title, subtitle, content, input, sc), dateFormatter);
+        LocalDate hireDate = console.printDateUI(title, subtitle, content, input, sc);
         employee.setHireDate(hireDate);
 
         console.printResult(title, "Set hire date successfully", sc);
@@ -401,7 +400,6 @@ public class AdminAccount extends Account {
         ConsoleUI console = new ConsoleUI();
 
         String title = "Remove Employee";
-        String subtitle = "";
         String content = "";
 
         content += "Danh sach nhan vien:\n";
@@ -418,8 +416,6 @@ public class AdminAccount extends Account {
     }
 
     public String printPayrolls(Employee[] employees, String id, Scanner sc) {
-        ConsoleUI console = new ConsoleUI();
-        String title = "Print Payrolls";
         String content = "";
 
         Employee employee = this.searchEmployee(employees, id);
@@ -493,45 +489,42 @@ public class AdminAccount extends Account {
     }
 
     public Account createAccount(Scanner sc) {
-        System.out.print("\033[H\033[2J");
-        System.out.println("Create Account");
-        System.out.print("Username: ");
-        String username = sc.nextLine();
+        ConsoleUI console = new ConsoleUI();
+        String title = "Create Account";
+        String subtitle = "";
+        String content = "";
+        String input;
 
-        System.out.print("Password: ");
-        String password = sc.nextLine();
+        input = "Username";
+        String username = console.printUI(title, subtitle, content, input, sc);
+
+        input = "Password";
+        String password = console.printUI(title, subtitle, content, input, sc);
 
         int statusNum = 0;
         Account.AccountStatus status = Account.AccountStatus.ACTIVE;
         do {
-            System.out.println("[1] Active");
-            System.out.println("[2] Inactive");
-            System.out.println("[3] Suspended");
-            System.out.println("[4] Pending");
-            System.out.println("[5] Locked");
-            System.out.println("[6] Terminated");
-            System.out.print("Status:");
-
-            statusNum = Integer.parseInt(sc.nextLine());
-        } while (statusNum < 1 || 6 < statusNum);
+            String[] options = { "Active", "Inactive", "Suspended", "Pending", "Locked", "Terminated" };
+            statusNum = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
+        } while (statusNum < 0 || 5 < statusNum);
 
         switch (statusNum) {
-            case 1:
+            case 0:
                 status = Account.AccountStatus.ACTIVE;
                 break;
-            case 2:
+            case 1:
                 status = Account.AccountStatus.INACTIVE;
                 break;
-            case 3:
+            case 2:
                 status = Account.AccountStatus.SUSPENDED;
                 break;
-            case 4:
+            case 3:
                 status = Account.AccountStatus.PENDING;
                 break;
-            case 5:
+            case 4:
                 status = Account.AccountStatus.LOCKED;
                 break;
-            case 6:
+            case 5:
                 status = Account.AccountStatus.TERMINATED;
                 break;
 
@@ -541,13 +534,11 @@ public class AdminAccount extends Account {
 
         int type;
         do {
-            System.out.println("[1] Admin");
-            System.out.println("[2] Employee");
-            System.out.print("Choose: ");
-            type = Integer.parseInt(sc.nextLine());
-        } while (type != 1 && type != 2);
+            String[] options = { "Admin", "Employee" };
+            type = Integer.parseInt(console.printUI(title, subtitle, options, input, sc));
+        } while (type != 0 && type != 1);
 
-        if (type == 1) {
+        if (type == 0) {
             return new AdminAccount(username, password, status);
         } else {
             return new EmployeeAccount(username, password, status);
@@ -787,8 +778,7 @@ public class AdminAccount extends Account {
         int overtimeHours = validateInt(console.printUI(title, subtitle, options, input, sc));
 
         input = "Last salary increase (dd/MM/yyyy): ";
-        LocalDate lastSalaryIncreaseDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc),
-                dateFormatter);
+        LocalDate lastSalaryIncreaseDate = console.printDateUI(title, subtitle, options, input, sc);
 
         return new Payroll(month, year, baseSalary, bonus, allowance, deduction, taxAmount, insuranceAmount,
                 workedHours,
@@ -804,7 +794,7 @@ public class AdminAccount extends Account {
         String input;
 
         input = "Date (dd/MM/yyyy): ";
-        LocalDate date = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+        LocalDate date = console.printDateUI(title, subtitle, options, input, sc);
 
         LocalTime clockIn;
         LocalTime clockOut;
@@ -863,10 +853,10 @@ public class AdminAccount extends Account {
         LocalDate endDate;
         do {
             input = "Start date (dd/MM/yyyy): ";
-            startDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+            startDate = console.printDateUI(title, subtitle, options, input, sc);
 
             input = "End date (dd/MM/yyyy): ";
-            endDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+            endDate = console.printDateUI(title, subtitle, options, input, sc);
 
             if (startDate.isAfter(endDate)) {
                 console.printResult(title, "Start date should be before end date", sc);
@@ -1056,13 +1046,14 @@ public class AdminAccount extends Account {
         String title = "Create Employee";
         String subtitle = "Create Resignation";
         String[] options = {};
+        String content = "";
         String input;
 
         input = "Reason: ";
-        String reason = sc.nextLine();
+        String reason = console.printUI(title, subtitle, content, input, sc);
 
         input = "Date (dd/MM/yyyy): ";
-        LocalDate date = LocalDate.parse(sc.nextLine(), dateFormatter);
+        LocalDate date = console.printDateUI(title, subtitle, options, input, sc);
 
         int statusNum;
         do {
@@ -1266,7 +1257,7 @@ public class AdminAccount extends Account {
         String phone = console.printUI(title, subtitle, options, input, sc);
 
         input = "Date of birth (dd/MM/yyyy)";
-        LocalDate dateOfBirth = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+        LocalDate dateOfBirth = console.printDateUI(title, subtitle, options, input, sc);
 
         input = "Gender";
         String gender = console.printUI(title, subtitle, options, input, sc);
@@ -1278,7 +1269,7 @@ public class AdminAccount extends Account {
         String id = console.printUI(title, subtitle, options, input, sc);
 
         input = "Hire date (dd/MM/yyyy)";
-        LocalDate hireDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+        LocalDate hireDate = console.printDateUI(title, subtitle, options, input, sc);
 
         input = "Specialization";
         String specialization = console.printUI(title, subtitle, options, input, sc);

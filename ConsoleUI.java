@@ -251,7 +251,21 @@ public class ConsoleUI {
       } else {
         printResult(title, "Invalid date! Please enter again.", sc);
       }
+    }
+  }
 
+  public LocalDate printDateUI(String title, String subtitle, String content, String input, Scanner sc) {
+    DataCheck checker = new DataCheck("^(\\d{2})/(\\d{2})/(\\d{4})$");
+    while (true) {
+      String date = printUI(title, subtitle, content, input, sc);
+      if (checker.check(date)) {
+        int day = Integer.parseInt(date.substring(0, 2));
+        int month = Integer.parseInt(date.substring(3, 5));
+        int year = Integer.parseInt(date.substring(6, 10));
+        return LocalDate.of(year, month, day);
+      } else {
+        printResult(title, "Invalid date! Please enter again.", sc);
+      }
     }
   }
 }
