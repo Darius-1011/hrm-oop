@@ -1,9 +1,21 @@
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class AdminAccount extends Account {
     private final String DEFAULT_PASSWORD = "Password123@";
+
+    private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+    private static int validateInt(String str) {
+        if (str.matches("[0-9]+")) {
+            return Integer.parseInt(str);
+        }
+
+        return -1;
+    }
 
     public AdminAccount(String username, String password, AccountStatus status) {
         super(username, password, status);
@@ -570,5 +582,710 @@ public class AdminAccount extends Account {
         console.printResult(title, content, sc);
 
         return new Position(responsibilities, name, positionCoefficient);
+    }
+
+    public Address createAddress(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Address";
+        String[] options = {};
+        String input;
+
+        input = "Number";
+        String number = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Street";
+        String street = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Ward";
+        String ward = console.printUI(title, subtitle, options, input, sc);
+
+        input = "District";
+        String district = console.printUI(title, subtitle, options, input, sc);
+
+        input = "City";
+        String city = console.printUI(title, subtitle, options, input, sc);
+
+        return new Address(number, street, ward, district, city);
+    }
+
+    public Evaluation createEvaluation(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Evaluation";
+        String[] options = {};
+        String input;
+
+        input = "Month: ";
+        String month = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Comment";
+        String comment = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Work score: ";
+        double workScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Attitude score: ";
+        double attitudeScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Discipline score: ";
+        double disciplineScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Work quality: ";
+        double workQuality = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Productivity: ";
+        double productivity = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Team work: ";
+        double teamWork = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        return new Evaluation(month, comment, workScore, attitudeScore, disciplineScore, workQuality, productivity,
+                teamWork);
+    }
+
+    public Contract createContract(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Contracts";
+        String[] options = {};
+        String input;
+
+        LocalDate startDate;
+        LocalDate endDate;
+        do {
+            input = "Start date: ";
+            startDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+
+            input = "End date: ";
+            endDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+
+            if (startDate.isAfter(endDate)) {
+                System.out.println("Start date should be before end date");
+            }
+        } while (startDate.isBefore(endDate));
+
+        int typeNum = 0;
+        Contract.ContractType type = Contract.ContractType.TEMPORARY;
+        do {
+            String[] typeOptions = { "Probation", "Full time", "Part time", "Temporary", "Fixed term", "Permanent" };
+            typeNum = validateInt(console.printUI(title, subtitle, typeOptions, input, sc));
+
+            if (typeNum < 0 || 5 < typeNum) {
+                console.printResult(title, "Invalid choice", sc);
+            }
+        } while (typeNum < 0 || 5 < typeNum);
+
+        switch (typeNum) {
+            case 0:
+                type = Contract.ContractType.PROBATION;
+                break;
+            case 1:
+                type = Contract.ContractType.FULL_TIME;
+                break;
+            case 2:
+                type = Contract.ContractType.PART_TIME;
+                break;
+            case 3:
+                type = Contract.ContractType.TEMPORARY;
+                break;
+            case 4:
+                type = Contract.ContractType.FIXED_TERM;
+                break;
+            case 5:
+                type = Contract.ContractType.PERMANENT;
+                break;
+
+            default:
+                break;
+        }
+
+        int statusNum = 0;
+        Contract.ContractStatus status = Contract.ContractStatus.ACTIVE;
+        do {
+            String[] statusOptions = { "Draft", "Active", "Expired" };
+            statusNum = validateInt(console.printUI(title, subtitle, statusOptions, input, sc));
+
+            if (statusNum < 0 || 2 < statusNum) {
+                console.printResult(title, "Invalid choice", sc);
+            }
+        } while (statusNum < 0 || 2 < statusNum);
+
+        switch (statusNum) {
+            case 0:
+                status = Contract.ContractStatus.DRAFT;
+                break;
+            case 1:
+                status = Contract.ContractStatus.ACTIVE;
+                break;
+            case 2:
+                status = Contract.ContractStatus.EXPIRED;
+                break;
+
+            default:
+                break;
+        }
+
+        return new Contract(startDate, endDate, type, status);
+    }
+
+    public Payroll createPayroll(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Payrolls";
+        String[] options = {};
+        String input;
+
+        input = "Month: ";
+        int month = validateInt(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Year: ";
+        int year = validateInt(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Base Salary";
+        double baseSalary = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Bonus: ";
+        double bonus = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Allowance: ";
+        double allowance = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Deduction: ";
+        double deduction = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Tax amount: ";
+        double taxAmount = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Insurance amount: ";
+        double insuranceAmount = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Worked hours: ";
+        int workedHours = validateInt(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Overtime hours: ";
+        int overtimeHours = validateInt(console.printUI(title, subtitle, options, input, sc));
+
+        input = "Last salary increase (dd/MM/yyyy): ";
+        LocalDate lastSalaryIncreaseDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc),
+                dateFormatter);
+
+        return new Payroll(month, year, baseSalary, bonus, allowance, deduction, taxAmount, insuranceAmount,
+                workedHours,
+                overtimeHours, lastSalaryIncreaseDate);
+    }
+
+    public Attendance createAttendance(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Attendance";
+        String[] options = {};
+        String input;
+
+        input = "Date (dd/MM/yyyy): ";
+        LocalDate date = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+
+        LocalTime clockIn;
+        LocalTime clockOut;
+        do {
+            input = "Clock in (HH:mm): ";
+            clockIn = LocalTime.parse(console.printUI(title, subtitle, options, input, sc), timeFormatter);
+
+            input = "Clock out (HH:mm): ";
+            clockOut = LocalTime.parse(console.printUI(title, subtitle, options, input, sc), timeFormatter);
+
+            if (clockIn.isAfter(clockOut)) {
+                console.printResult(title, "Clock in time should be before clock out time", sc);
+            }
+        } while (clockIn.isBefore(clockOut));
+
+        return new Attendance(date, clockIn, clockOut);
+    }
+
+    public Insurance createInsurance(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Insurance";
+        String[] options = {};
+        String input;
+
+        input = "Insurance number: ";
+        String insuranceNumber = console.printUI(title, subtitle, options, input, sc);
+
+        int typeNum;
+        Insurance.InsuranceType type = Insurance.InsuranceType.HEALTH;
+        do {
+            String[] typeOptions = { "Life", "Health", "Social", "Unemployment" };
+            typeNum = validateInt(console.printUI(title, subtitle, typeOptions, sc));
+        } while (typeNum < 0 || 3 < typeNum);
+
+        switch (typeNum) {
+            case 0:
+                type = Insurance.InsuranceType.LIFE;
+                break;
+            case 1:
+                type = Insurance.InsuranceType.HEALTH;
+                break;
+            case 2:
+                type = Insurance.InsuranceType.SOCIAL;
+                break;
+            case 3:
+                type = Insurance.InsuranceType.UNEMPLOYMENT;
+                break;
+
+            default:
+                break;
+        }
+
+        LocalDate startDate;
+        LocalDate endDate;
+        do {
+            input = "Start date (dd/MM/yyyy): ";
+            startDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+
+            input = "End date (dd/MM/yyyy): ";
+            endDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+
+            if (startDate.isAfter(endDate)) {
+                console.printResult(title, "Start date should be before end date", sc);
+            }
+        } while (startDate.isBefore(endDate));
+
+        input = "Rate: ";
+        double rate = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
+
+        return new Insurance(insuranceNumber, type, startDate, endDate, rate);
+    }
+
+    public Employee.EmployeeStatus chooseEmployeeStatus(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "";
+        String[] options = { "Working", "On leave", "Resigned" };
+
+        int statusChoice;
+        do {
+            statusChoice = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (statusChoice < 0 || 2 < statusChoice) {
+                console.printResult(title, "Invalid choice", sc);
+            }
+        } while (statusChoice < 0 || 2 < statusChoice);
+
+        switch (statusChoice) {
+            case 0:
+                return Employee.EmployeeStatus.WORKING;
+            case 1:
+                return Employee.EmployeeStatus.ON_LEAVE;
+            case 2:
+                return Employee.EmployeeStatus.RESIGNED;
+
+            default:
+                break;
+        }
+
+        return Employee.EmployeeStatus.RESIGNED;
+    }
+
+    public Evaluation[] createEvaluations(LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Evaluation";
+        String[] options = { "Exit", "Create an evaluation" };
+
+        int index = 0;
+        Evaluation[] evaluations = new Evaluation[limits.getMaxEvaluations()];
+
+        int choice;
+        do {
+            choice = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (choice < 0 || 1 < choice) {
+                console.printResult(title, "Invalid choice", sc);
+                continue;
+            }
+
+            if (choice == 0) {
+                break;
+            }
+
+            if (index + 1 < limits.getMaxEvaluations()) {
+                String result = "Evaluation storage is full\n" + "Max: %d" + limits.getMaxEvaluations();
+                console.printResult(title, result, sc);
+            }
+
+            evaluations[index] = createEvaluation(sc);
+            index++;
+        } while (choice < 0 || 1 < choice);
+
+        return evaluations;
+    }
+
+    public Contract[] createContracts(LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Contracts";
+        String[] options = { "Exit", "Create a contract" };
+
+        int index = 0;
+        Contract[] contracts = new Contract[limits.getMaxContracts()];
+
+        int choice;
+        do {
+            choice = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (choice < 0 || 1 < choice) {
+                console.printResult(title, "Invalid choice", sc);
+                continue;
+            }
+
+            if (choice == 0) {
+                break;
+            }
+
+            if (index + 1 < limits.getMaxContracts()) {
+                String result = "Contracts storage is full\n" + "Max: %d" + limits.getMaxContracts();
+                console.printResult(title, result, sc);
+            }
+
+            contracts[index] = createContract(sc);
+            index++;
+        } while (choice < 0 || 1 < choice);
+
+        return contracts;
+    }
+
+    public Payroll[] createPayrolls(LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Payrolls";
+        String[] options = { "Exit", "Create a Payroll" };
+
+        int index = 0;
+        Payroll[] payrolls = new Payroll[limits.getMaxPayrolls()];
+
+        int choice;
+        do {
+            choice = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (choice < 0 || 1 < choice) {
+                console.printResult(title, "Invalid choice", sc);
+                continue;
+            }
+
+            if (choice == 0) {
+                break;
+            }
+
+            if (index + 1 < limits.getMaxPayrolls()) {
+                String result = "Payrolls storage is full\n" + "Max: %d" + limits.getMaxPayrolls();
+                console.printResult(title, result, sc);
+            }
+
+            payrolls[index] = createPayroll(sc);
+            index++;
+        } while (choice < 0 || 1 < choice);
+
+        return payrolls;
+    }
+
+    public Attendance[] createAttendances(LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Attendances";
+        String[] options = { "Exit", "Create a attendance" };
+
+        int index = 0;
+        Attendance[] attendances = new Attendance[limits.getMaxAttendances()];
+
+        int choice;
+        do {
+            choice = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (choice < 0 || 1 < choice) {
+                console.printResult(title, "Invalid choice", sc);
+                continue;
+            }
+
+            if (choice == 0) {
+                break;
+            }
+
+            if (index + 1 < limits.getMaxAttendances()) {
+                String result = "Attendance storage is full\n" + "Max: %d" + limits.getMaxAttendances();
+                console.printResult(title, result, sc);
+            }
+
+            attendances[index] = createAttendance(sc);
+            index++;
+        } while (choice < 0 || 1 < choice);
+
+        return attendances;
+    }
+
+    public Resignation createResignation(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Resignation";
+        String[] options = {};
+        String input;
+
+        input = "Reason: ";
+        String reason = sc.nextLine();
+
+        input = "Date (dd/MM/yyyy): ";
+        LocalDate date = LocalDate.parse(sc.nextLine(), dateFormatter);
+
+        int statusNum;
+        do {
+            String[] statusOptions = { "Pending", "Rejected", "Approved" };
+            statusNum = validateInt(console.printUI(title, subtitle, statusOptions, sc));
+
+            if (statusNum < 0 || 2 < statusNum) {
+                console.printResult(title, "Invalid choice", sc);
+            }
+        } while (statusNum < 0 || 2 < statusNum);
+
+        Resignation.ResignationStatus resignationStatus = Resignation.ResignationStatus.PENDING;
+        switch (statusNum) {
+            case 0:
+                resignationStatus = Resignation.ResignationStatus.PENDING;
+                break;
+            case 1:
+                resignationStatus = Resignation.ResignationStatus.REJECTED;
+                break;
+            case 2:
+                resignationStatus = Resignation.ResignationStatus.APPROVED;
+                break;
+
+            default:
+                break;
+        }
+
+        return new Resignation(reason, date, resignationStatus);
+    }
+
+    public Resignation[] createResignations(LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Resignations";
+        String[] options = { "Exit", "Create a resignation" };
+
+        int index = 0;
+        Resignation[] resignations = new Resignation[limits.getMaxResignations()];
+
+        int choice;
+        do {
+            choice = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (choice < 0 || 1 < choice) {
+                console.printResult(title, "Invalid choice", sc);
+                continue;
+            }
+
+            if (choice == 0) {
+                break;
+            }
+
+            if (index + 1 < limits.getMaxResignations()) {
+                String result = "Resignation storage is full\n" + "Max: %d" + limits.getMaxResignations();
+                console.printResult(title, result, sc);
+            }
+
+            resignations[index] = createResignation(sc);
+            index++;
+        } while (choice < 0 || 1 < choice);
+
+        return resignations;
+    }
+
+    public Insurance[] createInsurances(LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Create Insurances";
+        String[] options = { "Exit", "Create a insurance" };
+
+        int index = 0;
+        Insurance[] insurances = new Insurance[limits.getMaxInsurances()];
+
+        int choice;
+        do {
+            choice = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (choice < 0 || 1 < choice) {
+                console.printResult(title, "Invalid choice", sc);
+                continue;
+            }
+
+            if (choice == 0) {
+                break;
+            }
+
+            if (index + 1 < limits.getMaxInsurances()) {
+                String result = "Insurance storage is full\n" + "Max: %d" + limits.getMaxInsurances();
+                console.printResult(title, result, sc);
+            }
+
+            insurances[index] = createInsurance(sc);
+            index++;
+        } while (choice < 0 || 1 < choice);
+
+        return insurances;
+    }
+
+    public Position choosePosition(DataHandler data, LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Choose Position";
+        String[] options = { "Exit", "Choose a position" };
+
+        int positionsOccupied = 0;
+        for (int i = 0; i < data.getPositions().length; i++) {
+            if (data.getPositions()[i] != null) {
+                positionsOccupied++;
+            }
+        }
+
+        if (positionsOccupied < 0) {
+            console.printResult(title, "No positions available", sc);
+            return null;
+        }
+
+        int index;
+        do {
+            String[] positionOptions = new String[limits.getMaxPositions()];
+
+            for (int i = 0; i < data.getPositions().length; i++) {
+                if (data.getPositions()[i] == null) {
+                    break;
+                }
+
+                positionOptions[i] = data.getPositions()[i].getName();
+            }
+
+            index = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (index < 0 || index > positionsOccupied) {
+                console.printResult(title, "Invalid choice", sc);
+            }
+        } while (index < 0 || index > positionsOccupied);
+
+        return data.getPositions()[index];
+    }
+
+    public Department chooseDepartment(DataHandler data, LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "Choose Department";
+        String[] options = { "Exit", "Choose a department" };
+
+        int departmentsOccupied = 0;
+        for (int i = 0; i < data.getDepartments().length; i++) {
+            if (data.getDepartments()[i] != null) {
+                departmentsOccupied++;
+            }
+        }
+
+        if (departmentsOccupied < 0) {
+            console.printResult(title, "No departments available", sc);
+            return null;
+        }
+
+        int index;
+        do {
+            String[] departmentOptions = new String[limits.getMaxDepartments()];
+
+            for (int i = 0; i < data.getDepartments().length; i++) {
+                if (data.getDepartments()[i] == null) {
+                    break;
+                }
+
+                departmentOptions[i] = data.getDepartments()[i].getName();
+            }
+
+            index = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (index < 0 || index > departmentsOccupied) {
+                console.printResult(title, "Invalid choice", sc);
+            }
+        } while (index < 0 || index > departmentsOccupied);
+
+        return data.getDepartments()[index];
+    }
+
+    public Employee createEmployee(DataHandler data, LimitHandler limits, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Create Employee";
+        String subtitle = "";
+        String[] options = {};
+        String input;
+
+        input = "First name";
+        String firstName = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Last name";
+        String lastName = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Email";
+        String email = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Phone number";
+        String phone = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Date of birth (dd/MM/yyyy)";
+        LocalDate dateOfBirth = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+
+        input = "Gender";
+        String gender = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Address";
+        Address address = createAddress(sc);
+
+        input = "Id";
+        String id = console.printUI(title, subtitle, options, input, sc);
+
+        input = "Hire date (dd/MM/yyyy)";
+        LocalDate hireDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
+
+        input = "Specialization";
+        String specialization = console.printUI(title, subtitle, options, input, sc);
+
+        Employee.EmployeeStatus status = chooseEmployeeStatus(sc);
+
+        Evaluation[] evaluations = createEvaluations(limits, sc);
+        Contract[] contracts = createContracts(limits, sc);
+        Payroll[] payrolls = createPayrolls(limits, sc);
+        Attendance[] attendances = createAttendances(limits, sc);
+        Resignation[] resignations = createResignations(limits, sc);
+
+        input = "Tax id";
+        String taxId = console.printUI(title, subtitle, options, input, sc);
+
+        Insurance[] insurances = createInsurances(limits, sc);
+
+        Position position = choosePosition(data, limits, sc);
+        Department department = chooseDepartment(data, limits, sc);
+
+        return new Employee(firstName, lastName, email, phone, dateOfBirth, gender, address, id, hireDate,
+                specialization,
+                status, evaluations, contracts, payrolls, attendances, resignations, taxId, insurances, position,
+                department);
     }
 }
