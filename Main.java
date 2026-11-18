@@ -812,7 +812,9 @@ public class Main {
           }
           break;
         case 4:
-          account.addEmployee(data.getEmployees(), createEmployee(sc), sc);
+          Employee emp = createEmployee(sc);
+          account.addEmployee(data.getEmployees(), emp, sc);
+          account.addEmployeeAccount(data.getAccounts(), emp);
           break;
         case 5:
           title = "Edit Employee";

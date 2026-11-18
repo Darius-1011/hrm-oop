@@ -3,6 +3,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class AdminAccount extends Account {
+    private final String DEFAULT_PASSWORD = "Password123@";
+
     public AdminAccount(String username, String password, AccountStatus status) {
         super(username, password, status);
     }
@@ -23,6 +25,16 @@ public class AdminAccount extends Account {
         }
 
         console.printResult(title, "Mang nhan vien da day, khong them duoc.", sc);
+    }
+
+    public void addEmployeeAccount(Account[] accounts, Employee emp) {
+        for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i] == null) {
+                accounts[i].setUsername(emp.getId());
+                accounts[i].setPassword(DEFAULT_PASSWORD);
+                accounts[i].setStatus(Account.AccountStatus.ACTIVE);
+            }
+        }
     }
 
     public void listEmployee(Account[] accounts, Scanner sc) {
