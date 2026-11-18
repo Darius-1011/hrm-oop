@@ -654,7 +654,6 @@ public class Main {
 
     input = "Hire date (dd/MM/yyyy)";
     LocalDate hireDate = console.printDateUI(title, subtitle, options, input, sc);
-    ;
 
     input = "Specialization";
     String specialization = console.printUI(title, subtitle, options, input, sc);
