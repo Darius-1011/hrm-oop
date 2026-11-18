@@ -93,10 +93,10 @@ public class Main {
     LocalDate endDate;
     do {
       input = "Start date: ";
-      startDate = console.printDateUI(title, subtitle, options, input, sc);
+      startDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
       input = "End date: ";
-      endDate = console.printDateUI(title, subtitle, options, input, sc);
+      endDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
       if (startDate.isAfter(endDate)) {
         System.out.println("Start date should be before end date");
@@ -204,7 +204,8 @@ public class Main {
     int overtimeHours = validateInt(console.printUI(title, subtitle, options, input, sc));
 
     input = "Last salary increase (dd/MM/yyyy): ";
-    LocalDate lastSalaryIncreaseDate = console.printDateUI(title, subtitle, options, input, sc);
+    LocalDate lastSalaryIncreaseDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc),
+        dateFormatter);
 
     return new Payroll(month, year, baseSalary, bonus, allowance, deduction, taxAmount, insuranceAmount, workedHours,
         overtimeHours, lastSalaryIncreaseDate);
@@ -217,7 +218,7 @@ public class Main {
     String input;
 
     input = "Date (dd/MM/yyyy): ";
-    LocalDate date = console.printDateUI(title, subtitle, options, input, sc);
+    LocalDate date = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
     LocalTime clockIn;
     LocalTime clockOut;
@@ -274,10 +275,10 @@ public class Main {
     LocalDate endDate;
     do {
       input = "Start date (dd/MM/yyyy): ";
-      startDate = console.printDateUI(title, subtitle, options, input, sc);
+      startDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
       input = "End date (dd/MM/yyyy): ";
-      endDate = console.printDateUI(title, subtitle, options, input, sc);
+      endDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
       if (startDate.isAfter(endDate)) {
         console.printResult(title, "Start date should be before end date", sc);
@@ -461,7 +462,7 @@ public class Main {
     String reason = sc.nextLine();
 
     input = "Date (dd/MM/yyyy): ";
-    LocalDate date = console.printDateUI(title, subtitle, options, input, sc);
+    LocalDate date = LocalDate.parse(sc.nextLine(), dateFormatter);
 
     int statusNum;
     do {
@@ -641,7 +642,7 @@ public class Main {
     String phone = console.printUI(title, subtitle, options, input, sc);
 
     input = "Date of birth (dd/MM/yyyy)";
-    LocalDate dateOfBirth = console.printDateUI(title, subtitle, options, input, sc);
+    LocalDate dateOfBirth = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
     input = "Gender";
     String gender = console.printUI(title, subtitle, options, input, sc);
@@ -653,7 +654,7 @@ public class Main {
     String id = console.printUI(title, subtitle, options, input, sc);
 
     input = "Hire date (dd/MM/yyyy)";
-    LocalDate hireDate = console.printDateUI(title, subtitle, options, input, sc);
+    LocalDate hireDate = LocalDate.parse(console.printUI(title, subtitle, options, input, sc), dateFormatter);
 
     input = "Specialization";
     String specialization = console.printUI(title, subtitle, options, input, sc);
@@ -686,6 +687,22 @@ public class Main {
     }
 
     return -1;
+  }
+
+  private static void linkAccountsToEmployees() {
+    if (data == null || data.getAccounts() == null || data.getEmployees() == null)
+      return;
+    for (Account acc : data.getAccounts()) {
+      if (acc instanceof EmployeeAccount) {
+        EmployeeAccount empAcc = (EmployeeAccount) acc;
+        for (Employee emp : data.getEmployees()) {
+          if (emp != null && emp.getId() != null && emp.getId().equalsIgnoreCase(empAcc.getUsername())) {
+            empAcc.setEmployee(emp);
+            break;
+          }
+        }
+      }
+    }
   }
 
   private static void runEmployeeUI(EmployeeAccount account, Scanner sc) {
@@ -729,19 +746,19 @@ public class Main {
           }
           break;
         case 4:
-          account.submitAbsence();
+          account.submitAbsence(sc);
           break;
         case 5:
-          account.submitResignation();
+          account.submitResignation(sc);
           break;
         case 6:
-          account.checkIn();
+          account.checkIn(sc);
           break;
         case 7:
-          account.checkOut();
+          account.checkOut(sc);
           break;
         case 8:
-          account.viewAttendance();
+          account.viewAttendance(sc);
           break;
 
         default:
@@ -990,6 +1007,7 @@ public class Main {
 
         data.writeSampleData();
         data.readData();
+        linkAccountsToEmployees();
 
         departmentsOccupied = getOccupied(data.getDepartments());
         positionsOccupied = getOccupied(data.getPositions());
@@ -1095,9 +1113,11 @@ public class Main {
           limits.getMaxInsurances());
 
       data.readData();
+      linkAccountsToEmployees();
     }
 
     runUI(sc);
+
     limits.writeLimit();
     data.writeData();
 

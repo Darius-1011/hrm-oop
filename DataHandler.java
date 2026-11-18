@@ -128,165 +128,155 @@ public class DataHandler {
 
         Evaluation[] thisEvaluations = thisEmployee.getEvaluations();
 
-        if (!tmp.equals("}")) {
+        while (!tmp.equals("}")) {
           tmp = sc.nextLine();
-          while (!tmp.equals("}")) {
-            thisEvaluations[idx] = new Evaluation();
-            thisEvaluations[idx].setMonth(tmp);
-            thisEvaluations[idx].setComment(sc.nextLine());
-            thisEvaluations[idx].setWorkScore(Double.parseDouble(sc.nextLine()));
-            thisEvaluations[idx].setAttitudeScore(Double.parseDouble(sc.nextLine()));
-            thisEvaluations[idx].setDisciplineScore(Double.parseDouble(sc.nextLine()));
-            thisEvaluations[idx].setWorkQuality(Double.parseDouble(sc.nextLine()));
-            thisEvaluations[idx].setProductivity(Double.parseDouble(sc.nextLine()));
-            thisEvaluations[idx].setTeamWork(Double.parseDouble(sc.nextLine()));
+          thisEvaluations[idx] = new Evaluation();
+          thisEvaluations[idx].setMonth(tmp);
+          thisEvaluations[idx].setComment(sc.nextLine());
+          thisEvaluations[idx].setWorkScore(Double.parseDouble(sc.nextLine()));
+          thisEvaluations[idx].setAttitudeScore(Double.parseDouble(sc.nextLine()));
+          thisEvaluations[idx].setDisciplineScore(Double.parseDouble(sc.nextLine()));
+          thisEvaluations[idx].setWorkQuality(Double.parseDouble(sc.nextLine()));
+          thisEvaluations[idx].setProductivity(Double.parseDouble(sc.nextLine()));
+          thisEvaluations[idx].setTeamWork(Double.parseDouble(sc.nextLine()));
 
-            idx++;
+          idx++;
 
-            sc.nextLine();
-            tmp = sc.nextLine();
-          }
-          idx = 0;
+          sc.nextLine();
+          tmp = sc.nextLine();
         }
+        idx = 0;
 
         sc.nextLine();
         tmp = sc.nextLine();
 
         Contract[] thisContracts = thisEmployee.getContracts();
 
-        if (!tmp.equals("}")) {
+        while (!tmp.equals("}")) {
           tmp = sc.nextLine();
-          while (!tmp.equals("}")) {
-            thisContracts[idx] = new Contract();
-            thisContracts[idx].setStartDate(LocalDate.parse(tmp));
-            thisContracts[idx].setEndDate(LocalDate.parse(sc.nextLine()));
-            thisContracts[idx].setType(Contract.ContractType.valueOf(sc.nextLine()));
-            thisContracts[idx].setStatus(Contract.ContractStatus.valueOf(sc.nextLine()));
+          thisContracts[idx] = new Contract();
+          thisContracts[idx].setStartDate(LocalDate.parse(tmp));
+          thisContracts[idx].setEndDate(LocalDate.parse(sc.nextLine()));
+          thisContracts[idx].setType(Contract.ContractType.valueOf(sc.nextLine()));
+          thisContracts[idx].setStatus(Contract.ContractStatus.valueOf(sc.nextLine()));
 
-            sc.nextLine();
-            idx++;
+          sc.nextLine();
+          idx++;
 
-            tmp = sc.nextLine();
-          }
-          idx = 0;
+          tmp = sc.nextLine();
         }
+        idx = 0;
 
         sc.nextLine();
         tmp = sc.nextLine();
 
         Payroll[] thisPayrolls = thisEmployee.getPayrolls();
 
-        if (!tmp.equals("}")) {
+        while (!tmp.equals("}")) {
           tmp = sc.nextLine();
-          while (!tmp.equals("}")) {
-            thisPayrolls[idx] = new Payroll();
-            thisPayrolls[idx].setMonth(Integer.parseInt(tmp));
-            thisPayrolls[idx].setYear(Integer.parseInt(sc.nextLine()));
-            thisPayrolls[idx].setBaseSalary(Double.parseDouble(sc.nextLine()));
-            thisPayrolls[idx].setBonus(Double.parseDouble(sc.nextLine()));
-            thisPayrolls[idx].setAllowance(Double.parseDouble(sc.nextLine()));
-            thisPayrolls[idx].setDeduction(Double.parseDouble(sc.nextLine()));
-            thisPayrolls[idx].setTaxAmount(Double.parseDouble(sc.nextLine()));
-            thisPayrolls[idx].setInsuranceAmount(Double.parseDouble(sc.nextLine()));
-            thisPayrolls[idx].setWorkedHours(Integer.parseInt(sc.nextLine()));
-            thisPayrolls[idx].setOvertimeHours(Integer.parseInt(sc.nextLine()));
-            thisPayrolls[idx].setLastSalaryIncreaseDate(LocalDate.parse(sc.nextLine()));
+          thisPayrolls[idx] = new Payroll();
+          thisPayrolls[idx].setMonth(Integer.parseInt(tmp));
+          thisPayrolls[idx].setYear(Integer.parseInt(sc.nextLine()));
+          thisPayrolls[idx].setBaseSalary(Double.parseDouble(sc.nextLine()));
+          thisPayrolls[idx].setBonus(Double.parseDouble(sc.nextLine()));
+          thisPayrolls[idx].setAllowance(Double.parseDouble(sc.nextLine()));
+          thisPayrolls[idx].setDeduction(Double.parseDouble(sc.nextLine()));
+          thisPayrolls[idx].setTaxAmount(Double.parseDouble(sc.nextLine()));
+          thisPayrolls[idx].setInsuranceAmount(Double.parseDouble(sc.nextLine()));
+          thisPayrolls[idx].setWorkedHours(Integer.parseInt(sc.nextLine()));
+          thisPayrolls[idx].setOvertimeHours(Integer.parseInt(sc.nextLine()));
+          thisPayrolls[idx].setLastSalaryIncreaseDate(LocalDate.parse(sc.nextLine()));
 
-            sc.nextLine();
-            idx++;
+          sc.nextLine();
+          idx++;
 
-            tmp = sc.nextLine();
-          }
-          idx = 0;
-
+          tmp = sc.nextLine();
         }
+        idx = 0;
 
         sc.nextLine();
         tmp = sc.nextLine();
 
         Attendance[] thisAttendances = thisEmployee.getAttendances();
 
-        if (!tmp.equals("}")) {
+        while (!tmp.equals("}")) {
           tmp = sc.nextLine();
-          while (!tmp.equals("}")) {
-            thisAttendances[idx] = new Attendance();
-            thisAttendances[idx].setDate(LocalDate.parse(tmp));
-            thisAttendances[idx].setClockIn(LocalTime.parse(sc.nextLine()));
-            thisAttendances[idx].setClockOut(LocalTime.parse(sc.nextLine()));
 
-            sc.nextLine();
-            idx++;
+          System.out.println("Reading attendance: " + tmp);
 
-            tmp = sc.nextLine();
-          }
-          idx = 0;
+          thisAttendances[idx] = new Attendance();
+          thisAttendances[idx].setDate(LocalDate.parse(tmp));
+          thisAttendances[idx].setClockIn(LocalTime.parse(sc.nextLine()));
+          String outStr = sc.nextLine();
+          thisAttendances[idx].setClockOut(outStr.equals("null") ? null : LocalTime.parse(outStr));
+
+          sc.nextLine();
+          idx++;
+
+          tmp = sc.nextLine();
         }
+        idx = 0;
+        System.out.println("Next line: " + tmp);
 
         sc.nextLine();
         tmp = sc.nextLine();
 
         Absence[] thisAbsences = thisEmployee.getAbsences();
 
-        if (!tmp.equals("}")) {
+        while (!tmp.equals("}")) {
           tmp = sc.nextLine();
-          while (!tmp.equals("}")) {
-            thisAbsences[idx] = new Absence();
-            thisAbsences[idx].setReason(tmp);
-            thisAbsences[idx].setFromDate(LocalDate.parse(sc.nextLine()));
-            thisAbsences[idx].setToDate(LocalDate.parse(sc.nextLine()));
-            thisAbsences[idx].setStatus(Absence.AbsenceStatus.valueOf(sc.nextLine()));
+          thisAbsences[idx] = new Absence();
+          thisAbsences[idx].setReason(tmp);
+          thisAbsences[idx].setFromDate(LocalDate.parse(sc.nextLine()));
+          thisAbsences[idx].setToDate(LocalDate.parse(sc.nextLine()));
+          thisAbsences[idx].setStatus(Absence.AbsenceStatus.valueOf(sc.nextLine()));
 
-            sc.nextLine();
-            idx++;
+          sc.nextLine();
+          idx++;
 
-            tmp = sc.nextLine();
-          }
-          idx = 0;
+          tmp = sc.nextLine();
         }
+        idx = 0;
 
         sc.nextLine();
         tmp = sc.nextLine();
 
         Resignation[] thisResignations = thisEmployee.getResignations();
 
-        if (!tmp.equals("}")) {
+        while (!tmp.equals("}")) {
           tmp = sc.nextLine();
-          while (!tmp.equals("}")) {
-            thisResignations[idx] = new Resignation();
-            thisResignations[idx].setReason(tmp);
-            thisResignations[idx].setDate(LocalDate.parse(sc.nextLine()));
-            thisResignations[idx].setStatus(Resignation.ResignationStatus.valueOf(sc.nextLine()));
+          thisResignations[idx] = new Resignation();
+          thisResignations[idx].setReason(tmp);
+          thisResignations[idx].setDate(LocalDate.parse(sc.nextLine()));
+          thisResignations[idx].setStatus(Resignation.ResignationStatus.valueOf(sc.nextLine()));
 
-            sc.nextLine();
-            idx++;
+          sc.nextLine();
+          idx++;
 
-            tmp = sc.nextLine();
-          }
-          idx = 0;
+          tmp = sc.nextLine();
         }
+        idx = 0;
 
         sc.nextLine();
         tmp = sc.nextLine();
 
         Insurance[] thisInsurances = thisEmployee.getInsurances();
 
-        if (!tmp.equals("}")) {
+        while (!tmp.equals("}")) {
           tmp = sc.nextLine();
-          while (!tmp.equals("}")) {
-            thisInsurances[idx] = new Insurance();
-            thisInsurances[idx].setInsuranceNumber(tmp);
-            thisInsurances[idx].setType(Insurance.InsuranceType.valueOf(sc.nextLine()));
-            thisInsurances[idx].setStartDate(LocalDate.parse(sc.nextLine()));
-            thisInsurances[idx].setEndDate(LocalDate.parse(sc.nextLine()));
-            thisInsurances[idx].setRate(Double.parseDouble(sc.nextLine()));
+          thisInsurances[idx] = new Insurance();
+          thisInsurances[idx].setInsuranceNumber(tmp);
+          thisInsurances[idx].setType(Insurance.InsuranceType.valueOf(sc.nextLine()));
+          thisInsurances[idx].setStartDate(LocalDate.parse(sc.nextLine()));
+          thisInsurances[idx].setEndDate(LocalDate.parse(sc.nextLine()));
+          thisInsurances[idx].setRate(Double.parseDouble(sc.nextLine()));
 
-            sc.nextLine();
-            idx++;
+          sc.nextLine();
+          idx++;
 
-            tmp = sc.nextLine();
-          }
-          idx = 0;
+          tmp = sc.nextLine();
         }
+        idx = 0;
 
         thisEmployee.setTaxId(sc.nextLine());
 
@@ -637,10 +627,9 @@ public class DataHandler {
 
     String[][] samples = {
         { "admin", "admin01", "admin123", "ACTIVE" },
-        { "employee", "john", "john123", "ACTIVE" },
-        { "employee", "mary", "mary123", "ACTIVE" },
-        { "employee", "david", "david123", "INACTIVE" },
-        { "employee", "james", "james123", "SUSPENDED" }
+        { "employee", "EMP001", "john123", "ACTIVE" },
+        { "employee", "EMP002", "mary123", "SUSPENDED" },
+        { "employee", "EMP003", "david123", "INACTIVE" },
     };
 
     for (String[] sample : samples) {
