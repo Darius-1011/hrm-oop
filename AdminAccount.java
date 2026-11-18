@@ -69,20 +69,36 @@ public class AdminAccount extends Account {
         }
     }
 
-    public void removeEmployee(Account[] accounts, String username, Scanner sc) {
+    public void removeEmployee(Employee[] employees, String id, Scanner sc) {
         ConsoleUI console = new ConsoleUI();
 
         String title = "Remove Employee";
 
-        for (int i = 0; i < accounts.length; i++) {
-            if (accounts[i] != null && accounts[i].getUsername().equals(username)) {
-                accounts[i] = null;
-                console.printResult(title, "Da xoa tai khoan: " + username, sc);
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null && employees[i].getId().equals(id)) {
+                employees[i] = null;
+                console.printResult(title, "Da xoa tai khoan: " + id, sc);
                 return;
             }
         }
 
-        console.printResult(title, "Khong tim thay tai khoan: " + username, sc);
+        console.printResult(title, "Khong tim thay nhan vien: " + id, sc);
+    }
+
+    public void removeAccount(Account[] accounts, String id, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String title = "Remove Account";
+
+        for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i] != null && accounts[i].getUsername().equals(id)) {
+                accounts[i] = null;
+                console.printResult(title, "Da xoa tai khoan: " + id, sc);
+                return;
+            }
+        }
+
+        console.printResult(title, "Khong tim thay tai khoan: " + id, sc);
     }
 
     public void replyRequest(Account[] accounts, String username, String reply, Scanner sc) {

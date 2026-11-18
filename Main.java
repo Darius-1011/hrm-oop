@@ -167,7 +167,8 @@ public class Main {
           input = "Id";
 
           String removeEmployee = console.printUI(title, subtitle, removeOptions, input, sc);
-          account.removeEmployee(data.getAccounts(), removeEmployee, sc);
+          account.removeEmployee(data.getEmployees(), removeEmployee, sc);
+          account.removeAccount(data.getAccounts(), removeEmployee, sc);
           break;
         case 7:
           account.printEmployees(data.getEmployees(), sc);
