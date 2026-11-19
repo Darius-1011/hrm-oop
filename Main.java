@@ -103,9 +103,11 @@ public class Main {
       }
     } while (true);
   }
- private static String askEmployeeId(String title, Scanner sc) {
+
+  private static String askEmployeeId(String title, Scanner sc) {
     return console.printUI(title, "", new String[] {}, "Id", sc);
- }
+  }
+
   private static void runAdminUI(AdminAccount account, Scanner sc) {
     String title = "Admin Account";
     String subtitle = "Choose an option";
@@ -113,7 +115,7 @@ public class Main {
         "Remove employee", "Print employees", "Print departments", "Print positions", "Print payrolls", "Reply request",
         "Search employee", "Search department", "Create Position", "Create Department",
         "Print evaluations", "Print contracts", "Print attendances", "Print absences", "Print resignations",
-        "Print insurances" };
+        "Print insurances", "Add Evalution", "Add Contract", "Add Payroll", "Add Attendance", "Add Insurance" };
 
     int choice;
     do {
@@ -189,7 +191,7 @@ public class Main {
 
           console.printResult(title, content, sc);
           break;
-       case 10:
+        case 10:
           id = askEmployeeId("Print payrolls", sc);
           PrintTables.printPayrolls(data.getEmployees(), id, sc);
           break;
@@ -228,7 +230,7 @@ public class Main {
             }
           }
           break;
-           case 16:
+        case 16:
           id = askEmployeeId("Print evaluations", sc);
           PrintTables.printEvaluations(data.getEmployees(), id, sc);
           break;
@@ -251,6 +253,21 @@ public class Main {
         case 21:
           id = askEmployeeId("Print insurances", sc);
           PrintTables.printInsurances(data.getEmployees(), id, sc);
+          break;
+        case 22:
+          account.addEvalution(data.getEmployees(), sc);
+          break;
+        case 23:
+          account.addContract(data.getEmployees(), sc);
+          break;
+        case 24:
+          account.addPayroll(data.getEmployees(), sc);
+          break;
+        case 25:
+          account.addAttendance(data.getEmployees(), sc);
+          break;
+        case 26:
+          account.addInsurance(data.getEmployees(), sc);
           break;
 
         default:

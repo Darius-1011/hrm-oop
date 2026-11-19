@@ -11,7 +11,7 @@ public class Attendance {
     public Attendance() {
         this.date = null;
         this.clockIn = null;
-        this.clockIn = null;
+        this.clockOut = null;
     }
 
     public Attendance(LocalDate date, LocalTime clockIn, LocalTime clockOut) {
