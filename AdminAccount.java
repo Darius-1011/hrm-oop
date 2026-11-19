@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class AdminAccount extends Account {
@@ -1294,5 +1295,377 @@ public class AdminAccount extends Account {
                 specialization,
                 status, evaluations, contracts, payrolls, attendances, resignations, taxId, insurances, position,
                 department);
+    }
+
+    private Employee selectEmployeePrompt(Employee[] employees, String title, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String content = "List Employee:\n";
+
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null) {
+                content += "- ID: " + employees[i].getId() + " | "
+                        + employees[i].getFirstName() + " "
+                        + employees[i].getLastName() + "\n";
+            }
+        }
+
+        if (content.equals("List Employee:\n")) {
+            console.printResult(title, "Employee list is empty!", sc);
+            return null;
+        }
+
+        String inputField = "Enter Employee (ID)";
+        String employeeId = console.printUI(title, "Hire employees.", content, inputField, sc);
+
+        Employee employee = searchEmployee(employees, employeeId);
+        return employee;
+    }
+
+    public void addEvalution(Employee[] employees, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Add Evaluation";
+
+        Employee employee = selectEmployeePrompt(employees, title, sc);
+        if (employee == null) {
+            console.printResult(title, "Employee not found!", sc);
+            return;
+        }
+
+        Evaluation[] evals = employee.getEvaluations();
+        int index = -1;
+        for (int i = 0; i < evals.length; i++) {
+            if (evals[i] == null) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            console.printResult(title, "Evaluation list is full!", sc);
+            return;
+        }
+
+        String subTitle = "Enter evaluation information for employee " + employee.getId();
+        String[] noOptions = {};
+
+        String month = console.printUI(title, subTitle, noOptions, "Evaluation month (MM/yyyy)", sc).trim();
+        if (month.isEmpty()) {
+            console.printResult(title, "Month cannot be empty!", sc);
+            return;
+        }
+        String comment = console.printUI(title, subTitle, noOptions, "Evaluation comment", sc).trim();
+
+        String[] scoreNames = { "Work score (0-10)", "Attitude score (0-10)", "Discipline score (0-10)",
+                "Work quality (0-10)", "Productivity (0-10)", "Team work (0-10)" };
+        double[] scores = new double[scoreNames.length];
+        for (int i = 0; i < scoreNames.length; i++) {
+            do {
+                try {
+                    scores[i] = Double
+                            .parseDouble(console.printUI(title, subTitle, noOptions, scoreNames[i], sc).trim());
+                } catch (NumberFormatException e) {
+                    scores[i] = -1;
+                }
+                if (!(scores[i] >= 0 && scores[i] <= 10)) {
+                    console.printResult(title, "Score must be a number between 0 and 10!", sc);
+                }
+            } while (!(scores[i] >= 0 && scores[i] <= 10));
+        }
+
+        evals[index] = new Evaluation(month, comment, scores[0], scores[1], scores[2], scores[3], scores[4],
+                scores[5]);
+        console.printResult(title, "Evaluation added successfully!", sc);
+    }
+
+    public void addContract(Employee[] employees, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Add Contract";
+
+        Employee employee = selectEmployeePrompt(employees, title, sc);
+        if (employee == null) {
+            console.printResult(title, "Employee not found", sc);
+            return;
+        }
+
+        Contract[] contracts = employee.getContracts();
+        int index = -1;
+        for (int i = 0; i < contracts.length; i++) {
+            if (contracts[i] == null) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            console.printResult(title, "Contract storage is full", sc);
+            return;
+        }
+
+        String subtitle = "Contract for employee " + employee.getId();
+        String[] noOptions = {};
+
+        try {
+            LocalDate startDate;
+            LocalDate endDate;
+            do {
+                startDate = console.printDateUI(title, subtitle, noOptions, "Start date (dd/MM/yyyy)", sc);
+                endDate = console.printDateUI(title, subtitle, noOptions, "End date (dd/MM/yyyy)", sc);
+
+                if (startDate.isAfter(endDate)) {
+                    console.printResult(title, "Start date must be before end date", sc);
+                }
+            } while (startDate.isAfter(endDate));
+
+            String[] typeNames = { "Probation", "Full time", "Part time", "Temporary", "Fixed term", "Permanent" };
+            Contract.ContractType[] types = {
+                    Contract.ContractType.PROBATION,
+                    Contract.ContractType.FULL_TIME,
+                    Contract.ContractType.PART_TIME,
+                    Contract.ContractType.TEMPORARY,
+                    Contract.ContractType.FIXED_TERM,
+                    Contract.ContractType.PERMANENT };
+            int typeChoice;
+            do {
+                typeChoice = Integer.parseInt(console.printUI(title, subtitle, typeNames, sc).trim());
+                if (typeChoice < 0 || typeChoice >= typeNames.length) {
+                    console.printResult(title, "Invalid choice", sc);
+                }
+            } while (typeChoice < 0 || typeChoice >= typeNames.length);
+
+            String[] statusNames = { "Draft", "Active", "Expired", "Terminated" };
+            Contract.ContractStatus[] statuses = {
+                    Contract.ContractStatus.DRAFT,
+                    Contract.ContractStatus.ACTIVE,
+                    Contract.ContractStatus.EXPIRED,
+                    Contract.ContractStatus.TERMINATED };
+            int statusChoice;
+            do {
+                statusChoice = Integer.parseInt(console.printUI(title, subtitle, statusNames, sc).trim());
+                if (statusChoice < 0 || statusChoice >= statusNames.length) {
+                    console.printResult(title, "Invalid choice", sc);
+                }
+            } while (statusChoice < 0 || statusChoice >= statusNames.length);
+
+            contracts[index] = new Contract(startDate, endDate, types[typeChoice], statuses[statusChoice]);
+            console.printResult(title, "Contract added successfully", sc);
+        } catch (NumberFormatException e) {
+            console.printResult(title, "Please enter a number for the choice!", sc);
+        }
+    }
+
+    public void addPayroll(Employee[] employees, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Add Payroll";
+
+        Employee employee = selectEmployeePrompt(employees, title, sc);
+        if (employee == null) {
+            console.printResult(title, "Employee not found", sc);
+            return;
+        }
+
+        Payroll[] payrolls = employee.getPayrolls();
+        int index = -1;
+        for (int i = 0; i < payrolls.length; i++) {
+            if (payrolls[i] == null) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            console.printResult(title, "Payroll storage is full", sc);
+            return;
+        }
+
+        String subtitle = "Payroll for employee " + employee.getId();
+        String[] noOptions = {};
+
+        try {
+            int month = Integer.parseInt(console.printUI(title, subtitle, noOptions, "Month (1-12)", sc).trim());
+            int year = Integer.parseInt(console.printUI(title, subtitle, noOptions, "Year", sc).trim());
+
+            if (month < 1 || month > 12) {
+                console.printResult(title, "Month must be between 1 and 12", sc);
+                return;
+            }
+            if (year < 1900) {
+                console.printResult(title, "Year is invalid", sc);
+                return;
+            }
+
+            // one payroll per month
+            for (int i = 0; i < payrolls.length; i++) {
+                if (payrolls[i] != null && payrolls[i].getMonth() == month && payrolls[i].getYear() == year) {
+                    console.printResult(title, "Payroll for this month already exists", sc);
+                    return;
+                }
+            }
+
+            double baseSalary = Double
+                    .parseDouble(console.printUI(title, subtitle, noOptions, "Base salary", sc).trim());
+            double allowance = Double.parseDouble(console.printUI(title, subtitle, noOptions, "Allowance", sc).trim());
+            double deduction = Double.parseDouble(console.printUI(title, subtitle, noOptions, "Deduction", sc).trim());
+            double taxAmount = Double.parseDouble(console.printUI(title, subtitle, noOptions, "Tax amount", sc).trim());
+            double insuranceAmount = Double
+                    .parseDouble(console.printUI(title, subtitle, noOptions, "Insurance amount", sc).trim());
+            int overtimeHours = Integer
+                    .parseInt(console.printUI(title, subtitle, noOptions, "Overtime hours", sc).trim());
+
+            if (baseSalary < 0 || allowance < 0 || deduction < 0 || taxAmount < 0 || insuranceAmount < 0
+                    || overtimeHours < 0) {
+                console.printResult(title, "Amounts cannot be negative", sc);
+                return;
+            }
+
+            // worked hours = total hours from this employee's attendance in that month
+            double totalHours = 0;
+            Attendance[] attendances = employee.getAttendances();
+            for (int i = 0; i < attendances.length; i++) {
+                if (attendances[i] != null && attendances[i].getDate().getMonthValue() == month
+                        && attendances[i].getDate().getYear() == year) {
+                    totalHours += attendances[i].calculateWorkedHours();
+                }
+            }
+            int workedHours = (int) Math.round(totalHours);
+
+            // latest evaluation = last non-null slot
+            Evaluation latest = null;
+            Evaluation[] evaluations = employee.getEvaluations();
+            for (int i = 0; i < evaluations.length; i++) {
+                if (evaluations[i] != null) {
+                    latest = evaluations[i];
+                }
+            }
+
+            Payroll newPayroll = new Payroll(month, year, baseSalary, 0, allowance, deduction, taxAmount,
+                    insuranceAmount, workedHours, overtimeHours, null);
+            if (latest != null) {
+                newPayroll.setBonus(newPayroll.calculateBonus(latest));
+            }
+
+            payrolls[index] = newPayroll;
+            console.printResult(title, "Payroll added successfully\nWorked hours: " + workedHours
+                    + "\nBonus: " + newPayroll.getBonus(), sc);
+        } catch (NumberFormatException e) {
+            console.printResult(title, "Please enter numbers for the number fields!", sc);
+        }
+    }
+
+    public void addAttendance(Employee[] employees, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Add Attendance";
+
+        Employee employee = selectEmployeePrompt(employees, title, sc);
+        if (employee == null) {
+            console.printResult(title, "Employee not found", sc);
+            return;
+        }
+
+        Attendance[] attendances = employee.getAttendances();
+        int index = -1;
+        for (int i = 0; i < attendances.length; i++) {
+            if (attendances[i] == null) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            console.printResult(title, "Attendance storage is full", sc);
+            return;
+        }
+
+        String subtitle = "Attendance for employee " + employee.getId();
+        String[] noOptions = {};
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        try {
+            LocalDate date = console.printDateUI(title, subtitle, noOptions, "Date (dd/MM/yyyy)", sc);
+
+            LocalTime clockIn;
+            LocalTime clockOut;
+            do {
+                clockIn = LocalTime.parse(console.printUI(title, subtitle, noOptions, "Clock in (HH:mm)", sc).trim(),
+                        timeFormatter);
+                clockOut = LocalTime.parse(console.printUI(title, subtitle, noOptions, "Clock out (HH:mm)", sc).trim(),
+                        timeFormatter);
+
+                if (!clockIn.isBefore(clockOut)) {
+                    console.printResult(title, "Clock in time must be before clock out time", sc);
+                }
+            } while (!clockIn.isBefore(clockOut));
+
+            attendances[index] = new Attendance(date, clockIn, clockOut);
+            console.printResult(title, "Attendance added successfully", sc);
+        } catch (DateTimeParseException e) {
+            console.printResult(title, "Invalid time! Use HH:mm", sc);
+        }
+    }
+
+    public void addInsurance(Employee[] employees, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Add Insurance";
+
+        Employee employee = selectEmployeePrompt(employees, title, sc);
+        if (employee == null) {
+            console.printResult(title, "Employee not found", sc);
+            return;
+        }
+
+        Insurance[] insurances = employee.getInsurances();
+        int index = -1;
+        for (int i = 0; i < insurances.length; i++) {
+            if (insurances[i] == null) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            console.printResult(title, "Insurance storage is full", sc);
+            return;
+        }
+
+        String subtitle = "Insurance for employee " + employee.getId();
+        String[] noOptions = {};
+
+        try {
+            String insuranceNumber = console.printUI(title, subtitle, noOptions, "Insurance number", sc).trim();
+            if (insuranceNumber.isEmpty()) {
+                console.printResult(title, "Insurance number cannot be empty", sc);
+                return;
+            }
+
+            LocalDate startDate;
+            LocalDate endDate;
+            do {
+                startDate = console.printDateUI(title, subtitle, noOptions, "Start date (dd/MM/yyyy)", sc);
+                endDate = console.printDateUI(title, subtitle, noOptions, "End date (dd/MM/yyyy)", sc);
+
+                if (startDate.isAfter(endDate)) {
+                    console.printResult(title, "Start date must be before end date", sc);
+                }
+            } while (startDate.isAfter(endDate));
+
+            double rate = Double.parseDouble(console.printUI(title, subtitle, noOptions, "Rate", sc).trim());
+            if (rate < 0) {
+                console.printResult(title, "Rate cannot be negative", sc);
+                return;
+            }
+
+            String[] typeNames = { "Life", "Health", "Social", "Unemployment" };
+            Insurance.InsuranceType[] types = {
+                    Insurance.InsuranceType.LIFE,
+                    Insurance.InsuranceType.HEALTH,
+                    Insurance.InsuranceType.SOCIAL,
+                    Insurance.InsuranceType.UNEMPLOYMENT };
+            int typeChoice;
+            do {
+                typeChoice = Integer.parseInt(console.printUI(title, subtitle, typeNames, sc).trim());
+                if (typeChoice < 0 || typeChoice >= typeNames.length) {
+                    console.printResult(title, "Invalid choice", sc);
+                }
+            } while (typeChoice < 0 || typeChoice >= typeNames.length);
+
+            insurances[index] = new Insurance(insuranceNumber, types[typeChoice], startDate, endDate, rate);
+            console.printResult(title, "Insurance added successfully", sc);
+        } catch (NumberFormatException e) {
+            console.printResult(title, "Please enter numbers for the number fields!", sc);
+        }
     }
 }

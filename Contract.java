@@ -4,7 +4,8 @@ public class Contract {
     public enum ContractStatus {
         DRAFT,
         ACTIVE,
-        EXPIRED
+        EXPIRED,
+        TERMINATED
     }
 
     public enum ContractType {
