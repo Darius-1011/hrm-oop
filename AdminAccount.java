@@ -1755,4 +1755,53 @@ public class AdminAccount extends Account {
 
         PrintTables.printPayrolls(data.getEmployees(), id, sc);
     }
+
+    public void printEvaluations(DataHandler data, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        SortData sort = new SortData();
+        String title = "Print Evaluations";
+        String subtitle = "Choose an option";
+
+        String id = askId(title, sc);
+        int idx = getIndex(data, id);
+        Evaluation[] currEvaluations = data.getEmployees()[idx].getEvaluations();
+
+        int sortBy;
+        do {
+            String[] options = { "Month", "Work score", "Attitude score", "Discipline score", "Work quality",
+                    "Productivity", "Team work" };
+            sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+        } while (sortBy < 0 || 6 < sortBy);
+
+        boolean isAscending = askSortOrder("Ascending Sort", sc);
+
+        switch (sortBy) {
+            case 0:
+                sort.sortByMonth(currEvaluations, isAscending);
+                break;
+            case 1:
+                sort.sortByWorkScore(currEvaluations, isAscending);
+                break;
+            case 2:
+                sort.sortByAttitudeScore(currEvaluations, isAscending);
+                break;
+            case 3:
+                sort.sortByDisciplineScore(currEvaluations, isAscending);
+                break;
+            case 4:
+                sort.sortByWorkQuality(currEvaluations, isAscending);
+                break;
+            case 5:
+                sort.sortByProductivity(currEvaluations, isAscending);
+                break;
+            case 6:
+                sort.sortByTeamWork(currEvaluations, isAscending);
+                break;
+
+            default:
+                break;
+        }
+
+        PrintTables.printEvaluations(data.getEmployees(), id, sc);
+    }
 }

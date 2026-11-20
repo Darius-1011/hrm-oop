@@ -226,8 +226,7 @@ public class Main {
           }
           break;
         case 16:
-          id = askEmployeeId("Print evaluations", sc);
-          PrintTables.printEvaluations(data.getEmployees(), id, sc);
+          account.printEvaluations(data, sc);
           break;
         case 17:
           id = askEmployeeId("Print contracts", sc);
