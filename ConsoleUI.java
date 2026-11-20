@@ -268,4 +268,27 @@ public class ConsoleUI {
       }
     }
   }
+
+  public String printUIWithSections(Scanner sc, String title, String[] sectionNames, String[][] sections) {
+    printHeader(title);
+
+    int idx = 0;
+    for (int i = 0; i < sectionNames.length; i++) {
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+      printSubtitle(sectionNames[i]);
+      System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+
+      for (int j = 0; j < sections[i].length; j++) {
+        String line = "[" + idx + "] " + sections[i][j];
+        printContent(line);
+        idx++;
+      }
+    }
+
+    System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
+    System.out.println("╠" + "═".repeat(CONTENT_WIDTH) + "╣");
+
+    return printChoice(sc);
+  }
 }

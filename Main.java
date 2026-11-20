@@ -107,15 +107,20 @@ public class Main {
   private static void runAdminUI(AdminAccount account, Scanner sc) {
     String title = "Admin Account";
     String subtitle = "Choose an option";
-    String[] options = { "Logout", "Change password", "Get info", "Set info", "Add employee", "Edit employee",
-        "Remove employee", "Print employees", "Print departments", "Print positions", "Print payrolls", "Reply request",
-        "Search employee", "Search department", "Create Position", "Create Department",
-        "Print evaluations", "Print contracts", "Print attendances", "Print absences", "Print resignations",
-        "Print insurances", "Add Evaluation", "Add Contract", "Add Payroll", "Add Attendance", "Add Insurance" };
+    String[] sectionNames = { "Account", "Add", "Print", "Search", "Edit", "Remove", "Other" };
+    String[][] sections = { { "Logout", "Change password", "Get info", "Set info" },
+        { "Employee", "Evaluation", "Contract", "Payroll", "Attendance", "Insurance", "Position", "Department" },
+        { "Employees", "Departments", "Positions", "Payrolls", "Evaluations", "Contracts",
+            "Attendances", "Absences", "Resignations", "Insurances" },
+        { "Search employee", "Search department" },
+        { "Edit employee" },
+        { "Employee" },
+        { "Reply request" }
+    };
 
     int choice;
     do {
-      choice = validateInt(console.printUI(title, subtitle, options, sc));
+      choice = validateInt(console.printUIWithSections(sc, title, sectionNames, sections));
 
       String id;
       switch (choice) {
@@ -148,68 +153,28 @@ public class Main {
               break;
           }
           break;
+
         case 4:
           Employee emp = account.createEmployee(data, limits, sc);
           account.addEmployee(data.getEmployees(), emp, sc);
           account.addEmployeeAccount(data.getAccounts(), emp);
           break;
         case 5:
-          title = "Edit Employee";
-          subtitle = "";
-          String[] editOptions = {};
-          String input = "Id";
-
-          id = console.printUI(title, subtitle, editOptions, input, sc);
-          account.editEmployee(sc, data.getEmployees(), id, data.getPositions(), data.getDepartments());
+          account.addEvaluation(data.getEmployees(), sc);
           break;
         case 6:
-          title = "Remove Employee";
-          subtitle = "";
-          String[] removeOptions = {};
-          input = "Id";
-
-          String removeEmployee = console.printUI(title, subtitle, removeOptions, input, sc);
-          account.removeEmployee(data.getEmployees(), removeEmployee, sc);
-          account.removeAccount(data.getAccounts(), removeEmployee, sc);
+          account.addContract(data.getEmployees(), sc);
           break;
         case 7:
-          account.printEmployees(data.getEmployees(), sc);
+          account.addPayroll(data.getEmployees(), sc);
           break;
         case 8:
-          title = "Print Department";
-          String content = account.getDepartments(data.getDepartments());
-
-          console.printResult(title, content, sc);
+          account.addAttendance(data.getEmployees(), sc);
           break;
         case 9:
-          title = "Print Position";
-          content = account.getPositions(data.getPositions());
-
-          console.printResult(title, content, sc);
+          account.addInsurance(data.getEmployees(), sc);
           break;
         case 10:
-          account.printPayrolls(data, sc);
-          break;
-        case 11:
-          title = "Reply to username: ";
-          subtitle = "";
-          content = "";
-
-          input = "Username";
-          String replyUsername = console.printUI(title, subtitle, content, input, sc);
-
-          input = "Reply";
-          String reply = console.printUI(title, subtitle, content, input, sc);
-
-          account.replyRequest(data.getAccounts(), replyUsername, reply, sc);
-          break;
-        case 12:
-          account.searchEmployee(data.getEmployees(), sc);
-          break;
-        case 13:
-          account.searchDepartment(data.getDepartments(), sc);
-          break;
-        case 14:
           for (int i = 1; i < data.getPositions().length; i++) {
             if (data.getPositions()[i] == null) {
               data.getPositions()[i] = account.createPosition(sc, data.getPositions());
@@ -217,13 +182,32 @@ public class Main {
             }
           }
           break;
-        case 15:
+        case 11:
           for (int i = 1; i < data.getDepartments().length; i++) {
             if (data.getDepartments()[i] == null) {
               data.getDepartments()[i] = account.createDepartment(sc, data.getDepartments());
               break;
             }
           }
+          break;
+
+        case 12:
+          account.printEmployees(data.getEmployees(), sc);
+          break;
+        case 13:
+          title = "Print Department";
+          String content = account.getDepartments(data.getDepartments());
+
+          console.printResult(title, content, sc);
+          break;
+        case 14:
+          title = "Print Position";
+          content = account.getPositions(data.getPositions());
+
+          console.printResult(title, content, sc);
+          break;
+        case 15:
+          account.printPayrolls(data, sc);
           break;
         case 16:
           account.printEvaluations(data, sc);
@@ -243,20 +227,47 @@ public class Main {
         case 21:
           account.printInsurances(data, sc);
           break;
+
         case 22:
-          account.addEvaluation(data.getEmployees(), sc);
+          account.searchEmployee(data.getEmployees(), sc);
           break;
         case 23:
-          account.addContract(data.getEmployees(), sc);
+          account.searchDepartment(data.getDepartments(), sc);
           break;
+
         case 24:
-          account.addPayroll(data.getEmployees(), sc);
+          title = "Edit Employee";
+          subtitle = "";
+          String[] editOptions = {};
+          String input = "Id";
+
+          id = console.printUI(title, subtitle, editOptions, input, sc);
+          account.editEmployee(sc, data.getEmployees(), id, data.getPositions(), data.getDepartments());
           break;
+
         case 25:
-          account.addAttendance(data.getEmployees(), sc);
+          title = "Remove Employee";
+          subtitle = "";
+          String[] removeOptions = {};
+          input = "Id";
+
+          String removeEmployee = console.printUI(title, subtitle, removeOptions, input, sc);
+          account.removeEmployee(data.getEmployees(), removeEmployee, sc);
+          account.removeAccount(data.getAccounts(), removeEmployee, sc);
           break;
+
         case 26:
-          account.addInsurance(data.getEmployees(), sc);
+          title = "Reply to username: ";
+          subtitle = "";
+          content = "";
+
+          input = "Username";
+          String replyUsername = console.printUI(title, subtitle, content, input, sc);
+
+          input = "Reply";
+          String reply = console.printUI(title, subtitle, content, input, sc);
+
+          account.replyRequest(data.getAccounts(), replyUsername, reply, sc);
           break;
 
         default:
