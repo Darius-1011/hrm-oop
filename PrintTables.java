@@ -79,6 +79,54 @@ public class PrintTables {
     show("Print Employees", content.toString(), sc);
   }
 
+  public static void printDepartments(Department[] employees, Scanner sc) {
+    StringBuilder content = new StringBuilder();
+    if (employees == null) {
+      content.append("Departments list not found: ").append(sc);
+    } else {
+      int[] w = { 50, 20, 30 };
+      appendHeader(content, w, "Name", "Phone", "Position");
+      appendSeparator(content, w);
+      boolean found = false;
+      for (Department e : employees) {
+        if (e != null) {
+          appendRow(content, w, String.valueOf(e.getName()),
+              String.format("%s", e.getPhone()),
+              String.format("%s", e.getPosition()));
+          found = true;
+        }
+      }
+
+      if (!found)
+        content.append("No evaluation data found.\n");
+    }
+    show("Print Departments", content.toString(), sc);
+  }
+
+  public static void printPositions(Position[] employees, Scanner sc) {
+    StringBuilder content = new StringBuilder();
+    if (employees == null) {
+      content.append("Positions list not found: ").append(sc);
+    } else {
+      int[] w = { 40, 8, 40 };
+      appendHeader(content, w, "Name", "Position Coefficient", "Responsibilities");
+      appendSeparator(content, w);
+      boolean found = false;
+      for (Position e : employees) {
+        if (e != null) {
+          appendRow(content, w, String.valueOf(e.getName()),
+              String.format("%s", e.getPositionCoefficient()),
+              String.format("%s", e.getResponsibilities()));
+          found = true;
+        }
+      }
+
+      if (!found)
+        content.append("No evaluation data found.\n");
+    }
+    show("Print Positions", content.toString(), sc);
+  }
+
   public static void printEvaluations(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
