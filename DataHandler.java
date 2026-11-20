@@ -198,8 +198,6 @@ public class DataHandler {
         while (!tmp.equals("}")) {
           tmp = sc.nextLine();
 
-          System.out.println("Reading attendance: " + tmp);
-
           thisAttendances[idx] = new Attendance();
           thisAttendances[idx].setDate(LocalDate.parse(tmp));
           thisAttendances[idx].setClockIn(LocalTime.parse(sc.nextLine()));
@@ -212,7 +210,6 @@ public class DataHandler {
           tmp = sc.nextLine();
         }
         idx = 0;
-        System.out.println("Next line: " + tmp);
 
         sc.nextLine();
         tmp = sc.nextLine();
