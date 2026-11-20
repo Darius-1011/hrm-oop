@@ -319,4 +319,84 @@ public class SortData {
       }
     }
   }
+
+  public void sortByDate(Attendance[] attendances, boolean ascending) {
+    if (attendances == null)
+      return;
+    int n = attendances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (attendances[j] == null || attendances[j + 1] == null)
+          continue;
+        if (attendances[j].getDate() == null || attendances[j + 1].getDate() == null)
+          continue;
+        int cmp = attendances[j].getDate().compareTo(attendances[j + 1].getDate());
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Attendance tmp = attendances[j];
+          attendances[j] = attendances[j + 1];
+          attendances[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByClockIn(Attendance[] attendances, boolean ascending) {
+    if (attendances == null)
+      return;
+    int n = attendances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (attendances[j] == null || attendances[j + 1] == null)
+          continue;
+        if (attendances[j].getClockIn() == null || attendances[j + 1].getClockIn() == null)
+          continue;
+        int cmp = attendances[j].getClockIn().compareTo(attendances[j + 1].getClockIn());
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Attendance tmp = attendances[j];
+          attendances[j] = attendances[j + 1];
+          attendances[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByClockOut(Attendance[] attendances, boolean ascending) {
+    if (attendances == null)
+      return;
+    int n = attendances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (attendances[j] == null || attendances[j + 1] == null)
+          continue;
+        if (attendances[j].getClockOut() == null || attendances[j + 1].getClockOut() == null)
+          continue;
+        int cmp = attendances[j].getClockOut().compareTo(attendances[j + 1].getClockOut());
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Attendance tmp = attendances[j];
+          attendances[j] = attendances[j + 1];
+          attendances[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByWorkedHours(Attendance[] attendances, boolean ascending) {
+    if (attendances == null)
+      return;
+    int n = attendances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (attendances[j] == null || attendances[j + 1] == null)
+          continue;
+        double h1 = attendances[j].calculateWorkedHours();
+        double h2 = attendances[j + 1].calculateWorkedHours();
+        boolean cond = ascending ? (h1 > h2) : (h1 < h2);
+        if (cond) {
+          Attendance tmp = attendances[j];
+          attendances[j] = attendances[j + 1];
+          attendances[j + 1] = tmp;
+        }
+      }
+    }
+  }
 }

@@ -1843,4 +1843,40 @@ public class AdminAccount extends Account {
 
         PrintTables.printContracts(data.getEmployees(), id, sc);
     }
+
+    public void printAttendances(DataHandler data, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        SortData sort = new SortData();
+        String title = "Print Attendances";
+        String subtitle = "Choose an option";
+
+        String id = askId(title, sc);
+        int idx = getIndex(data, id);
+        Attendance[] currAttendances = data.getEmployees()[idx].getAttendances();
+
+        int sortBy;
+        do {
+            String[] options = { "Date", "Clock in", "Clock out" };
+            sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+        } while (sortBy < 0 || 2 < sortBy);
+
+        boolean isAscending = askSortOrder("Ascending Sort", sc);
+
+        switch (sortBy) {
+            case 0:
+                sort.sortByDate(currAttendances, isAscending);
+                break;
+            case 1:
+                sort.sortByClockIn(currAttendances, isAscending);
+                break;
+            case 2:
+                sort.sortByClockOut(currAttendances, isAscending);
+                break;
+
+            default:
+                break;
+        }
+
+        PrintTables.printAttendances(data.getEmployees(), id, sc);
+    }
 }

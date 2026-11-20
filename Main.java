@@ -232,8 +232,7 @@ public class Main {
           account.printContracts(data, sc);
           break;
         case 18:
-          id = askEmployeeId("Print attendances", sc);
-          PrintTables.printAttendances(data.getEmployees(), id, sc);
+          account.printAttendances(data, sc);
           break;
         case 19:
           id = askEmployeeId("Print absences", sc);
