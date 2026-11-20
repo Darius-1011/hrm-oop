@@ -1,18 +1,46 @@
-import java.time.YearMonth;
-
 public class SortData {
+  private <T> int compactNulls(T[] arr) {
+    int count = 0;
+    for (int i = 0; i < arr.length; i++) {
+      if (arr[i] != null) {
+        arr[count++] = arr[i];
+      }
+    }
+    for (int i = count; i < arr.length; i++) {
+      arr[i] = null;
+    }
+    return count;
+  }
+
+  private <T extends Comparable<? super T>> boolean shouldSwap(T a, T b, boolean ascending) {
+    if (a == null && b == null)
+      return false;
+    if (a == null)
+      return true;
+    if (b == null)
+      return false;
+    int cmp = a.compareTo(b);
+    return ascending ? (cmp > 0) : (cmp < 0);
+  }
+
+  private boolean shouldSwapIgnoreCase(String a, String b, boolean ascending) {
+    if (a == null && b == null)
+      return false;
+    if (a == null)
+      return true;
+    if (b == null)
+      return false;
+    int cmp = a.compareToIgnoreCase(b);
+    return ascending ? (cmp > 0) : (cmp < 0);
+  }
+
   public void sortByMonth(Payroll[] payrolls, boolean ascending) {
     if (payrolls == null)
       return;
-    int n = payrolls.length;
+    int n = compactNulls(payrolls);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (payrolls[j] == null || payrolls[j + 1] == null)
-          continue;
-        YearMonth m1 = payrolls[j].getMonth();
-        YearMonth m2 = payrolls[j + 1].getMonth();
-        boolean cond = ascending ? (m1.isAfter(m2)) : (m1.isBefore(m2));
-        if (cond) {
+        if (shouldSwap(payrolls[j].getMonth(), payrolls[j + 1].getMonth(), ascending)) {
           Payroll tmp = payrolls[j];
           payrolls[j] = payrolls[j + 1];
           payrolls[j + 1] = tmp;
@@ -24,15 +52,12 @@ public class SortData {
   public void sortByBaseSalary(Payroll[] payrolls, boolean ascending) {
     if (payrolls == null)
       return;
-    int n = payrolls.length;
+    int n = compactNulls(payrolls);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (payrolls[j] == null || payrolls[j + 1] == null)
-          continue;
         double s1 = payrolls[j].getBaseSalary();
         double s2 = payrolls[j + 1].getBaseSalary();
-        boolean cond = ascending ? (s1 > s2) : (s1 < s2);
-        if (cond) {
+        if (ascending ? (s1 > s2) : (s1 < s2)) {
           Payroll tmp = payrolls[j];
           payrolls[j] = payrolls[j + 1];
           payrolls[j + 1] = tmp;
@@ -44,15 +69,147 @@ public class SortData {
   public void sortByBonus(Payroll[] payrolls, boolean ascending) {
     if (payrolls == null)
       return;
-    int n = payrolls.length;
+    int n = compactNulls(payrolls);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (payrolls[j] == null || payrolls[j + 1] == null)
-          continue;
         double b1 = payrolls[j].getBonus();
         double b2 = payrolls[j + 1].getBonus();
-        boolean cond = ascending ? (b1 > b2) : (b1 < b2);
-        if (cond) {
+        if (ascending ? (b1 > b2) : (b1 < b2)) {
+          Payroll tmp = payrolls[j];
+          payrolls[j] = payrolls[j + 1];
+          payrolls[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByAllowance(Payroll[] payrolls, boolean ascending) {
+    if (payrolls == null)
+      return;
+    int n = compactNulls(payrolls);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        double a1 = payrolls[j].getAllowance();
+        double a2 = payrolls[j + 1].getAllowance();
+        if (ascending ? (a1 > a2) : (a1 < a2)) {
+          Payroll tmp = payrolls[j];
+          payrolls[j] = payrolls[j + 1];
+          payrolls[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByDeduction(Payroll[] payrolls, boolean ascending) {
+    if (payrolls == null)
+      return;
+    int n = compactNulls(payrolls);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        double d1 = payrolls[j].getDeduction();
+        double d2 = payrolls[j + 1].getDeduction();
+        if (ascending ? (d1 > d2) : (d1 < d2)) {
+          Payroll tmp = payrolls[j];
+          payrolls[j] = payrolls[j + 1];
+          payrolls[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByTaxAmount(Payroll[] payrolls, boolean ascending) {
+    if (payrolls == null)
+      return;
+    int n = compactNulls(payrolls);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        double t1 = payrolls[j].getTaxAmount();
+        double t2 = payrolls[j + 1].getTaxAmount();
+        if (ascending ? (t1 > t2) : (t1 < t2)) {
+          Payroll tmp = payrolls[j];
+          payrolls[j] = payrolls[j + 1];
+          payrolls[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByInsuranceAmount(Payroll[] payrolls, boolean ascending) {
+    if (payrolls == null)
+      return;
+    int n = compactNulls(payrolls);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        double ins1 = payrolls[j].getInsuranceAmount();
+        double ins2 = payrolls[j + 1].getInsuranceAmount();
+        if (ascending ? (ins1 > ins2) : (ins1 < ins2)) {
+          Payroll tmp = payrolls[j];
+          payrolls[j] = payrolls[j + 1];
+          payrolls[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByWorkedHours(Payroll[] payrolls, boolean ascending) {
+    if (payrolls == null)
+      return;
+    int n = compactNulls(payrolls);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        int w1 = payrolls[j].getWorkedHours();
+        int w2 = payrolls[j + 1].getWorkedHours();
+        if (ascending ? (w1 > w2) : (w1 < w2)) {
+          Payroll tmp = payrolls[j];
+          payrolls[j] = payrolls[j + 1];
+          payrolls[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByOvertimeHours(Payroll[] payrolls, boolean ascending) {
+    if (payrolls == null)
+      return;
+    int n = compactNulls(payrolls);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        int o1 = payrolls[j].getOvertimeHours();
+        int o2 = payrolls[j + 1].getOvertimeHours();
+        if (ascending ? (o1 > o2) : (o1 < o2)) {
+          Payroll tmp = payrolls[j];
+          payrolls[j] = payrolls[j + 1];
+          payrolls[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByOvertimePay(Payroll[] payrolls, boolean ascending) {
+    if (payrolls == null)
+      return;
+    int n = compactNulls(payrolls);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        double op1 = payrolls[j].calculateOvertimePay();
+        double op2 = payrolls[j + 1].calculateOvertimePay();
+        if (ascending ? (op1 > op2) : (op1 < op2)) {
+          Payroll tmp = payrolls[j];
+          payrolls[j] = payrolls[j + 1];
+          payrolls[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByLastSalaryIncreaseDate(Payroll[] payrolls, boolean ascending) {
+    if (payrolls == null)
+      return;
+    int n = compactNulls(payrolls);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (shouldSwap(payrolls[j].getLastSalaryIncreaseDate(), payrolls[j + 1].getLastSalaryIncreaseDate(),
+            ascending)) {
           Payroll tmp = payrolls[j];
           payrolls[j] = payrolls[j + 1];
           payrolls[j + 1] = tmp;
@@ -64,15 +221,12 @@ public class SortData {
   public void sortByNetSalary(Payroll[] payrolls, boolean ascending) {
     if (payrolls == null)
       return;
-    int n = payrolls.length;
+    int n = compactNulls(payrolls);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (payrolls[j] == null || payrolls[j + 1] == null)
-          continue;
         double n1 = payrolls[j].calculateNetSalary();
         double n2 = payrolls[j + 1].calculateNetSalary();
-        boolean cond = ascending ? (n1 > n2) : (n1 < n2);
-        if (cond) {
+        if (ascending ? (n1 > n2) : (n1 < n2)) {
           Payroll tmp = payrolls[j];
           payrolls[j] = payrolls[j + 1];
           payrolls[j + 1] = tmp;
@@ -84,14 +238,10 @@ public class SortData {
   public void sortByMonth(Evaluation[] evaluations, boolean ascending) {
     if (evaluations == null)
       return;
-    int n = evaluations.length;
+    int n = compactNulls(evaluations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (evaluations[j] == null || evaluations[j + 1] == null)
-          continue;
-        YearMonth m1 = evaluations[j].getMonth() != null ? evaluations[j].getMonth() : null;
-        YearMonth m2 = evaluations[j + 1].getMonth() != null ? evaluations[j + 1].getMonth() : null;
-        if (ascending ? (m1.isAfter(m2)) : (m1.isBefore(m2))) {
+        if (shouldSwap(evaluations[j].getMonth(), evaluations[j + 1].getMonth(), ascending)) {
           Evaluation tmp = evaluations[j];
           evaluations[j] = evaluations[j + 1];
           evaluations[j + 1] = tmp;
@@ -103,15 +253,12 @@ public class SortData {
   public void sortByAverageScore(Evaluation[] evaluations, boolean ascending) {
     if (evaluations == null)
       return;
-    int n = evaluations.length;
+    int n = compactNulls(evaluations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (evaluations[j] == null || evaluations[j + 1] == null)
-          continue;
         double s1 = evaluations[j].calculateEvaluationScore();
         double s2 = evaluations[j + 1].calculateEvaluationScore();
-        boolean cond = ascending ? (s1 > s2) : (s1 < s2);
-        if (cond) {
+        if (ascending ? (s1 > s2) : (s1 < s2)) {
           Evaluation tmp = evaluations[j];
           evaluations[j] = evaluations[j + 1];
           evaluations[j + 1] = tmp;
@@ -123,15 +270,12 @@ public class SortData {
   public void sortByWorkScore(Evaluation[] evaluations, boolean ascending) {
     if (evaluations == null)
       return;
-    int n = evaluations.length;
+    int n = compactNulls(evaluations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (evaluations[j] == null || evaluations[j + 1] == null)
-          continue;
         double s1 = evaluations[j].getWorkScore();
         double s2 = evaluations[j + 1].getWorkScore();
-        boolean cond = ascending ? (s1 > s2) : (s1 < s2);
-        if (cond) {
+        if (ascending ? (s1 > s2) : (s1 < s2)) {
           Evaluation tmp = evaluations[j];
           evaluations[j] = evaluations[j + 1];
           evaluations[j + 1] = tmp;
@@ -143,15 +287,12 @@ public class SortData {
   public void sortByAttitudeScore(Evaluation[] evaluations, boolean ascending) {
     if (evaluations == null)
       return;
-    int n = evaluations.length;
+    int n = compactNulls(evaluations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (evaluations[j] == null || evaluations[j + 1] == null)
-          continue;
         double s1 = evaluations[j].getAttitudeScore();
         double s2 = evaluations[j + 1].getAttitudeScore();
-        boolean cond = ascending ? (s1 > s2) : (s1 < s2);
-        if (cond) {
+        if (ascending ? (s1 > s2) : (s1 < s2)) {
           Evaluation tmp = evaluations[j];
           evaluations[j] = evaluations[j + 1];
           evaluations[j + 1] = tmp;
@@ -163,15 +304,12 @@ public class SortData {
   public void sortByDisciplineScore(Evaluation[] evaluations, boolean ascending) {
     if (evaluations == null)
       return;
-    int n = evaluations.length;
+    int n = compactNulls(evaluations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (evaluations[j] == null || evaluations[j + 1] == null)
-          continue;
         double s1 = evaluations[j].getDisciplineScore();
         double s2 = evaluations[j + 1].getDisciplineScore();
-        boolean cond = ascending ? (s1 > s2) : (s1 < s2);
-        if (cond) {
+        if (ascending ? (s1 > s2) : (s1 < s2)) {
           Evaluation tmp = evaluations[j];
           evaluations[j] = evaluations[j + 1];
           evaluations[j + 1] = tmp;
@@ -183,15 +321,12 @@ public class SortData {
   public void sortByWorkQuality(Evaluation[] evaluations, boolean ascending) {
     if (evaluations == null)
       return;
-    int n = evaluations.length;
+    int n = compactNulls(evaluations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (evaluations[j] == null || evaluations[j + 1] == null)
-          continue;
         double s1 = evaluations[j].getWorkQuality();
         double s2 = evaluations[j + 1].getWorkQuality();
-        boolean cond = ascending ? (s1 > s2) : (s1 < s2);
-        if (cond) {
+        if (ascending ? (s1 > s2) : (s1 < s2)) {
           Evaluation tmp = evaluations[j];
           evaluations[j] = evaluations[j + 1];
           evaluations[j + 1] = tmp;
@@ -203,15 +338,12 @@ public class SortData {
   public void sortByProductivity(Evaluation[] evaluations, boolean ascending) {
     if (evaluations == null)
       return;
-    int n = evaluations.length;
+    int n = compactNulls(evaluations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (evaluations[j] == null || evaluations[j + 1] == null)
-          continue;
         double s1 = evaluations[j].getProductivity();
         double s2 = evaluations[j + 1].getProductivity();
-        boolean cond = ascending ? (s1 > s2) : (s1 < s2);
-        if (cond) {
+        if (ascending ? (s1 > s2) : (s1 < s2)) {
           Evaluation tmp = evaluations[j];
           evaluations[j] = evaluations[j + 1];
           evaluations[j + 1] = tmp;
@@ -223,15 +355,12 @@ public class SortData {
   public void sortByTeamWork(Evaluation[] evaluations, boolean ascending) {
     if (evaluations == null)
       return;
-    int n = evaluations.length;
+    int n = compactNulls(evaluations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (evaluations[j] == null || evaluations[j + 1] == null)
-          continue;
         double s1 = evaluations[j].getTeamWork();
         double s2 = evaluations[j + 1].getTeamWork();
-        boolean cond = ascending ? (s1 > s2) : (s1 < s2);
-        if (cond) {
+        if (ascending ? (s1 > s2) : (s1 < s2)) {
           Evaluation tmp = evaluations[j];
           evaluations[j] = evaluations[j + 1];
           evaluations[j + 1] = tmp;
@@ -243,15 +372,10 @@ public class SortData {
   public void sortByStartDate(Contract[] contracts, boolean ascending) {
     if (contracts == null)
       return;
-    int n = contracts.length;
+    int n = compactNulls(contracts);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (contracts[j] == null || contracts[j + 1] == null)
-          continue;
-        if (contracts[j].getStartDate() == null || contracts[j + 1].getStartDate() == null)
-          continue;
-        int cmp = contracts[j].getStartDate().compareTo(contracts[j + 1].getStartDate());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(contracts[j].getStartDate(), contracts[j + 1].getStartDate(), ascending)) {
           Contract tmp = contracts[j];
           contracts[j] = contracts[j + 1];
           contracts[j + 1] = tmp;
@@ -263,15 +387,10 @@ public class SortData {
   public void sortByEndDate(Contract[] contracts, boolean ascending) {
     if (contracts == null)
       return;
-    int n = contracts.length;
+    int n = compactNulls(contracts);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (contracts[j] == null || contracts[j + 1] == null)
-          continue;
-        if (contracts[j].getEndDate() == null || contracts[j + 1].getEndDate() == null)
-          continue;
-        int cmp = contracts[j].getEndDate().compareTo(contracts[j + 1].getEndDate());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(contracts[j].getEndDate(), contracts[j + 1].getEndDate(), ascending)) {
           Contract tmp = contracts[j];
           contracts[j] = contracts[j + 1];
           contracts[j + 1] = tmp;
@@ -283,15 +402,12 @@ public class SortData {
   public void sortByType(Contract[] contracts, boolean ascending) {
     if (contracts == null)
       return;
-    int n = contracts.length;
+    int n = compactNulls(contracts);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (contracts[j] == null || contracts[j + 1] == null)
-          continue;
-        String t1 = contracts[j].getType() != null ? contracts[j].getType().name() : "";
-        String t2 = contracts[j + 1].getType() != null ? contracts[j + 1].getType().name() : "";
-        int cmp = t1.compareToIgnoreCase(t2);
-        if (ascending ? cmp > 0 : cmp < 0) {
+        String t1 = contracts[j].getType() != null ? contracts[j].getType().name() : null;
+        String t2 = contracts[j + 1].getType() != null ? contracts[j + 1].getType().name() : null;
+        if (shouldSwapIgnoreCase(t1, t2, ascending)) {
           Contract tmp = contracts[j];
           contracts[j] = contracts[j + 1];
           contracts[j + 1] = tmp;
@@ -303,15 +419,12 @@ public class SortData {
   public void sortByStatus(Contract[] contracts, boolean ascending) {
     if (contracts == null)
       return;
-    int n = contracts.length;
+    int n = compactNulls(contracts);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (contracts[j] == null || contracts[j + 1] == null)
-          continue;
-        String s1 = contracts[j].getStatus() != null ? contracts[j].getStatus().name() : "";
-        String s2 = contracts[j + 1].getStatus() != null ? contracts[j + 1].getStatus().name() : "";
-        int cmp = s1.compareToIgnoreCase(s2);
-        if (ascending ? cmp > 0 : cmp < 0) {
+        String s1 = contracts[j].getStatus() != null ? contracts[j].getStatus().name() : null;
+        String s2 = contracts[j + 1].getStatus() != null ? contracts[j + 1].getStatus().name() : null;
+        if (shouldSwapIgnoreCase(s1, s2, ascending)) {
           Contract tmp = contracts[j];
           contracts[j] = contracts[j + 1];
           contracts[j + 1] = tmp;
@@ -323,15 +436,10 @@ public class SortData {
   public void sortByDate(Attendance[] attendances, boolean ascending) {
     if (attendances == null)
       return;
-    int n = attendances.length;
+    int n = compactNulls(attendances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (attendances[j] == null || attendances[j + 1] == null)
-          continue;
-        if (attendances[j].getDate() == null || attendances[j + 1].getDate() == null)
-          continue;
-        int cmp = attendances[j].getDate().compareTo(attendances[j + 1].getDate());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(attendances[j].getDate(), attendances[j + 1].getDate(), ascending)) {
           Attendance tmp = attendances[j];
           attendances[j] = attendances[j + 1];
           attendances[j + 1] = tmp;
@@ -343,15 +451,10 @@ public class SortData {
   public void sortByClockIn(Attendance[] attendances, boolean ascending) {
     if (attendances == null)
       return;
-    int n = attendances.length;
+    int n = compactNulls(attendances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (attendances[j] == null || attendances[j + 1] == null)
-          continue;
-        if (attendances[j].getClockIn() == null || attendances[j + 1].getClockIn() == null)
-          continue;
-        int cmp = attendances[j].getClockIn().compareTo(attendances[j + 1].getClockIn());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(attendances[j].getClockIn(), attendances[j + 1].getClockIn(), ascending)) {
           Attendance tmp = attendances[j];
           attendances[j] = attendances[j + 1];
           attendances[j + 1] = tmp;
@@ -363,15 +466,10 @@ public class SortData {
   public void sortByClockOut(Attendance[] attendances, boolean ascending) {
     if (attendances == null)
       return;
-    int n = attendances.length;
+    int n = compactNulls(attendances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (attendances[j] == null || attendances[j + 1] == null)
-          continue;
-        if (attendances[j].getClockOut() == null || attendances[j + 1].getClockOut() == null)
-          continue;
-        int cmp = attendances[j].getClockOut().compareTo(attendances[j + 1].getClockOut());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(attendances[j].getClockOut(), attendances[j + 1].getClockOut(), ascending)) {
           Attendance tmp = attendances[j];
           attendances[j] = attendances[j + 1];
           attendances[j + 1] = tmp;
@@ -383,15 +481,12 @@ public class SortData {
   public void sortByWorkedHours(Attendance[] attendances, boolean ascending) {
     if (attendances == null)
       return;
-    int n = attendances.length;
+    int n = compactNulls(attendances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (attendances[j] == null || attendances[j + 1] == null)
-          continue;
         double h1 = attendances[j].calculateWorkedHours();
         double h2 = attendances[j + 1].calculateWorkedHours();
-        boolean cond = ascending ? (h1 > h2) : (h1 < h2);
-        if (cond) {
+        if (ascending ? (h1 > h2) : (h1 < h2)) {
           Attendance tmp = attendances[j];
           attendances[j] = attendances[j + 1];
           attendances[j + 1] = tmp;
@@ -403,15 +498,10 @@ public class SortData {
   public void sortByFromDate(Absence[] absences, boolean ascending) {
     if (absences == null)
       return;
-    int n = absences.length;
+    int n = compactNulls(absences);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (absences[j] == null || absences[j + 1] == null)
-          continue;
-        if (absences[j].getFromDate() == null || absences[j + 1].getFromDate() == null)
-          continue;
-        int cmp = absences[j].getFromDate().compareTo(absences[j + 1].getFromDate());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(absences[j].getFromDate(), absences[j + 1].getFromDate(), ascending)) {
           Absence tmp = absences[j];
           absences[j] = absences[j + 1];
           absences[j + 1] = tmp;
@@ -423,15 +513,10 @@ public class SortData {
   public void sortByToDate(Absence[] absences, boolean ascending) {
     if (absences == null)
       return;
-    int n = absences.length;
+    int n = compactNulls(absences);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (absences[j] == null || absences[j + 1] == null)
-          continue;
-        if (absences[j].getToDate() == null || absences[j + 1].getToDate() == null)
-          continue;
-        int cmp = absences[j].getToDate().compareTo(absences[j + 1].getToDate());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(absences[j].getToDate(), absences[j + 1].getToDate(), ascending)) {
           Absence tmp = absences[j];
           absences[j] = absences[j + 1];
           absences[j + 1] = tmp;
@@ -443,15 +528,10 @@ public class SortData {
   public void sortByReason(Absence[] absences, boolean ascending) {
     if (absences == null)
       return;
-    int n = absences.length;
+    int n = compactNulls(absences);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (absences[j] == null || absences[j + 1] == null)
-          continue;
-        String r1 = absences[j].getReason() != null ? absences[j].getReason() : "";
-        String r2 = absences[j + 1].getReason() != null ? absences[j + 1].getReason() : "";
-        int cmp = r1.compareToIgnoreCase(r2);
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwapIgnoreCase(absences[j].getReason(), absences[j + 1].getReason(), ascending)) {
           Absence tmp = absences[j];
           absences[j] = absences[j + 1];
           absences[j + 1] = tmp;
@@ -463,15 +543,12 @@ public class SortData {
   public void sortByStatus(Absence[] absences, boolean ascending) {
     if (absences == null)
       return;
-    int n = absences.length;
+    int n = compactNulls(absences);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (absences[j] == null || absences[j + 1] == null)
-          continue;
-        String s1 = absences[j].getStatus() != null ? absences[j].getStatus().name() : "";
-        String s2 = absences[j + 1].getStatus() != null ? absences[j + 1].getStatus().name() : "";
-        int cmp = s1.compareToIgnoreCase(s2);
-        if (ascending ? cmp > 0 : cmp < 0) {
+        String s1 = absences[j].getStatus() != null ? absences[j].getStatus().name() : null;
+        String s2 = absences[j + 1].getStatus() != null ? absences[j + 1].getStatus().name() : null;
+        if (shouldSwapIgnoreCase(s1, s2, ascending)) {
           Absence tmp = absences[j];
           absences[j] = absences[j + 1];
           absences[j + 1] = tmp;
@@ -483,15 +560,10 @@ public class SortData {
   public void sortByDate(Resignation[] resignations, boolean ascending) {
     if (resignations == null)
       return;
-    int n = resignations.length;
+    int n = compactNulls(resignations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (resignations[j] == null || resignations[j + 1] == null)
-          continue;
-        if (resignations[j].getDate() == null || resignations[j + 1].getDate() == null)
-          continue;
-        int cmp = resignations[j].getDate().compareTo(resignations[j + 1].getDate());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(resignations[j].getDate(), resignations[j + 1].getDate(), ascending)) {
           Resignation tmp = resignations[j];
           resignations[j] = resignations[j + 1];
           resignations[j + 1] = tmp;
@@ -503,15 +575,10 @@ public class SortData {
   public void sortByReason(Resignation[] resignations, boolean ascending) {
     if (resignations == null)
       return;
-    int n = resignations.length;
+    int n = compactNulls(resignations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (resignations[j] == null || resignations[j + 1] == null)
-          continue;
-        String r1 = resignations[j].getReason() != null ? resignations[j].getReason() : "";
-        String r2 = resignations[j + 1].getReason() != null ? resignations[j + 1].getReason() : "";
-        int cmp = r1.compareToIgnoreCase(r2);
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwapIgnoreCase(resignations[j].getReason(), resignations[j + 1].getReason(), ascending)) {
           Resignation tmp = resignations[j];
           resignations[j] = resignations[j + 1];
           resignations[j + 1] = tmp;
@@ -523,15 +590,12 @@ public class SortData {
   public void sortByStatus(Resignation[] resignations, boolean ascending) {
     if (resignations == null)
       return;
-    int n = resignations.length;
+    int n = compactNulls(resignations);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (resignations[j] == null || resignations[j + 1] == null)
-          continue;
-        String s1 = resignations[j].getStatus() != null ? resignations[j].getStatus().name() : "";
-        String s2 = resignations[j + 1].getStatus() != null ? resignations[j + 1].getStatus().name() : "";
-        int cmp = s1.compareToIgnoreCase(s2);
-        if (ascending ? cmp > 0 : cmp < 0) {
+        String s1 = resignations[j].getStatus() != null ? resignations[j].getStatus().name() : null;
+        String s2 = resignations[j + 1].getStatus() != null ? resignations[j + 1].getStatus().name() : null;
+        if (shouldSwapIgnoreCase(s1, s2, ascending)) {
           Resignation tmp = resignations[j];
           resignations[j] = resignations[j + 1];
           resignations[j + 1] = tmp;
@@ -543,15 +607,11 @@ public class SortData {
   public void sortByInsuranceNumber(Insurance[] insurances, boolean ascending) {
     if (insurances == null)
       return;
-    int n = insurances.length;
+    int n = compactNulls(insurances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (insurances[j] == null || insurances[j + 1] == null)
-          continue;
-        String num1 = insurances[j].getInsuranceNumber() != null ? insurances[j].getInsuranceNumber() : "";
-        String num2 = insurances[j + 1].getInsuranceNumber() != null ? insurances[j + 1].getInsuranceNumber() : "";
-        int cmp = num1.compareToIgnoreCase(num2);
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwapIgnoreCase(insurances[j].getInsuranceNumber(), insurances[j + 1].getInsuranceNumber(),
+            ascending)) {
           Insurance tmp = insurances[j];
           insurances[j] = insurances[j + 1];
           insurances[j + 1] = tmp;
@@ -563,15 +623,12 @@ public class SortData {
   public void sortByType(Insurance[] insurances, boolean ascending) {
     if (insurances == null)
       return;
-    int n = insurances.length;
+    int n = compactNulls(insurances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (insurances[j] == null || insurances[j + 1] == null)
-          continue;
-        String t1 = insurances[j].getType() != null ? insurances[j].getType().name() : "";
-        String t2 = insurances[j + 1].getType() != null ? insurances[j + 1].getType().name() : "";
-        int cmp = t1.compareToIgnoreCase(t2);
-        if (ascending ? cmp > 0 : cmp < 0) {
+        String t1 = insurances[j].getType() != null ? insurances[j].getType().name() : null;
+        String t2 = insurances[j + 1].getType() != null ? insurances[j + 1].getType().name() : null;
+        if (shouldSwapIgnoreCase(t1, t2, ascending)) {
           Insurance tmp = insurances[j];
           insurances[j] = insurances[j + 1];
           insurances[j + 1] = tmp;
@@ -583,15 +640,10 @@ public class SortData {
   public void sortByStartDate(Insurance[] insurances, boolean ascending) {
     if (insurances == null)
       return;
-    int n = insurances.length;
+    int n = compactNulls(insurances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (insurances[j] == null || insurances[j + 1] == null)
-          continue;
-        if (insurances[j].getStartDate() == null || insurances[j + 1].getStartDate() == null)
-          continue;
-        int cmp = insurances[j].getStartDate().compareTo(insurances[j + 1].getStartDate());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(insurances[j].getStartDate(), insurances[j + 1].getStartDate(), ascending)) {
           Insurance tmp = insurances[j];
           insurances[j] = insurances[j + 1];
           insurances[j + 1] = tmp;
@@ -603,15 +655,10 @@ public class SortData {
   public void sortByEndDate(Insurance[] insurances, boolean ascending) {
     if (insurances == null)
       return;
-    int n = insurances.length;
+    int n = compactNulls(insurances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (insurances[j] == null || insurances[j + 1] == null)
-          continue;
-        if (insurances[j].getEndDate() == null || insurances[j + 1].getEndDate() == null)
-          continue;
-        int cmp = insurances[j].getEndDate().compareTo(insurances[j + 1].getEndDate());
-        if (ascending ? cmp > 0 : cmp < 0) {
+        if (shouldSwap(insurances[j].getEndDate(), insurances[j + 1].getEndDate(), ascending)) {
           Insurance tmp = insurances[j];
           insurances[j] = insurances[j + 1];
           insurances[j + 1] = tmp;
@@ -623,18 +670,108 @@ public class SortData {
   public void sortByRate(Insurance[] insurances, boolean ascending) {
     if (insurances == null)
       return;
-    int n = insurances.length;
+    int n = compactNulls(insurances);
     for (int i = 0; i < n - 1; i++) {
       for (int j = 0; j < n - i - 1; j++) {
-        if (insurances[j] == null || insurances[j + 1] == null)
-          continue;
         double r1 = insurances[j].getRate();
         double r2 = insurances[j + 1].getRate();
-        boolean cond = ascending ? (r1 > r2) : (r1 < r2);
-        if (cond) {
+        if (ascending ? (r1 > r2) : (r1 < r2)) {
           Insurance tmp = insurances[j];
           insurances[j] = insurances[j + 1];
           insurances[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByName(Department[] departments, boolean ascending) {
+    if (departments == null)
+      return;
+    int n = compactNulls(departments);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (shouldSwapIgnoreCase(departments[j].getName(), departments[j + 1].getName(), ascending)) {
+          Department tmp = departments[j];
+          departments[j] = departments[j + 1];
+          departments[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByPhone(Department[] departments, boolean ascending) {
+    if (departments == null)
+      return;
+    int n = compactNulls(departments);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (shouldSwapIgnoreCase(departments[j].getPhone(), departments[j + 1].getPhone(), ascending)) {
+          Department tmp = departments[j];
+          departments[j] = departments[j + 1];
+          departments[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByPosition(Department[] departments, boolean ascending) {
+    if (departments == null)
+      return;
+    int n = compactNulls(departments);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (shouldSwapIgnoreCase(departments[j].getPosition(), departments[j + 1].getPosition(), ascending)) {
+          Department tmp = departments[j];
+          departments[j] = departments[j + 1];
+          departments[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByName(Position[] positions, boolean ascending) {
+    if (positions == null)
+      return;
+    int n = compactNulls(positions);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (shouldSwapIgnoreCase(positions[j].getName(), positions[j + 1].getName(), ascending)) {
+          Position tmp = positions[j];
+          positions[j] = positions[j + 1];
+          positions[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByCoefficient(Position[] positions, boolean ascending) {
+    if (positions == null)
+      return;
+    int n = compactNulls(positions);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        double c1 = positions[j].getPositionCoefficient();
+        double c2 = positions[j + 1].getPositionCoefficient();
+        if (ascending ? (c1 > c2) : (c1 < c2)) {
+          Position tmp = positions[j];
+          positions[j] = positions[j + 1];
+          positions[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByResponsibilities(Position[] positions, boolean ascending) {
+    if (positions == null)
+      return;
+    int n = compactNulls(positions);
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (shouldSwapIgnoreCase(positions[j].getResponsibilities(), positions[j + 1].getResponsibilities(),
+            ascending)) {
+          Position tmp = positions[j];
+          positions[j] = positions[j + 1];
+          positions[j + 1] = tmp;
         }
       }
     }

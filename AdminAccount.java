@@ -1766,20 +1766,28 @@ public class AdminAccount extends Account {
                 sort.sortByBonus(currPayrolls, isAscending);
                 break;
             case 3:
+                sort.sortByAllowance(currPayrolls, isAscending);
                 break;
             case 4:
+                sort.sortByDeduction(currPayrolls, isAscending);
                 break;
             case 5:
+                sort.sortByTaxAmount(currPayrolls, isAscending);
                 break;
             case 6:
+                sort.sortByInsuranceAmount(currPayrolls, isAscending);
                 break;
             case 7:
+                sort.sortByWorkedHours(currPayrolls, isAscending);
                 break;
             case 8:
+                sort.sortByOvertimeHours(currPayrolls, isAscending);
                 break;
             case 9:
+                sort.sortByOvertimePay(currPayrolls, isAscending);
                 break;
             case 10:
+                sort.sortByLastSalaryIncreaseDate(currPayrolls, isAscending);
                 break;
             case 11:
                 sort.sortByNetSalary(currPayrolls, isAscending);
