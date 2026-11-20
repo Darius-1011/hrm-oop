@@ -1918,4 +1918,40 @@ public class AdminAccount extends Account {
 
         PrintTables.printAbsences(data.getEmployees(), id, sc);
     }
+
+    public void printResignations(DataHandler data, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        SortData sort = new SortData();
+        String title = "Print Resignations";
+        String subtitle = "Choose an option";
+
+        String id = askId(title, sc);
+        int idx = getIndex(data, id);
+        Resignation[] currResignations = data.getEmployees()[idx].getResignations();
+
+        int sortBy;
+        do {
+            String[] options = { "Reason", "Date", "Status" };
+            sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+        } while (sortBy < 0 || 2 < sortBy);
+
+        boolean isAscending = askSortOrder("Ascending Sort", sc);
+
+        switch (sortBy) {
+            case 0:
+                sort.sortByReason(currResignations, isAscending);
+                break;
+            case 1:
+                sort.sortByDate(currResignations, isAscending);
+                break;
+            case 2:
+                sort.sortByStatus(currResignations, isAscending);
+                break;
+
+            default:
+                break;
+        }
+
+        PrintTables.printResignations(data.getEmployees(), id, sc);
+    }
 }

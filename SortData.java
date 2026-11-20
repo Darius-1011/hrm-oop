@@ -479,4 +479,64 @@ public class SortData {
       }
     }
   }
+
+  public void sortByDate(Resignation[] resignations, boolean ascending) {
+    if (resignations == null)
+      return;
+    int n = resignations.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (resignations[j] == null || resignations[j + 1] == null)
+          continue;
+        if (resignations[j].getDate() == null || resignations[j + 1].getDate() == null)
+          continue;
+        int cmp = resignations[j].getDate().compareTo(resignations[j + 1].getDate());
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Resignation tmp = resignations[j];
+          resignations[j] = resignations[j + 1];
+          resignations[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByReason(Resignation[] resignations, boolean ascending) {
+    if (resignations == null)
+      return;
+    int n = resignations.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (resignations[j] == null || resignations[j + 1] == null)
+          continue;
+        String r1 = resignations[j].getReason() != null ? resignations[j].getReason() : "";
+        String r2 = resignations[j + 1].getReason() != null ? resignations[j + 1].getReason() : "";
+        int cmp = r1.compareToIgnoreCase(r2);
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Resignation tmp = resignations[j];
+          resignations[j] = resignations[j + 1];
+          resignations[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByStatus(Resignation[] resignations, boolean ascending) {
+    if (resignations == null)
+      return;
+    int n = resignations.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (resignations[j] == null || resignations[j + 1] == null)
+          continue;
+        String s1 = resignations[j].getStatus() != null ? resignations[j].getStatus().name() : "";
+        String s2 = resignations[j + 1].getStatus() != null ? resignations[j + 1].getStatus().name() : "";
+        int cmp = s1.compareToIgnoreCase(s2);
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Resignation tmp = resignations[j];
+          resignations[j] = resignations[j + 1];
+          resignations[j + 1] = tmp;
+        }
+      }
+    }
+  }
 }
