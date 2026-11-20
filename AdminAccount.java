@@ -1820,6 +1820,11 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
+        if (idx == -1) {
+            console.printResult(title, "Employee not exists", sc);
+            return;
+        }
+
         Employee currEmployee = data.getEmployees()[idx];
         Payroll[] currPayrolls = currEmployee.getPayrolls();
 
@@ -1890,6 +1895,11 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
+        if (idx == -1) {
+            console.printResult(title, "Employee not exists", sc);
+            return;
+        }
+
         Employee currEmployee = data.getEmployees()[idx];
         Evaluation[] currEvaluations = currEmployee.getEvaluations();
 
@@ -1944,6 +1954,11 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
+        if (idx == -1) {
+            console.printResult(title, "Employee not exists", sc);
+            return;
+        }
+
         Employee currEmployee = data.getEmployees()[idx];
         Contract[] currContracts = currEmployee.getContracts();
 
@@ -1988,6 +2003,11 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
+        if (idx == -1) {
+            console.printResult(title, "Employee not exists", sc);
+            return;
+        }
+
         Employee currEmployee = data.getEmployees()[idx];
         Attendance[] currAttendances = currEmployee.getAttendances();
 
@@ -2029,6 +2049,11 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
+        if (idx == -1) {
+            console.printResult(title, "Employee not exists", sc);
+            return;
+        }
+
         Employee currEmployee = data.getEmployees()[idx];
         Absence[] currAbsences = currEmployee.getAbsences();
 
@@ -2073,6 +2098,11 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
+        if (idx == -1) {
+            console.printResult(title, "Employee not exists", sc);
+            return;
+        }
+
         Employee currEmployee = data.getEmployees()[idx];
         Resignation[] currResignations = currEmployee.getResignations();
 
@@ -2114,6 +2144,11 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
+        if (idx == -1) {
+            console.printResult(title, "Employee not exists", sc);
+            return;
+        }
+
         Employee currEmployee = data.getEmployees()[idx];
         Insurance[] currInsurances = currEmployee.getInsurances();
 
