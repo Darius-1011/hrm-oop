@@ -1804,4 +1804,43 @@ public class AdminAccount extends Account {
 
         PrintTables.printEvaluations(data.getEmployees(), id, sc);
     }
+
+    public void printContracts(DataHandler data, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        SortData sort = new SortData();
+        String title = "Print Contracts";
+        String subtitle = "Choose an option";
+
+        String id = askId(title, sc);
+        int idx = getIndex(data, id);
+        Contract[] currContracts = data.getEmployees()[idx].getContracts();
+
+        int sortBy;
+        do {
+            String[] options = { "Start date", "End date", "Type", "Status" };
+            sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+        } while (sortBy < 0 || 3 < sortBy);
+
+        boolean isAscending = askSortOrder("Ascending Sort", sc);
+
+        switch (sortBy) {
+            case 0:
+                sort.sortByStartDate(currContracts, isAscending);
+                break;
+            case 1:
+                sort.sortByEndDate(currContracts, isAscending);
+                break;
+            case 2:
+                sort.sortByType(currContracts, isAscending);
+                break;
+            case 3:
+                sort.sortByStatus(currContracts, isAscending);
+                break;
+
+            default:
+                break;
+        }
+
+        PrintTables.printContracts(data.getEmployees(), id, sc);
+    }
 }

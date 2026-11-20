@@ -239,4 +239,84 @@ public class SortData {
       }
     }
   }
+
+  public void sortByStartDate(Contract[] contracts, boolean ascending) {
+    if (contracts == null)
+      return;
+    int n = contracts.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (contracts[j] == null || contracts[j + 1] == null)
+          continue;
+        if (contracts[j].getStartDate() == null || contracts[j + 1].getStartDate() == null)
+          continue;
+        int cmp = contracts[j].getStartDate().compareTo(contracts[j + 1].getStartDate());
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Contract tmp = contracts[j];
+          contracts[j] = contracts[j + 1];
+          contracts[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByEndDate(Contract[] contracts, boolean ascending) {
+    if (contracts == null)
+      return;
+    int n = contracts.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (contracts[j] == null || contracts[j + 1] == null)
+          continue;
+        if (contracts[j].getEndDate() == null || contracts[j + 1].getEndDate() == null)
+          continue;
+        int cmp = contracts[j].getEndDate().compareTo(contracts[j + 1].getEndDate());
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Contract tmp = contracts[j];
+          contracts[j] = contracts[j + 1];
+          contracts[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByType(Contract[] contracts, boolean ascending) {
+    if (contracts == null)
+      return;
+    int n = contracts.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (contracts[j] == null || contracts[j + 1] == null)
+          continue;
+        String t1 = contracts[j].getType() != null ? contracts[j].getType().name() : "";
+        String t2 = contracts[j + 1].getType() != null ? contracts[j + 1].getType().name() : "";
+        int cmp = t1.compareToIgnoreCase(t2);
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Contract tmp = contracts[j];
+          contracts[j] = contracts[j + 1];
+          contracts[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByStatus(Contract[] contracts, boolean ascending) {
+    if (contracts == null)
+      return;
+    int n = contracts.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (contracts[j] == null || contracts[j + 1] == null)
+          continue;
+        String s1 = contracts[j].getStatus() != null ? contracts[j].getStatus().name() : "";
+        String s2 = contracts[j + 1].getStatus() != null ? contracts[j + 1].getStatus().name() : "";
+        int cmp = s1.compareToIgnoreCase(s2);
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Contract tmp = contracts[j];
+          contracts[j] = contracts[j + 1];
+          contracts[j + 1] = tmp;
+        }
+      }
+    }
+  }
 }
