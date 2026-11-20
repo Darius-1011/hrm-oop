@@ -33,6 +33,86 @@ public class Absence {
         this.status = status;
     }
 
+    public static void sortByFromDate(Absence[] absences, boolean ascending) {
+        if (absences == null)
+            return;
+        int n = absences.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (absences[j] == null || absences[j + 1] == null)
+                    continue;
+                if (absences[j].getFromDate() == null || absences[j + 1].getFromDate() == null)
+                    continue;
+                int cmp = absences[j].getFromDate().compareTo(absences[j + 1].getFromDate());
+                if (ascending ? cmp > 0 : cmp < 0) {
+                    Absence tmp = absences[j];
+                    absences[j] = absences[j + 1];
+                    absences[j + 1] = tmp;
+                }
+            }
+        }
+    }
+
+    public static void sortByToDate(Absence[] absences, boolean ascending) {
+        if (absences == null)
+            return;
+        int n = absences.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (absences[j] == null || absences[j + 1] == null)
+                    continue;
+                if (absences[j].getToDate() == null || absences[j + 1].getToDate() == null)
+                    continue;
+                int cmp = absences[j].getToDate().compareTo(absences[j + 1].getToDate());
+                if (ascending ? cmp > 0 : cmp < 0) {
+                    Absence tmp = absences[j];
+                    absences[j] = absences[j + 1];
+                    absences[j + 1] = tmp;
+                }
+            }
+        }
+    }
+
+    public static void sortByReason(Absence[] absences, boolean ascending) {
+        if (absences == null)
+            return;
+        int n = absences.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (absences[j] == null || absences[j + 1] == null)
+                    continue;
+                String r1 = absences[j].getReason() != null ? absences[j].getReason() : "";
+                String r2 = absences[j + 1].getReason() != null ? absences[j + 1].getReason() : "";
+                int cmp = r1.compareToIgnoreCase(r2);
+                if (ascending ? cmp > 0 : cmp < 0) {
+                    Absence tmp = absences[j];
+                    absences[j] = absences[j + 1];
+                    absences[j + 1] = tmp;
+                }
+            }
+        }
+    }
+
+    public static void sortByStatus(Absence[] absences, boolean ascending) {
+        if (absences == null)
+            return;
+        int n = absences.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (absences[j] == null || absences[j + 1] == null)
+                    continue;
+                String s1 = absences[j].getStatus() != null ? absences[j].getStatus().name() : "";
+                String s2 = absences[j + 1].getStatus() != null ? absences[j + 1].getStatus().name() : "";
+                int cmp = s1.compareToIgnoreCase(s2);
+                if (ascending ? cmp > 0 : cmp < 0) {
+                    Absence tmp = absences[j];
+                    absences[j] = absences[j + 1];
+                    absences[j + 1] = tmp;
+                }
+            }
+        }
+    }
+
     public String getReason() {
         return reason;
     }

@@ -11,7 +11,9 @@ public class Payroll {
     private double insuranceAmount;
     private int workedHours;
     private int overtimeHours;
+    private double overtimePay;
     private LocalDate lastSalaryIncreaseDate;
+    private double netSalary;
 
     public Payroll() {
         this.month = null;
@@ -23,7 +25,9 @@ public class Payroll {
         this.insuranceAmount = 0;
         this.workedHours = 0;
         this.overtimeHours = 0;
+        this.overtimePay = 0;
         this.lastSalaryIncreaseDate = null;
+        this.netSalary = 0;
     }
 
     public Payroll(YearMonth month, double baseSalary,
@@ -41,7 +45,9 @@ public class Payroll {
         this.insuranceAmount = insuranceAmount;
         this.workedHours = workedHours;
         this.overtimeHours = overtimeHours;
+        this.overtimePay = calculateOvertimePay();
         this.lastSalaryIncreaseDate = lastSalaryIncreaseDate;
+        this.netSalary = calculateNetSalary();
     }
 
     public LocalDate getLastSalaryIncreaseDate() {
@@ -64,12 +70,14 @@ public class Payroll {
         final double OVERTIME_RATE = 1.5;
 
         double hourlySalary = baseSalary / STANDARD_WORKING_HOURS;
-        return hourlySalary * OVERTIME_RATE * overtimeHours;
+        overtimePay = hourlySalary * OVERTIME_RATE * overtimeHours;
+        return overtimePay;
     }
 
     public double calculateNetSalary() {
-        return baseSalary + bonus + allowance + calculateOvertimePay()
+        netSalary = baseSalary + bonus + allowance + calculateOvertimePay()
                 - deduction - taxAmount - insuranceAmount;
+        return netSalary;
     }
 
     public String getPayroll() {

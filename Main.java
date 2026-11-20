@@ -104,10 +104,6 @@ public class Main {
     } while (true);
   }
 
-  private static String askEmployeeId(String title, Scanner sc) {
-    return console.printUI(title, "", new String[] {}, "Id", sc);
-  }
-
   private static void runAdminUI(AdminAccount account, Scanner sc) {
     String title = "Admin Account";
     String subtitle = "Choose an option";
@@ -192,8 +188,7 @@ public class Main {
           console.printResult(title, content, sc);
           break;
         case 10:
-          id = askEmployeeId("Print payrolls", sc);
-          PrintTables.printPayrolls(data.getEmployees(), id, sc);
+          account.printPayrolls(data, sc);
           break;
         case 11:
           title = "Reply to username: ";

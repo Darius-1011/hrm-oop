@@ -20,6 +20,29 @@ public class AdminAccount extends Account {
         return -1;
     }
 
+    private static int getIndex(DataHandler data, String username) {
+        for (int i = 0; i < data.getAccounts().length; i++) {
+            if (data.getAccounts()[i] != null && data.getAccounts()[i].getUsername().equals(username)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private String askId(String title, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        return console.printUI(title, "", new String[] {}, "Id", sc);
+    }
+
+    private boolean askSortOrder(String title, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+
+        String choice = console.printUI(title, "", new String[] {}, "Yes/No [Y/n]", sc);
+        return choice.equalsIgnoreCase("y");
+    }
+
     public AdminAccount(String username, String password, AccountStatus status) {
         super(username, password, status);
     }
@@ -1674,5 +1697,62 @@ public class AdminAccount extends Account {
         } catch (NumberFormatException e) {
             console.printResult(title, "Please enter numbers for the number fields!", sc);
         }
+    }
+
+    public void printPayrolls(DataHandler data, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        SortData sort = new SortData();
+        String title = "Print Payrolls";
+        String subtitle = "Choose an option";
+
+        String id = askId(title, sc);
+        int idx = getIndex(data, id);
+        Payroll[] currPayrolls = data.getEmployees()[idx].getPayrolls();
+
+        int sortBy;
+        do {
+            String[] options = { "Month", "Base salary", "Bonus", "Allowance", "Deduction", "Tax amount",
+                    "Insurance amount", "Worked hours", "Overtime hours", "Overtime pay", "Last salary increase date",
+                    "Net salary" };
+            sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+        } while (sortBy < 0 || 11 < sortBy);
+
+        boolean isAscending = askSortOrder("Ascending Sort", sc);
+
+        switch (sortBy) {
+            case 0:
+                sort.sortByMonth(currPayrolls, isAscending);
+                break;
+            case 1:
+                sort.sortByBaseSalary(currPayrolls, isAscending);
+                break;
+            case 2:
+                sort.sortByBonus(currPayrolls, isAscending);
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
+                sort.sortByNetSalary(currPayrolls, isAscending);
+                break;
+
+            default:
+                break;
+        }
+
+        PrintTables.printPayrolls(data.getEmployees(), id, sc);
     }
 }
