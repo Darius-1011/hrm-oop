@@ -1715,6 +1715,10 @@ public class AdminAccount extends Account {
                     "Insurance amount", "Worked hours", "Overtime hours", "Overtime pay", "Last salary increase date",
                     "Net salary" };
             sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (sortBy < 0 || 11 < sortBy) {
+                console.printResult(title, "Invalid choice", sc);
+            }
         } while (sortBy < 0 || 11 < sortBy);
 
         boolean isAscending = askSortOrder("Ascending Sort", sc);
@@ -1771,6 +1775,10 @@ public class AdminAccount extends Account {
             String[] options = { "Month", "Work score", "Attitude score", "Discipline score", "Work quality",
                     "Productivity", "Team work" };
             sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (sortBy < 0 || 6 < sortBy) {
+                console.printResult(title, "Invalid choice", sc);
+            }
         } while (sortBy < 0 || 6 < sortBy);
 
         boolean isAscending = askSortOrder("Ascending Sort", sc);
@@ -1819,6 +1827,10 @@ public class AdminAccount extends Account {
         do {
             String[] options = { "Start date", "End date", "Type", "Status" };
             sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (sortBy < 0 || 3 < sortBy) {
+                console.printResult(title, "Invalid choice", sc);
+            }
         } while (sortBy < 0 || 3 < sortBy);
 
         boolean isAscending = askSortOrder("Ascending Sort", sc);
@@ -1858,6 +1870,10 @@ public class AdminAccount extends Account {
         do {
             String[] options = { "Date", "Clock in", "Clock out" };
             sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (sortBy < 0 || 2 < sortBy) {
+                console.printResult(title, "Invalid choice", sc);
+            }
         } while (sortBy < 0 || 2 < sortBy);
 
         boolean isAscending = askSortOrder("Ascending Sort", sc);
@@ -1894,6 +1910,10 @@ public class AdminAccount extends Account {
         do {
             String[] options = { "Reason", "From date", "To date", "Status" };
             sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (sortBy < 0 || 3 < sortBy) {
+                console.printResult(title, "Invalid choice", sc);
+            }
         } while (sortBy < 0 || 3 < sortBy);
 
         boolean isAscending = askSortOrder("Ascending Sort", sc);
@@ -1933,6 +1953,10 @@ public class AdminAccount extends Account {
         do {
             String[] options = { "Reason", "Date", "Status" };
             sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (sortBy < 0 || 2 < sortBy) {
+                console.printResult(title, "Invalid choice", sc);
+            }
         } while (sortBy < 0 || 2 < sortBy);
 
         boolean isAscending = askSortOrder("Ascending Sort", sc);
@@ -1969,6 +1993,10 @@ public class AdminAccount extends Account {
         do {
             String[] options = { "Insurance number", "Type", "Start date", "End date", "Rate" };
             sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+
+            if (sortBy < 0 || 4 < sortBy) {
+                console.printResult(title, "Invalid choice", sc);
+            }
         } while (sortBy < 0 || 4 < sortBy);
 
         boolean isAscending = askSortOrder("Ascending Sort", sc);
