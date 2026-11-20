@@ -490,6 +490,37 @@ public class AdminAccount extends Account {
         }
     }
 
+    public void searchPosition(Position[] positions, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "Search Position";
+        String input = "Position name";
+
+        String name = console.printUI(title, "", "", input, sc).trim();
+        String content = "";
+        boolean found = false;
+
+        for (int i = 0; i < positions.length; i++) {
+            Position position = positions[i];
+
+            if (position != null && position.getName() != null
+                    && position.getName().equalsIgnoreCase(name)) {
+                content += "Position name: " + position.getName() + "\n";
+                content += "Position coefficient: "
+                        + position.getPositionCoefficient() + "\n";
+                content += "Responsibilities: "
+                        + position.getResponsibilities() + "\n";
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            console.printResult(title, content, sc);
+        } else {
+            console.printResult(title, "Position not exists", sc);
+        }
+    }
+
     public void searchDepartment(Department[] departments, Scanner sc) {
         ConsoleUI console = new ConsoleUI();
         String title = "Search departments";
