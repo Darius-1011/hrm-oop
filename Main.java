@@ -241,8 +241,7 @@ public class Main {
           account.printResignations(data, sc);
           break;
         case 21:
-          id = askEmployeeId("Print insurances", sc);
-          PrintTables.printInsurances(data.getEmployees(), id, sc);
+          account.printInsurances(data, sc);
           break;
         case 22:
           account.addEvaluation(data.getEmployees(), sc);

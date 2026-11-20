@@ -1954,4 +1954,46 @@ public class AdminAccount extends Account {
 
         PrintTables.printResignations(data.getEmployees(), id, sc);
     }
+
+    public void printInsurances(DataHandler data, Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        SortData sort = new SortData();
+        String title = "Print Insurances";
+        String subtitle = "Choose an option";
+
+        String id = askId(title, sc);
+        int idx = getIndex(data, id);
+        Insurance[] currInsurances = data.getEmployees()[idx].getInsurances();
+
+        int sortBy;
+        do {
+            String[] options = { "Insurance number", "Type", "Start date", "End date", "Rate" };
+            sortBy = validateInt(console.printUI(title, subtitle, options, sc));
+        } while (sortBy < 0 || 4 < sortBy);
+
+        boolean isAscending = askSortOrder("Ascending Sort", sc);
+
+        switch (sortBy) {
+            case 0:
+                sort.sortByInsuranceNumber(currInsurances, isAscending);
+                break;
+            case 1:
+                sort.sortByType(currInsurances, isAscending);
+                break;
+            case 2:
+                sort.sortByStartDate(currInsurances, isAscending);
+                break;
+            case 3:
+                sort.sortByEndDate(currInsurances, isAscending);
+                break;
+            case 4:
+                sort.sortByRate(currInsurances, isAscending);
+                break;
+
+            default:
+                break;
+        }
+
+        PrintTables.printInsurances(data.getEmployees(), id, sc);
+    }
 }

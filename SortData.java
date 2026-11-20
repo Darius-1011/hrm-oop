@@ -539,4 +539,104 @@ public class SortData {
       }
     }
   }
+
+  public void sortByInsuranceNumber(Insurance[] insurances, boolean ascending) {
+    if (insurances == null)
+      return;
+    int n = insurances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (insurances[j] == null || insurances[j + 1] == null)
+          continue;
+        String num1 = insurances[j].getInsuranceNumber() != null ? insurances[j].getInsuranceNumber() : "";
+        String num2 = insurances[j + 1].getInsuranceNumber() != null ? insurances[j + 1].getInsuranceNumber() : "";
+        int cmp = num1.compareToIgnoreCase(num2);
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Insurance tmp = insurances[j];
+          insurances[j] = insurances[j + 1];
+          insurances[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByType(Insurance[] insurances, boolean ascending) {
+    if (insurances == null)
+      return;
+    int n = insurances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (insurances[j] == null || insurances[j + 1] == null)
+          continue;
+        String t1 = insurances[j].getType() != null ? insurances[j].getType().name() : "";
+        String t2 = insurances[j + 1].getType() != null ? insurances[j + 1].getType().name() : "";
+        int cmp = t1.compareToIgnoreCase(t2);
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Insurance tmp = insurances[j];
+          insurances[j] = insurances[j + 1];
+          insurances[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByStartDate(Insurance[] insurances, boolean ascending) {
+    if (insurances == null)
+      return;
+    int n = insurances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (insurances[j] == null || insurances[j + 1] == null)
+          continue;
+        if (insurances[j].getStartDate() == null || insurances[j + 1].getStartDate() == null)
+          continue;
+        int cmp = insurances[j].getStartDate().compareTo(insurances[j + 1].getStartDate());
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Insurance tmp = insurances[j];
+          insurances[j] = insurances[j + 1];
+          insurances[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByEndDate(Insurance[] insurances, boolean ascending) {
+    if (insurances == null)
+      return;
+    int n = insurances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (insurances[j] == null || insurances[j + 1] == null)
+          continue;
+        if (insurances[j].getEndDate() == null || insurances[j + 1].getEndDate() == null)
+          continue;
+        int cmp = insurances[j].getEndDate().compareTo(insurances[j + 1].getEndDate());
+        if (ascending ? cmp > 0 : cmp < 0) {
+          Insurance tmp = insurances[j];
+          insurances[j] = insurances[j + 1];
+          insurances[j + 1] = tmp;
+        }
+      }
+    }
+  }
+
+  public void sortByRate(Insurance[] insurances, boolean ascending) {
+    if (insurances == null)
+      return;
+    int n = insurances.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (insurances[j] == null || insurances[j + 1] == null)
+          continue;
+        double r1 = insurances[j].getRate();
+        double r2 = insurances[j + 1].getRate();
+        boolean cond = ascending ? (r1 > r2) : (r1 < r2);
+        if (cond) {
+          Insurance tmp = insurances[j];
+          insurances[j] = insurances[j + 1];
+          insurances[j + 1] = tmp;
+        }
+      }
+    }
+  }
 }
