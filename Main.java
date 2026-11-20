@@ -192,7 +192,7 @@ public class Main {
           break;
 
         case 12:
-          account.printEmployees(data.getEmployees(), sc);
+          account.printEmployees(data, sc);
           break;
         case 13:
           title = "Print Department";
