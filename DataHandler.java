@@ -4,13 +4,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.Scanner;
 
 public class DataHandler {
-  private int maxAccounts;
-  private int maxEmployees;
-  private int maxDepartments;
-  private int maxPositions;
   private int maxEvaluations;
   private int maxContracts;
   private int maxPayrolls;
@@ -131,7 +128,7 @@ public class DataHandler {
         while (!tmp.equals("}")) {
           tmp = sc.nextLine();
           thisEvaluations[idx] = new Evaluation();
-          thisEvaluations[idx].setMonth(tmp);
+          thisEvaluations[idx].setMonth(YearMonth.parse(tmp));
           thisEvaluations[idx].setComment(sc.nextLine());
           thisEvaluations[idx].setWorkScore(Double.parseDouble(sc.nextLine()));
           thisEvaluations[idx].setAttitudeScore(Double.parseDouble(sc.nextLine()));

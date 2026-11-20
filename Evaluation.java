@@ -1,5 +1,7 @@
+import java.time.YearMonth;
+
 public class Evaluation {
-    private String month;
+    private YearMonth month;
     private String comment;
     private double workScore;
     private double attitudeScore;
@@ -19,7 +21,7 @@ public class Evaluation {
         this.teamWork = 0;
     }
 
-    public Evaluation(String month, String comment,
+    public Evaluation(YearMonth month, String comment,
             double workScore,
             double attitudeScore,
             double disciplineScore,
@@ -79,11 +81,11 @@ public class Evaluation {
         System.out.println("He so thuong: " + getBonusRate());
     }
 
-    public String getMonth() {
+    public YearMonth getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(YearMonth month) {
         this.month = month;
     }
 

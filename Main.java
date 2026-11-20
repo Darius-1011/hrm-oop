@@ -115,7 +115,7 @@ public class Main {
         "Remove employee", "Print employees", "Print departments", "Print positions", "Print payrolls", "Reply request",
         "Search employee", "Search department", "Create Position", "Create Department",
         "Print evaluations", "Print contracts", "Print attendances", "Print absences", "Print resignations",
-        "Print insurances", "Add Evalution", "Add Contract", "Add Payroll", "Add Attendance", "Add Insurance" };
+        "Print insurances", "Add Evaluation", "Add Contract", "Add Payroll", "Add Attendance", "Add Insurance" };
 
     int choice;
     do {
@@ -255,7 +255,7 @@ public class Main {
           PrintTables.printInsurances(data.getEmployees(), id, sc);
           break;
         case 22:
-          account.addEvalution(data.getEmployees(), sc);
+          account.addEvaluation(data.getEmployees(), sc);
           break;
         case 23:
           account.addContract(data.getEmployees(), sc);

@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -9,6 +10,7 @@ public class AdminAccount extends Account {
 
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private static DateTimeFormatter yearMonthFormatter = DateTimeFormatter.ofPattern("MM/yyyy");
 
     private static int validateInt(String str) {
         if (str.matches("[0-9]+")) {
@@ -626,28 +628,30 @@ public class AdminAccount extends Account {
         String[] options = {};
         String input;
 
-        input = "Month: ";
-        String month = console.printUI(title, subtitle, options, input, sc);
+        input = "Month (MM/yyyy)";
+        YearMonth month = YearMonth.parse(
+                console.printUI(title, subtitle, options, input, sc).trim(),
+                yearMonthFormatter);
 
         input = "Comment";
         String comment = console.printUI(title, subtitle, options, input, sc);
 
-        input = "Work score: ";
+        input = "Work score";
         double workScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Attitude score: ";
+        input = "Attitude score";
         double attitudeScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Discipline score: ";
+        input = "Discipline score";
         double disciplineScore = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Work quality: ";
+        input = "Work quality";
         double workQuality = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Productivity: ";
+        input = "Productivity";
         double productivity = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Team work: ";
+        input = "Team work";
         double teamWork = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
         return new Evaluation(month, comment, workScore, attitudeScore, disciplineScore, workQuality, productivity,
@@ -1299,7 +1303,7 @@ public class AdminAccount extends Account {
 
     private Employee selectEmployeePrompt(Employee[] employees, String title, Scanner sc) {
         ConsoleUI console = new ConsoleUI();
-        String content = "List Employee:\n";
+        String content = "Employees list\n";
 
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
@@ -1315,13 +1319,14 @@ public class AdminAccount extends Account {
         }
 
         String inputField = "Enter Employee (ID)";
-        String employeeId = console.printUI(title, "Hire employees.", content, inputField, sc);
+        String employeeId = console.printUI(title, "Hired employees", content, inputField, sc);
 
         Employee employee = searchEmployee(employees, employeeId);
         return employee;
     }
 
-    public void addEvalution(Employee[] employees, Scanner sc) {
+    public void addEvaluation(Employee[] employees, Scanner sc) {
+        DataCheck checker = new DataCheck("^(\\d{2})/(\\d{4})$");
         ConsoleUI console = new ConsoleUI();
         String title = "Add Evaluation";
 
@@ -1344,15 +1349,19 @@ public class AdminAccount extends Account {
             return;
         }
 
-        String subTitle = "Enter evaluation information for employee " + employee.getId();
-        String[] noOptions = {};
+        String subtitle = "Enter evaluation information for employee " + employee.getId();
+        String content = "";
 
-        String month = console.printUI(title, subTitle, noOptions, "Evaluation month (MM/yyyy)", sc).trim();
-        if (month.isEmpty()) {
-            console.printResult(title, "Month cannot be empty!", sc);
+        String monthStr = console.printUI(title, subtitle, content, "Evaluation month (MM/yyyy)", sc).trim();
+
+        if (!checker.isValid(monthStr)) {
+            console.printResult(title, "Invalid input", sc);
             return;
         }
-        String comment = console.printUI(title, subTitle, noOptions, "Evaluation comment", sc).trim();
+
+        YearMonth month = YearMonth.parse(monthStr, yearMonthFormatter);
+
+        String comment = console.printUI(title, subtitle, content, "Evaluation comment", sc).trim();
 
         String[] scoreNames = { "Work score (0-10)", "Attitude score (0-10)", "Discipline score (0-10)",
                 "Work quality (0-10)", "Productivity (0-10)", "Team work (0-10)" };
@@ -1361,7 +1370,7 @@ public class AdminAccount extends Account {
             do {
                 try {
                     scores[i] = Double
-                            .parseDouble(console.printUI(title, subTitle, noOptions, scoreNames[i], sc).trim());
+                            .parseDouble(console.printUI(title, subtitle, content, scoreNames[i], sc).trim());
                 } catch (NumberFormatException e) {
                     scores[i] = -1;
                 }
@@ -1400,14 +1409,14 @@ public class AdminAccount extends Account {
         }
 
         String subtitle = "Contract for employee " + employee.getId();
-        String[] noOptions = {};
+        String content = "";
 
         try {
             LocalDate startDate;
             LocalDate endDate;
             do {
-                startDate = console.printDateUI(title, subtitle, noOptions, "Start date (dd/MM/yyyy)", sc);
-                endDate = console.printDateUI(title, subtitle, noOptions, "End date (dd/MM/yyyy)", sc);
+                startDate = console.printDateUI(title, subtitle, content, "Start date (dd/MM/yyyy)", sc);
+                endDate = console.printDateUI(title, subtitle, content, "End date (dd/MM/yyyy)", sc);
 
                 if (startDate.isAfter(endDate)) {
                     console.printResult(title, "Start date must be before end date", sc);
@@ -1475,11 +1484,11 @@ public class AdminAccount extends Account {
         }
 
         String subtitle = "Payroll for employee " + employee.getId();
-        String[] noOptions = {};
+        String content = "";
 
         try {
-            int month = Integer.parseInt(console.printUI(title, subtitle, noOptions, "Month (1-12)", sc).trim());
-            int year = Integer.parseInt(console.printUI(title, subtitle, noOptions, "Year", sc).trim());
+            int month = Integer.parseInt(console.printUI(title, subtitle, content, "Month (1-12)", sc).trim());
+            int year = Integer.parseInt(console.printUI(title, subtitle, content, "Year", sc).trim());
 
             if (month < 1 || month > 12) {
                 console.printResult(title, "Month must be between 1 and 12", sc);
@@ -1499,14 +1508,14 @@ public class AdminAccount extends Account {
             }
 
             double baseSalary = Double
-                    .parseDouble(console.printUI(title, subtitle, noOptions, "Base salary", sc).trim());
-            double allowance = Double.parseDouble(console.printUI(title, subtitle, noOptions, "Allowance", sc).trim());
-            double deduction = Double.parseDouble(console.printUI(title, subtitle, noOptions, "Deduction", sc).trim());
-            double taxAmount = Double.parseDouble(console.printUI(title, subtitle, noOptions, "Tax amount", sc).trim());
+                    .parseDouble(console.printUI(title, subtitle, content, "Base salary", sc).trim());
+            double allowance = Double.parseDouble(console.printUI(title, subtitle, content, "Allowance", sc).trim());
+            double deduction = Double.parseDouble(console.printUI(title, subtitle, content, "Deduction", sc).trim());
+            double taxAmount = Double.parseDouble(console.printUI(title, subtitle, content, "Tax amount", sc).trim());
             double insuranceAmount = Double
-                    .parseDouble(console.printUI(title, subtitle, noOptions, "Insurance amount", sc).trim());
+                    .parseDouble(console.printUI(title, subtitle, content, "Insurance amount", sc).trim());
             int overtimeHours = Integer
-                    .parseInt(console.printUI(title, subtitle, noOptions, "Overtime hours", sc).trim());
+                    .parseInt(console.printUI(title, subtitle, content, "Overtime hours", sc).trim());
 
             if (baseSalary < 0 || allowance < 0 || deduction < 0 || taxAmount < 0 || insuranceAmount < 0
                     || overtimeHours < 0) {
@@ -1572,18 +1581,18 @@ public class AdminAccount extends Account {
         }
 
         String subtitle = "Attendance for employee " + employee.getId();
-        String[] noOptions = {};
+        String content = "";
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         try {
-            LocalDate date = console.printDateUI(title, subtitle, noOptions, "Date (dd/MM/yyyy)", sc);
+            LocalDate date = console.printDateUI(title, subtitle, content, "Date (dd/MM/yyyy)", sc);
 
             LocalTime clockIn;
             LocalTime clockOut;
             do {
-                clockIn = LocalTime.parse(console.printUI(title, subtitle, noOptions, "Clock in (HH:mm)", sc).trim(),
+                clockIn = LocalTime.parse(console.printUI(title, subtitle, content, "Clock in (HH:mm)", sc).trim(),
                         timeFormatter);
-                clockOut = LocalTime.parse(console.printUI(title, subtitle, noOptions, "Clock out (HH:mm)", sc).trim(),
+                clockOut = LocalTime.parse(console.printUI(title, subtitle, content, "Clock out (HH:mm)", sc).trim(),
                         timeFormatter);
 
                 if (!clockIn.isBefore(clockOut)) {
@@ -1622,10 +1631,10 @@ public class AdminAccount extends Account {
         }
 
         String subtitle = "Insurance for employee " + employee.getId();
-        String[] noOptions = {};
+        String content = "";
 
         try {
-            String insuranceNumber = console.printUI(title, subtitle, noOptions, "Insurance number", sc).trim();
+            String insuranceNumber = console.printUI(title, subtitle, content, "Insurance number", sc).trim();
             if (insuranceNumber.isEmpty()) {
                 console.printResult(title, "Insurance number cannot be empty", sc);
                 return;
@@ -1634,15 +1643,15 @@ public class AdminAccount extends Account {
             LocalDate startDate;
             LocalDate endDate;
             do {
-                startDate = console.printDateUI(title, subtitle, noOptions, "Start date (dd/MM/yyyy)", sc);
-                endDate = console.printDateUI(title, subtitle, noOptions, "End date (dd/MM/yyyy)", sc);
+                startDate = console.printDateUI(title, subtitle, content, "Start date (dd/MM/yyyy)", sc);
+                endDate = console.printDateUI(title, subtitle, content, "End date (dd/MM/yyyy)", sc);
 
                 if (startDate.isAfter(endDate)) {
                     console.printResult(title, "Start date must be before end date", sc);
                 }
             } while (startDate.isAfter(endDate));
 
-            double rate = Double.parseDouble(console.printUI(title, subtitle, noOptions, "Rate", sc).trim());
+            double rate = Double.parseDouble(console.printUI(title, subtitle, content, "Rate", sc).trim());
             if (rate < 0) {
                 console.printResult(title, "Rate cannot be negative", sc);
                 return;

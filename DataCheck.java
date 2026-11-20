@@ -1,4 +1,5 @@
 import java.util.regex.Pattern;
+import java.time.YearMonth;
 import java.util.regex.Matcher;
 
 public class DataCheck {
@@ -41,4 +42,23 @@ public class DataCheck {
         return day <= maxDay;
     }
 
+    public boolean isValid(String monthStr) {
+        Matcher matcher = pattern.matcher(monthStr);
+        if (!matcher.matches()) {
+            return false;
+        }
+
+        int month = Integer.parseInt(matcher.group(1));
+        int year = Integer.parseInt(matcher.group(2));
+
+        if (month < 1 || year < 1) {
+            return false;
+        }
+
+        if (month > 12) {
+            return false;
+        }
+
+        return true;
+    }
 }
