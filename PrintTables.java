@@ -118,7 +118,7 @@ public class PrintTables {
       if (rows != null)
         for (Payroll p : rows) {
           if (p != null) {
-            appendRow(content, w, p.getMonth() + "/" + p.getYear(),
+            appendRow(content, w, p.getMonth().getMonthValue() + "/" + p.getMonth().getYear(),
                 String.format("%.2f", p.getBaseSalary()),
                 String.format("%.2f", p.getBonus()),
                 String.format("%.2f", p.getAllowance()),

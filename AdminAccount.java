@@ -745,47 +745,51 @@ public class AdminAccount extends Account {
     }
 
     public Payroll createPayroll(Scanner sc) {
+        DataCheck checker = new DataCheck("^(\\d{2})/(\\d{4})$");
         ConsoleUI console = new ConsoleUI();
 
         String title = "Create Employee";
         String subtitle = "Create Payrolls";
+        String content = "";
         String[] options = {};
         String input;
 
-        input = "Month: ";
-        int month = validateInt(console.printUI(title, subtitle, options, input, sc));
-
-        input = "Year: ";
-        int year = validateInt(console.printUI(title, subtitle, options, input, sc));
+        input = "Month (MM/yyyy)";
+        String monthStr = console.printUI(title, subtitle, content, input, sc).trim();
+        while (!checker.isValid(monthStr)) {
+            console.printResult(title, "Invalid input", sc);
+            monthStr = console.printUI(title, subtitle, content, input, sc).trim();
+        }
+        YearMonth month = YearMonth.parse(monthStr, yearMonthFormatter);
 
         input = "Base Salary";
         double baseSalary = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Bonus: ";
+        input = "Bonus";
         double bonus = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Allowance: ";
+        input = "Allowance";
         double allowance = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Deduction: ";
+        input = "Deduction";
         double deduction = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Tax amount: ";
+        input = "Tax amount";
         double taxAmount = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Insurance amount: ";
+        input = "Insurance amount";
         double insuranceAmount = Double.parseDouble(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Worked hours: ";
+        input = "Worked hours";
         int workedHours = validateInt(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Overtime hours: ";
+        input = "Overtime hours";
         int overtimeHours = validateInt(console.printUI(title, subtitle, options, input, sc));
 
-        input = "Last salary increase (dd/MM/yyyy): ";
+        input = "Last salary increase (dd/MM/yyyy)";
         LocalDate lastSalaryIncreaseDate = console.printDateUI(title, subtitle, options, input, sc);
 
-        return new Payroll(month, year, baseSalary, bonus, allowance, deduction, taxAmount, insuranceAmount,
+        return new Payroll(month, baseSalary, bonus, allowance, deduction, taxAmount, insuranceAmount,
                 workedHours,
                 overtimeHours, lastSalaryIncreaseDate);
     }
@@ -1461,6 +1465,7 @@ public class AdminAccount extends Account {
     }
 
     public void addPayroll(Employee[] employees, Scanner sc) {
+        DataCheck checker = new DataCheck("^(\\d{2})/(\\d{4})$");
         ConsoleUI console = new ConsoleUI();
         String title = "Add Payroll";
 
@@ -1486,22 +1491,17 @@ public class AdminAccount extends Account {
         String subtitle = "Payroll for employee " + employee.getId();
         String content = "";
 
+        String input = "Month (MM/yyyy)";
+        String monthStr = console.printUI(title, subtitle, content, input, sc).trim();
+        while (!checker.isValid(monthStr)) {
+            console.printResult(title, "Invalid input", sc);
+            monthStr = console.printUI(title, subtitle, content, input, sc).trim();
+        }
+        YearMonth month = YearMonth.parse(monthStr, yearMonthFormatter);
+
         try {
-            int month = Integer.parseInt(console.printUI(title, subtitle, content, "Month (1-12)", sc).trim());
-            int year = Integer.parseInt(console.printUI(title, subtitle, content, "Year", sc).trim());
-
-            if (month < 1 || month > 12) {
-                console.printResult(title, "Month must be between 1 and 12", sc);
-                return;
-            }
-            if (year < 1900) {
-                console.printResult(title, "Year is invalid", sc);
-                return;
-            }
-
-            // one payroll per month
             for (int i = 0; i < payrolls.length; i++) {
-                if (payrolls[i] != null && payrolls[i].getMonth() == month && payrolls[i].getYear() == year) {
+                if (payrolls[i] != null && payrolls[i].getMonth().equals(month)) {
                     console.printResult(title, "Payroll for this month already exists", sc);
                     return;
                 }
@@ -1523,18 +1523,16 @@ public class AdminAccount extends Account {
                 return;
             }
 
-            // worked hours = total hours from this employee's attendance in that month
             double totalHours = 0;
             Attendance[] attendances = employee.getAttendances();
             for (int i = 0; i < attendances.length; i++) {
-                if (attendances[i] != null && attendances[i].getDate().getMonthValue() == month
-                        && attendances[i].getDate().getYear() == year) {
+                if (attendances[i] != null && attendances[i].getDate().getMonthValue() == month.getMonthValue()
+                        && attendances[i].getDate().getYear() == month.getYear()) {
                     totalHours += attendances[i].calculateWorkedHours();
                 }
             }
             int workedHours = (int) Math.round(totalHours);
 
-            // latest evaluation = last non-null slot
             Evaluation latest = null;
             Evaluation[] evaluations = employee.getEvaluations();
             for (int i = 0; i < evaluations.length; i++) {
@@ -1543,7 +1541,7 @@ public class AdminAccount extends Account {
                 }
             }
 
-            Payroll newPayroll = new Payroll(month, year, baseSalary, 0, allowance, deduction, taxAmount,
+            Payroll newPayroll = new Payroll(month, baseSalary, 0, allowance, deduction, taxAmount,
                     insuranceAmount, workedHours, overtimeHours, null);
             if (latest != null) {
                 newPayroll.setBonus(newPayroll.calculateBonus(latest));

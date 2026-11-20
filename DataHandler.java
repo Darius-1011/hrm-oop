@@ -172,8 +172,7 @@ public class DataHandler {
         while (!tmp.equals("}")) {
           tmp = sc.nextLine();
           thisPayrolls[idx] = new Payroll();
-          thisPayrolls[idx].setMonth(Integer.parseInt(tmp));
-          thisPayrolls[idx].setYear(Integer.parseInt(sc.nextLine()));
+          thisPayrolls[idx].setMonth(YearMonth.parse(tmp));
           thisPayrolls[idx].setBaseSalary(Double.parseDouble(sc.nextLine()));
           thisPayrolls[idx].setBonus(Double.parseDouble(sc.nextLine()));
           thisPayrolls[idx].setAllowance(Double.parseDouble(sc.nextLine()));
@@ -444,7 +443,6 @@ public class DataHandler {
         data += "{\n";
 
         data += currentPayroll.getMonth() + "\n";
-        data += currentPayroll.getYear() + "\n";
         data += currentPayroll.getBaseSalary() + "\n";
         data += currentPayroll.getBonus() + "\n";
         data += currentPayroll.getAllowance() + "\n";
@@ -677,7 +675,7 @@ public class DataHandler {
             // Payrolls
             "{",
             "{",
-            "1", "2025",
+            "2025-01",
             "15000000", "2000000", "1000000",
             "500000", "1000000", "500000",
             "176", "10",
@@ -765,7 +763,7 @@ public class DataHandler {
             // Payrolls
             "{",
             "{",
-            "2", "2025",
+            "2025-02",
             "12000000", "1500000", "800000",
             "300000", "800000", "400000",
             "168", "5",
@@ -853,7 +851,7 @@ public class DataHandler {
             // Payrolls
             "{",
             "{",
-            "3", "2025",
+            "2025-03",
             "10000000", "1000000", "500000",
             "200000", "600000", "300000",
             "176", "8",

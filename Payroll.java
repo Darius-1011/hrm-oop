@@ -1,8 +1,8 @@
 import java.time.LocalDate;
+import java.time.YearMonth;
 
 public class Payroll {
-    private int month;
-    private int year;
+    private YearMonth month;
     private double baseSalary;
     private double bonus;
     private double allowance;
@@ -14,8 +14,7 @@ public class Payroll {
     private LocalDate lastSalaryIncreaseDate;
 
     public Payroll() {
-        this.month = 0;
-        this.year = 0;
+        this.month = null;
         this.baseSalary = 0;
         this.bonus = 0;
         this.allowance = 0;
@@ -27,14 +26,13 @@ public class Payroll {
         this.lastSalaryIncreaseDate = null;
     }
 
-    public Payroll(int month, int year, double baseSalary,
+    public Payroll(YearMonth month, double baseSalary,
             double bonus, double allowance,
             double deduction, double taxAmount,
             double insuranceAmount, int workedHours,
             int overtimeHours,
             LocalDate lastSalaryIncreaseDate) {
         this.month = month;
-        this.year = year;
         this.baseSalary = baseSalary;
         this.bonus = bonus;
         this.allowance = allowance;
@@ -76,7 +74,7 @@ public class Payroll {
 
     public String getPayroll() {
         String content = "";
-        content += ("Thang: " + month + "/" + year) + "\n";
+        content += ("Thang: " + month.getMonthValue() + "/" + month.getYear()) + "\n";
         content += ("Luong co ban: " + baseSalary) + "\n";
         content += ("Tien thuong: " + bonus) + "\n";
         content += ("Phu cap: " + allowance) + "\n";
@@ -93,20 +91,12 @@ public class Payroll {
         return content;
     }
 
-    public int getMonth() {
+    public YearMonth getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(YearMonth month) {
         this.month = month;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public double getBaseSalary() {
