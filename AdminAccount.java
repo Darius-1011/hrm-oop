@@ -40,7 +40,7 @@ public class AdminAccount extends Account {
         ConsoleUI console = new ConsoleUI();
 
         String choice = console.printUI(title, "", new String[] {}, "Yes/No [Y/n]", sc);
-        return choice.equalsIgnoreCase("y");
+        return !choice.equalsIgnoreCase("n");
     }
 
     public AdminAccount(String username, String password, AccountStatus status) {
