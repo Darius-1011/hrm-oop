@@ -113,7 +113,7 @@ public class Main {
         { "Employees", "Departments", "Positions", "Payrolls", "Evaluations", "Contracts",
             "Attendances", "Absences", "Resignations", "Insurances" },
         { "Employee", "Department", "Position" },
-        { "Edit employee" },
+        { "Employee" },
         { "Employee" },
         { "Reply request" }
     };
