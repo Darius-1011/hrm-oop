@@ -22,7 +22,7 @@ public class AdminAccount extends Account {
 
     private static int getIndex(DataHandler data, String username) {
         for (int i = 0; i < data.getAccounts().length; i++) {
-            if (data.getAccounts()[i] != null && data.getAccounts()[i].getUsername().equals(username)) {
+            if (data.getAccounts()[i] != null && data.getAccounts()[i].getUsername().equalsIgnoreCase(username)) {
                 return i;
             }
         }
@@ -1707,7 +1707,8 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
-        Payroll[] currPayrolls = data.getEmployees()[idx].getPayrolls();
+        Employee currEmployee = data.getEmployees()[idx];
+        Payroll[] currPayrolls = currEmployee.getPayrolls();
 
         int sortBy;
         do {
@@ -1757,7 +1758,7 @@ public class AdminAccount extends Account {
                 break;
         }
 
-        PrintTables.printPayrolls(data.getEmployees(), id, sc);
+        PrintTables.printPayrolls(currEmployee, id, sc);
     }
 
     public void printEvaluations(DataHandler data, Scanner sc) {
@@ -1768,7 +1769,8 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
-        Evaluation[] currEvaluations = data.getEmployees()[idx].getEvaluations();
+        Employee currEmployee = data.getEmployees()[idx];
+        Evaluation[] currEvaluations = currEmployee.getEvaluations();
 
         int sortBy;
         do {
@@ -1810,7 +1812,7 @@ public class AdminAccount extends Account {
                 break;
         }
 
-        PrintTables.printEvaluations(data.getEmployees(), id, sc);
+        PrintTables.printEvaluations(currEmployee, id, sc);
     }
 
     public void printContracts(DataHandler data, Scanner sc) {
@@ -1821,7 +1823,8 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
-        Contract[] currContracts = data.getEmployees()[idx].getContracts();
+        Employee currEmployee = data.getEmployees()[idx];
+        Contract[] currContracts = currEmployee.getContracts();
 
         int sortBy;
         do {
@@ -1853,7 +1856,7 @@ public class AdminAccount extends Account {
                 break;
         }
 
-        PrintTables.printContracts(data.getEmployees(), id, sc);
+        PrintTables.printContracts(currEmployee, id, sc);
     }
 
     public void printAttendances(DataHandler data, Scanner sc) {
@@ -1864,7 +1867,8 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
-        Attendance[] currAttendances = data.getEmployees()[idx].getAttendances();
+        Employee currEmployee = data.getEmployees()[idx];
+        Attendance[] currAttendances = currEmployee.getAttendances();
 
         int sortBy;
         do {
@@ -1893,7 +1897,7 @@ public class AdminAccount extends Account {
                 break;
         }
 
-        PrintTables.printAttendances(data.getEmployees(), id, sc);
+        PrintTables.printAttendances(currEmployee, id, sc);
     }
 
     public void printAbsences(DataHandler data, Scanner sc) {
@@ -1904,7 +1908,8 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
-        Absence[] currAbsences = data.getEmployees()[idx].getAbsences();
+        Employee currEmployee = data.getEmployees()[idx];
+        Absence[] currAbsences = currEmployee.getAbsences();
 
         int sortBy;
         do {
@@ -1936,7 +1941,7 @@ public class AdminAccount extends Account {
                 break;
         }
 
-        PrintTables.printAbsences(data.getEmployees(), id, sc);
+        PrintTables.printAbsences(currEmployee, id, sc);
     }
 
     public void printResignations(DataHandler data, Scanner sc) {
@@ -1947,7 +1952,8 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
-        Resignation[] currResignations = data.getEmployees()[idx].getResignations();
+        Employee currEmployee = data.getEmployees()[idx];
+        Resignation[] currResignations = currEmployee.getResignations();
 
         int sortBy;
         do {
@@ -1976,7 +1982,7 @@ public class AdminAccount extends Account {
                 break;
         }
 
-        PrintTables.printResignations(data.getEmployees(), id, sc);
+        PrintTables.printResignations(currEmployee, id, sc);
     }
 
     public void printInsurances(DataHandler data, Scanner sc) {
@@ -1987,7 +1993,8 @@ public class AdminAccount extends Account {
 
         String id = askId(title, sc);
         int idx = getIndex(data, id);
-        Insurance[] currInsurances = data.getEmployees()[idx].getInsurances();
+        Employee currEmployee = data.getEmployees()[idx];
+        Insurance[] currInsurances = currEmployee.getInsurances();
 
         int sortBy;
         do {
@@ -2022,6 +2029,6 @@ public class AdminAccount extends Account {
                 break;
         }
 
-        PrintTables.printInsurances(data.getEmployees(), id, sc);
+        PrintTables.printInsurances(currEmployee, id, sc);
     }
 }

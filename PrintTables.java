@@ -1,17 +1,6 @@
 import java.util.Scanner;
 
 public class PrintTables {
-  private static Employee searchEmployee(Employee[] employees, String id) {
-    if (employees == null || id == null)
-      return null;
-    for (Employee employee : employees) {
-      if (employee != null && employee.getId() != null
-          && employee.getId().equalsIgnoreCase(id))
-        return employee;
-    }
-    return null;
-  }
-
   private static String fit(String value, int width) {
     String text = value == null ? "" : value;
     if (text.length() > width)
@@ -40,8 +29,7 @@ public class PrintTables {
     console.printResult(title, content, sc);
   }
 
-  public static void printEvaluations(Employee[] employees, String id, Scanner sc) {
-    Employee employee = searchEmployee(employees, id);
+  public static void printEvaluations(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
       content.append("Employee not found: ").append(id);
@@ -74,8 +62,7 @@ public class PrintTables {
     show("EVALUATION TABLE - " + id, content.toString(), sc);
   }
 
-  public static void printContracts(Employee[] employees, String id, Scanner sc) {
-    Employee employee = searchEmployee(employees, id);
+  public static void printContracts(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
       content.append("Employee not found: ").append(id);
@@ -102,8 +89,7 @@ public class PrintTables {
     show("CONTRACT TABLE - " + id, content.toString(), sc);
   }
 
-  public static void printPayrolls(Employee[] employees, String id, Scanner sc) {
-    Employee employee = searchEmployee(employees, id);
+  public static void printPayrolls(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
       content.append("Employee not found: ").append(id);
@@ -135,8 +121,7 @@ public class PrintTables {
     show("PAYROLL TABLE - " + id, content.toString(), sc);
   }
 
-  public static void printAttendances(Employee[] employees, String id, Scanner sc) {
-    Employee employee = searchEmployee(employees, id);
+  public static void printAttendances(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
       content.append("Employee not found: ").append(id);
@@ -163,8 +148,7 @@ public class PrintTables {
     show("ATTENDANCE TABLE - " + id, content.toString(), sc);
   }
 
-  public static void printAbsences(Employee[] employees, String id, Scanner sc) {
-    Employee employee = searchEmployee(employees, id);
+  public static void printAbsences(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
       content.append("Employee not found: ").append(id);
@@ -191,8 +175,7 @@ public class PrintTables {
     show("ABSENCE TABLE - " + id, content.toString(), sc);
   }
 
-  public static void printResignations(Employee[] employees, String id, Scanner sc) {
-    Employee employee = searchEmployee(employees, id);
+  public static void printResignations(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
       content.append("Employee not found: ").append(id);
@@ -218,8 +201,7 @@ public class PrintTables {
     show("RESIGNATION TABLE - " + id, content.toString(), sc);
   }
 
-  public static void printInsurances(Employee[] employees, String id, Scanner sc) {
-    Employee employee = searchEmployee(employees, id);
+  public static void printInsurances(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
       content.append("Employee not found: ").append(id);
