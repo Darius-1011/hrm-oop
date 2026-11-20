@@ -114,9 +114,9 @@ public class Main {
         { "Employees", "Departments", "Positions", "Payrolls", "Evaluations", "Contracts",
             "Attendances", "Absences", "Resignations", "Insurances" },
         { "Employee", "Department", "Position" },
+        { "Employee", "Department", "Position" },
         { "Employee" },
-        { "Employee" },
-        { "Reply request" }
+        { "Reply request" },
     };
 
     int choice;
@@ -242,8 +242,16 @@ public class Main {
           id = console.printUI(title, subtitle, editOptions, input, sc);
           account.editEmployee(sc, data.getEmployees(), id, data.getPositions(), data.getDepartments());
           break;
-
         case 26:
+          title = "Edit Department";
+          account.editDepartment(sc, data.getDepartments());
+          break;
+        case 27:
+          title = "Edit Position";
+          account.editPosition(sc, data.getPositions());
+          break;
+
+        case 28:
           title = "Remove Employee";
           subtitle = "";
           String[] removeOptions = {};
@@ -254,7 +262,7 @@ public class Main {
           account.removeAccount(data.getAccounts(), removeEmployee, sc);
           break;
 
-        case 27:
+        case 29:
           title = "Reply to username: ";
           subtitle = "";
           content = "";
