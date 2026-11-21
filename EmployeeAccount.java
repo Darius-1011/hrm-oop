@@ -254,4 +254,84 @@ public class EmployeeAccount extends Account {
 
         console.printResult(title, table.toString(), sc);
     }
+    public void viewMyRequests(Scanner sc) {
+        ConsoleUI console = new ConsoleUI();
+        String title = "My Requests Status";
+
+        if (employee == null) {
+            console.printResult(title, "Tai khoan chua duoc lien ket voi ho so nhan vien nao.", sc);
+            return;
+        }
+
+        DateTimeFormatter shortFmt = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String sep = "+-----+----------------------+------------+------------------------------+------------------------------+\n";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("ABSENCE REQUESTS:\n");
+        sb.append(sep);
+        sb.append("| ").append(AdminInbox.fit("STT", 3))
+                .append(" | ").append(AdminInbox.fit("From -> To", 20))
+                .append(" | ").append(AdminInbox.fit("Status", 10))
+                .append(" | ").append(AdminInbox.fit("Reason", 28))
+                .append(" | ").append(AdminInbox.fit("Admin Reply", 28))
+                .append(" |\n");
+        sb.append(sep);
+
+        boolean hasAbs = false;
+        int idx = 1;
+        if (employee.getAbsences() != null) {
+            for (Absence a : employee.getAbsences()) {
+                if (a != null) {
+                    String from = a.getFromDate() != null ? a.getFromDate().format(shortFmt) : "N/A";
+                    String to = a.getToDate() != null ? a.getToDate().format(shortFmt) : "N/A";
+                    String status = a.getStatus() != null ? a.getStatus().name() : "N/A";
+                    sb.append("| ").append(AdminInbox.fit(String.valueOf(idx++), 3))
+                            .append(" | ").append(AdminInbox.fit(from + " -> " + to, 20))
+                            .append(" | ").append(AdminInbox.fit(status, 10))
+                            .append(" | ").append(AdminInbox.fit(a.getReason(), 28))
+                            .append(" | ").append(AdminInbox.fit(AdminInbox.getReplyNote(a), 28))
+                            .append(" |\n");
+                    hasAbs = true;
+                }
+            }
+        }
+        sb.append(sep);
+        if (!hasAbs) {
+            sb.append("(Chua co don xin nghi phep)\n");
+        }
+
+        sb.append("\nRESIGNATION REQUESTS:\n");
+        sb.append(sep);
+        sb.append("| ").append(AdminInbox.fit("STT", 3))
+                .append(" | ").append(AdminInbox.fit("Date", 20))
+                .append(" | ").append(AdminInbox.fit("Status", 10))
+                .append(" | ").append(AdminInbox.fit("Reason", 28))
+                .append(" | ").append(AdminInbox.fit("Admin Reply", 28))
+                .append(" |\n");
+        sb.append(sep);
+
+        boolean hasRes = false;
+        idx = 1;
+        if (employee.getResignations() != null) {
+            for (Resignation r : employee.getResignations()) {
+                if (r != null) {
+                    String dateStr = r.getDate() != null ? r.getDate().format(dateFormatter) : "N/A";
+                    String status = r.getStatus() != null ? r.getStatus().name() : "N/A";
+                    sb.append("| ").append(AdminInbox.fit(String.valueOf(idx++), 3))
+                            .append(" | ").append(AdminInbox.fit(dateStr, 20))
+                            .append(" | ").append(AdminInbox.fit(status, 10))
+                            .append(" | ").append(AdminInbox.fit(r.getReason(), 28))
+                            .append(" | ").append(AdminInbox.fit(AdminInbox.getReplyNote(r), 28))
+                            .append(" |\n");
+                    hasRes = true;
+                }
+            }
+        }
+        sb.append(sep);
+        if (!hasRes) {
+            sb.append("(Chua co don thoi viec)\n");
+        }
+
+        console.printResult(title, sb.toString(), sc);
+    }
 }
