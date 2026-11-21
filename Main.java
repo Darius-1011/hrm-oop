@@ -44,7 +44,7 @@ public class Main {
     String title = "Employee Account";
     String subtitle = "Choose an option";
     String[] options = { "Logout", "Change password", "Get info", "Set info", "Submit absence", "Submit resignation",
-        "Check in", "Check out", "View attendance" };
+        "Check in", "Check out", "View attendance", "View my requests" };
 
     int choice;
     do {
@@ -95,6 +95,9 @@ public class Main {
         case 8:
           account.viewAttendance(sc);
           break;
+        case 9:
+          account.viewMyRequests(sc);
+          break;
 
         default:
           title = "Employee Account";
@@ -107,7 +110,6 @@ public class Main {
   private static void runAdminUI(AdminAccount account, Scanner sc) {
     String title = "Admin Account";
     String subtitle = "Choose an option";
-    String content = "";
     String[] sectionNames = { "Account", "Add", "Print", "Search", "Edit", "Remove", "Other" };
     String[][] sections = { { "Logout", "Change password", "Get info", "Set info" },
         { "Employee", "Evaluation", "Contract", "Payroll", "Attendance", "Insurance", "Position", "Department" },
@@ -121,6 +123,9 @@ public class Main {
 
     int choice;
     do {
+      int pendingCount = AdminInbox.countPending(data.getEmployees());
+      sections[6][0] = "Reply request (Inbox: " + pendingCount + ")";
+
       choice = validateInt(console.printUIWithSections(sc, title, sectionNames, sections));
 
       String id;
@@ -263,17 +268,7 @@ public class Main {
           break;
 
         case 29:
-          title = "Reply to username: ";
-          subtitle = "";
-          content = "";
-
-          input = "Username";
-          String replyUsername = console.printUI(title, subtitle, content, input, sc);
-
-          input = "Reply";
-          String reply = console.printUI(title, subtitle, content, input, sc);
-
-          account.replyRequest(data.getAccounts(), replyUsername, reply, sc);
+          account.replyRequest(data, sc);
           break;
 
         default:
@@ -362,6 +357,7 @@ public class Main {
         data.writeSampleData();
         data.readData();
         linkAccountsToEmployees();
+        AdminInbox.syncEmployeeStatuses(data.getEmployees());
         break;
 
       default:

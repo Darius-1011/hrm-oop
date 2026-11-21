@@ -141,6 +141,10 @@ public class AdminAccount extends Account {
         console.printResult(title, "Khong tim thay tai khoan: " + username, sc);
     }
 
+    public void replyRequest(DataHandler data, Scanner sc) {
+        AdminInbox.openInbox(data.getEmployees(), sc);
+    }
+
     public Employee searchEmployee(Employee[] employees, String id) {
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null && employees[i].getId().equals(id)) {
