@@ -232,7 +232,7 @@ public class ConsoleUI {
       printContent(lines[i]);
     }
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
-    printContent("Press Enter to go back");
+    printContent("Nhấn Enter để quay lại");
     System.out.println("║" + " ".repeat(CONTENT_WIDTH) + "║");
     System.out.println("╚" + "═".repeat(CONTENT_WIDTH) + "╝");
 
@@ -249,7 +249,7 @@ public class ConsoleUI {
         int year = Integer.parseInt(date.substring(6, 10));
         return LocalDate.of(year, month, day);
       } else {
-        printResult(title, "Invalid date! Please enter again.", sc);
+        printResult(title, "Ngày không hợp lệ! Vui lòng nhập lại.", sc);
       }
     }
   }
@@ -264,7 +264,7 @@ public class ConsoleUI {
         int year = Integer.parseInt(date.substring(6, 10));
         return LocalDate.of(year, month, day);
       } else {
-        printResult(title, "Invalid date! Please enter again.", sc);
+        printResult(title, "Ngày không hợp lệ! Vui lòng nhập lại.", sc);
       }
     }
   }

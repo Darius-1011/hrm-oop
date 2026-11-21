@@ -54,10 +54,10 @@ public class PrintTables {
   public static void printEmployees(Employee[] employees, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employees == null) {
-      content.append("Employees list not found: ").append(sc);
+      content.append("Không tìm thấy danh sách nhân viên: ").append(sc);
     } else {
       int[] w = { 6, 10, 20, 10, 6, 20, 24 };
-      appendHeader(content, w, "Id", "Hire date", "Specialization", "Status", "Tax id", "Position", "Department");
+      appendHeader(content, w, "Mã NV", "Ngày vào", "Chuyên môn", "Trạng thái", "Mã thuế", "Chức vụ", "Phòng ban");
       appendSeparator(content, w);
       boolean found = false;
       for (Employee e : employees) {
@@ -74,18 +74,18 @@ public class PrintTables {
       }
 
       if (!found)
-        content.append("No evaluation data found.\n");
+        content.append("Không tìm thấy dữ liệu nhân viên.\n");
     }
-    show("Print Employees", content.toString(), sc);
+    show("Danh sách nhân viên", content.toString(), sc);
   }
 
   public static void printDepartments(Department[] employees, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employees == null) {
-      content.append("Departments list not found: ").append(sc);
+      content.append("Không tìm thấy danh sách phòng ban: ").append(sc);
     } else {
       int[] w = { 50, 20, 30 };
-      appendHeader(content, w, "Name", "Phone", "Position");
+      appendHeader(content, w, "Tên phòng ban", "Điện thoại", "Chức vụ");
       appendSeparator(content, w);
       boolean found = false;
       for (Department e : employees) {
@@ -98,18 +98,18 @@ public class PrintTables {
       }
 
       if (!found)
-        content.append("No evaluation data found.\n");
+        content.append("Không tìm thấy dữ liệu phòng ban.\n");
     }
-    show("Print Departments", content.toString(), sc);
+    show("Danh sách phòng ban", content.toString(), sc);
   }
 
   public static void printPositions(Position[] employees, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employees == null) {
-      content.append("Positions list not found: ").append(sc);
+      content.append("Không tìm thấy danh sách chức vụ: ").append(sc);
     } else {
       int[] w = { 40, 8, 40 };
-      appendHeader(content, w, "Name", "Position Coefficient", "Responsibilities");
+      appendHeader(content, w, "Tên chức vụ", "Hệ số", "Trách nhiệm");
       appendSeparator(content, w);
       boolean found = false;
       for (Position e : employees) {
@@ -122,19 +122,19 @@ public class PrintTables {
       }
 
       if (!found)
-        content.append("No evaluation data found.\n");
+        content.append("Không tìm thấy dữ liệu chức vụ.\n");
     }
-    show("Print Positions", content.toString(), sc);
+    show("Danh sách chức vụ", content.toString(), sc);
   }
 
   public static void printEvaluations(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
-      content.append("Employee not found: ").append(id);
+      content.append("Không tìm thấy nhân viên: ").append(id);
     } else {
       int[] w = { 12, 8, 10, 12, 9, 14, 10, 10 };
-      appendHeader(content, w, "Month", "Work", "Attitude", "Discipline",
-          "Quality", "Productivity", "Teamwork", "Average");
+      appendHeader(content, w, "Tháng", "Công việc", "Thái độ", "Kỷ luật",
+          "Chất lượng", "Năng suất", "Làm nhóm", "Trung bình");
       appendSeparator(content, w);
       Evaluation[] rows = employee.getEvaluations();
       boolean found = false;
@@ -154,18 +154,18 @@ public class PrintTables {
         }
 
       if (!found)
-        content.append("No evaluation data found.\n");
+        content.append("Không tìm thấy dữ liệu đánh giá.\n");
     }
-    show("EVALUATION TABLE - " + id, content.toString(), sc);
+    show("BẢNG ĐÁNH GIÁ - " + id, content.toString(), sc);
   }
 
   public static void printContracts(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
-      content.append("Employee not found: ").append(id);
+      content.append("Không tìm thấy nhân viên: ").append(id);
     } else {
       int[] w = { 18, 18, 25, 20 };
-      appendHeader(content, w, "Start Date", "End Date", "Contract Type", "Status");
+      appendHeader(content, w, "Ngày bắt đầu", "Ngày kết thúc", "Loại hợp đồng", "Trạng thái");
       appendSeparator(content, w);
       Contract[] rows = employee.getContracts();
       boolean found = false;
@@ -180,19 +180,19 @@ public class PrintTables {
         }
 
       if (!found)
-        content.append("No contract data found.\n");
+        content.append("Không tìm thấy dữ liệu hợp đồng.\n");
     }
-    show("CONTRACT TABLE - " + id, content.toString(), sc);
+    show("BẢNG HỢP ĐỒNG - " + id, content.toString(), sc);
   }
 
   public static void printPayrolls(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
-      content.append("Employee not found: ").append(id);
+      content.append("Không tìm thấy nhân viên: ").append(id);
     } else {
       int[] w = { 12, 14, 12, 12, 12, 14, 14 };
-      appendHeader(content, w, "Month/Year", "Base Salary", "Bonus",
-          "Allowance", "Deduction", "Overtime Pay", "Net Salary");
+      appendHeader(content, w, "Tháng/Năm", "Lương cơ bản", "Thưởng",
+          "Phụ cấp", "Khấu trừ", "Lương tăng ca", "Thực nhận");
       appendSeparator(content, w);
       Payroll[] rows = employee.getPayrolls();
       boolean found = false;
@@ -211,18 +211,18 @@ public class PrintTables {
         }
 
       if (!found)
-        content.append("No payroll data found.\n");
+        content.append("Không tìm thấy dữ liệu bảng lương.\n");
     }
-    show("PAYROLL TABLE - " + id, content.toString(), sc);
+    show("BẢNG LƯƠNG - " + id, content.toString(), sc);
   }
 
   public static void printAttendances(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
-      content.append("Employee not found: ").append(id);
+      content.append("Không tìm thấy nhân viên: ").append(id);
     } else {
       int[] w = { 20, 20, 20, 16 };
-      appendHeader(content, w, "Date", "Clock In", "Clock Out", "Worked Hours");
+      appendHeader(content, w, "Ngày", "Giờ vào", "Giờ ra", "Số giờ làm");
       appendSeparator(content, w);
       Attendance[] rows = employee.getAttendances();
       boolean found = false;
@@ -237,19 +237,19 @@ public class PrintTables {
         }
 
       if (!found)
-        content.append("No attendance data found.\n");
+        content.append("Không tìm thấy dữ liệu chấm công.\n");
     }
 
-    show("ATTENDANCE TABLE - " + id, content.toString(), sc);
+    show("BẢNG CHẤM CÔNG - " + id, content.toString(), sc);
   }
 
   public static void printAbsences(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
-      content.append("Employee not found: ").append(id);
+      content.append("Không tìm thấy nhân viên: ").append(id);
     } else {
       int[] w = { 35, 18, 18, 16 };
-      appendHeader(content, w, "Reason", "From Date", "To Date", "Status");
+      appendHeader(content, w, "Lý do", "Từ ngày", "Đến ngày", "Trạng thái");
       appendSeparator(content, w);
       Absence[] rows = employee.getAbsences();
       boolean found = false;
@@ -264,18 +264,18 @@ public class PrintTables {
         }
 
       if (!found)
-        content.append("No absence data found.\n");
+        content.append("Không tìm thấy dữ liệu nghỉ phép.\n");
     }
-    show("ABSENCE TABLE - " + id, content.toString(), sc);
+    show("BẢNG NGHỈ PHÉP - " + id, content.toString(), sc);
   }
 
   public static void printResignations(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
-      content.append("Employee not found: ").append(id);
+      content.append("Không tìm thấy nhân viên: ").append(id);
     } else {
       int[] w = { 45, 20, 18 };
-      appendHeader(content, w, "Reason", "Date", "Status");
+      appendHeader(content, w, "Lý do", "Ngày", "Trạng thái");
       appendSeparator(content, w);
       Resignation[] rows = employee.getResignations();
       boolean found = false;
@@ -289,18 +289,18 @@ public class PrintTables {
         }
 
       if (!found)
-        content.append("No resignation data found.\n");
+        content.append("Không tìm thấy dữ liệu thôi việc.\n");
     }
-    show("RESIGNATION TABLE - " + id, content.toString(), sc);
+    show("BẢNG THÔI VIỆC - " + id, content.toString(), sc);
   }
 
   public static void printInsurances(Employee employee, String id, Scanner sc) {
     StringBuilder content = new StringBuilder();
     if (employee == null) {
-      content.append("Employee not found: ").append(id);
+      content.append("Không tìm thấy nhân viên: ").append(id);
     } else {
       int[] w = { 22, 20, 18, 18, 12 };
-      appendHeader(content, w, "Insurance Number", "Type", "Start Date", "End Date", "Rate");
+      appendHeader(content, w, "Mã bảo hiểm", "Loại", "Ngày bắt đầu", "Ngày kết thúc", "Tỷ lệ");
       appendSeparator(content, w);
       Insurance[] rows = employee.getInsurances();
       boolean found = false;
@@ -315,8 +315,8 @@ public class PrintTables {
         }
 
       if (!found)
-        content.append("No insurance data found.\n");
+        content.append("Không tìm thấy dữ liệu bảo hiểm.\n");
     }
-    show("INSURANCE TABLE - " + id, content.toString(), sc);
+    show("BẢNG BẢO HIỂM - " + id, content.toString(), sc);
   }
 }

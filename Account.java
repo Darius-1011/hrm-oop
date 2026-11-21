@@ -22,52 +22,52 @@ public abstract class Account {
 
     public boolean login(Scanner sc) {
         ConsoleUI console = new ConsoleUI();
-        String title = "Login";
+        String title = "Đăng nhập";
         String[] options = {};
-        String input = "Password";
+        String input = "Mật khẩu";
 
         String password = console.printUI(title, "", options, input, sc);
 
         if (!password.equals(getPassword())) {
-            console.printResult(title, "Wrong password", sc);
+            console.printResult(title, "Sai mật khẩu", sc);
             return false;
         }
 
         if (getStatus() != Account.AccountStatus.ACTIVE) {
-            console.printResult(title, "Account is not active", sc);
+            console.printResult(title, "Tài khoản chưa được kích hoạt", sc);
             return false;
         }
 
-        console.printResult(title, "Login successfully", sc);
+        console.printResult(title, "Đăng nhập thành công", sc);
         return true;
     }
 
     public void logout() {
-        System.out.println(this.username + " logout");
+        System.out.println(this.username + " đăng xuất");
     }
 
     public void resetPassword(Scanner sc) {
         ConsoleUI console = new ConsoleUI();
-        String title = "Reset Password";
+        String title = "Đổi mật khẩu";
         String subtitle = "";
         String[] options = {};
         String input;
 
         String oldPassword;
         do {
-            input = "Old password";
+            input = "Mật khẩu cũ";
 
             oldPassword = console.printUI(title, subtitle, options, input, sc);
 
             if (!getPassword().equals(oldPassword)) {
-                console.printResult(title, "Wrong password", sc);
+                console.printResult(title, "Sai mật khẩu", sc);
             }
         } while (!getPassword().equals(oldPassword));
 
-        input = "New password";
+        input = "Mật khẩu mới";
         setPassword(console.printUI(title, subtitle, options, input, sc));
 
-        console.printResult(title, "Reset password successfully", sc);
+        console.printResult(title, "Đổi mật khẩu thành công", sc);
     }
 
     abstract void getInfo(Scanner sc);
@@ -84,32 +84,32 @@ public abstract class Account {
 
     public void setAccountName(Scanner sc, Account[] accounts, Account current) {
         ConsoleUI console = new ConsoleUI();
-        String title = "Set New Username";
+        String title = "Đặt tên đăng nhập mới";
         String[] options = {};
 
         String username;
-        username = console.printUI(title, "", options, "New username", sc);
+        username = console.printUI(title, "", options, "Tên đăng nhập mới", sc);
         if (usernameExist(accounts, username)) {
-            console.printResult(title, username + " already exists", sc);
+            console.printResult(title, username + " đã tồn tại", sc);
             return;
         }
 
         current.setUsername(username);
-        console.printResult(title, "Set new username successfully", sc);
+        console.printResult(title, "Đặt tên đăng nhập mới thành công", sc);
     }
 
     public void setAccountStatus(Scanner sc, Account current) {
         ConsoleUI console = new ConsoleUI();
-        String title = "Set Account Status";
-        String subtitle = "Choose an option";
+        String title = "Đặt trạng thái tài khoản";
+        String subtitle = "Chọn một tùy chọn";
 
         int statusNum = 0;
         do {
-            String[] options = { "Active", "Inactive", "Suspended", "Pending", "Locked", "Terminated" };
+            String[] options = { "Hoạt động", "Không hoạt động", "Đình chỉ", "Chờ xử lý", "Đã khóa", "Đã chấm dứt" };
             statusNum = Integer.parseInt(console.printUI(title, subtitle, options, sc));
 
             if (statusNum < 1 || 6 < statusNum) {
-                console.printResult(title, "Invalid choice", sc);
+                console.printResult(title, "Lựa chọn không hợp lệ", sc);
             }
         } while (statusNum < 1 || 6 < statusNum);
 
@@ -137,7 +137,7 @@ public abstract class Account {
                 break;
         }
 
-        console.printResult(title, "Set account status successfully", sc);
+        console.printResult(title, "Đặt trạng thái tài khoản thành công", sc);
     }
 
     public void setInfo(String username, AccountStatus status) {

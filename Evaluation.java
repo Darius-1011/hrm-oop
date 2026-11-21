@@ -69,16 +69,16 @@ public class Evaluation {
     }
 
     public void displayEvaluation() {
-        System.out.println("Thang danh gia: " + month);
-        System.out.println("Nhan xet: " + comment);
-        System.out.println("Diem cong viec: " + workScore);
-        System.out.println("Diem thai do: " + attitudeScore);
-        System.out.println("Diem ky luat: " + disciplineScore);
-        System.out.println("Chat luong cong viec (workQuality): " + workQuality);
-        System.out.println("Nang suat (productivity): " + productivity);
-        System.out.println("Lam viec nhom (teamWork): " + teamWork);
-        System.out.println("Diem trung binh: " + calculateEvaluationScore());
-        System.out.println("He so thuong: " + getBonusRate());
+        System.out.println("Tháng đánh giá: " + month);
+        System.out.println("Nhận xét: " + comment);
+        System.out.println("Điểm công việc: " + workScore);
+        System.out.println("Điểm thái độ: " + attitudeScore);
+        System.out.println("Điểm kỷ luật: " + disciplineScore);
+        System.out.println("Chất lượng công việc: " + workQuality);
+        System.out.println("Năng suất: " + productivity);
+        System.out.println("Khả năng làm việc nhóm: " + teamWork);
+        System.out.println("Điểm đánh giá trung bình: " + calculateEvaluationScore());
+        System.out.println("Tỷ lệ thưởng: " + getBonusRate());
     }
 
     public YearMonth getMonth() {

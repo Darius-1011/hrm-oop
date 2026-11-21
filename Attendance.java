@@ -34,10 +34,10 @@ public class Attendance {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        System.out.println("Ngay: " + date.format(dateFormatter));
-        System.out.println("Gio vao: " + clockIn.format(timeFormatter));
-        System.out.println("Gio ra: " + clockOut.format(timeFormatter));
-        System.out.println("So gio lam: " + calculateWorkedHours());
+        System.out.println("Ngày: " + date.format(dateFormatter));
+        System.out.println("Giờ vào: " + clockIn.format(timeFormatter));
+        System.out.println("Giờ ra: " + clockOut.format(timeFormatter));
+        System.out.println("Số giờ làm: " + calculateWorkedHours());
     }
 
     public LocalDate getDate() {

@@ -643,11 +643,11 @@ public class DataHandler {
             "1998-06-15", "Male",
             "{",
             "25", "Nguyen Hue", "Ben Nghe",
-            "District 1", "Ho Chi Minh City",
+            "Quận/Huyện 1", "Ho Chi Minh Thành phố",
             "}",
             "EMP001",
             "2025-01-01",
-            "Backend Development",
+            "Quay lạiend Development",
             "WORKING",
 
             // Evaluations
@@ -786,7 +786,7 @@ public class DataHandler {
             "1999-03-20", "Female",
             "{",
             "12", "Le Loi", "Ben Thanh",
-            "District 1", "Ho Chi Minh City",
+            "Quận/Huyện 1", "Ho Chi Minh Thành phố",
             "}",
             "EMP002",
             "2025-02-01",
@@ -929,7 +929,7 @@ public class DataHandler {
             "1997-08-10", "Male",
             "{",
             "30", "Tran Hung Dao", "Cau Kho",
-            "District 1", "Ho Chi Minh City",
+            "Quận/Huyện 1", "Ho Chi Minh Thành phố",
             "}",
             "EMP003",
             "2025-03-01",
@@ -1094,7 +1094,7 @@ public class DataHandler {
     String data = "";
 
     String[][] samples = {
-        { "Manager", "3.0", "Department management" },
+        { "Manager", "3.0", "Phòng ban management" },
         { "Team Leader", "2.5", "Team supervision and coordination" },
         { "Senior Developer", "2.0", "Senior software development" },
         { "Junior Developer", "1.5", "Junior software development" },

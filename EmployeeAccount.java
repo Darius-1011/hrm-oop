@@ -13,31 +13,31 @@ public class EmployeeAccount extends Account {
     public void getInfo(Scanner sc) {
         ConsoleUI console = new ConsoleUI();
         String result = "";
-        result += "Username: " + this.getUsername() + "\n";
-        result += "Status: " + this.getStatus() + "\n";
-        result += "First name: " + employee.getFirstName() + "\n";
-        result += "Last name: " + employee.getLastName() + "\n";
+        result += "Tên đăng nhập: " + this.getUsername() + "\n";
+        result += "Trạng thái: " + this.getStatus() + "\n";
+        result += "Tên: " + employee.getFirstName() + "\n";
+        result += "Họ: " + employee.getLastName() + "\n";
         result += "Email: " + employee.getEmail() + "\n";
-        result += "Phone: " + employee.getPhone() + "\n";
-        result += "Date of birth: " + employee.getDateOfBirth() + "\n";
-        result += "Gender: " + employee.getGender() + "\n";
-        result += "Address: " + employee.getAddress().getFullAddress() + "\n";
+        result += "Điện thoại: " + employee.getPhone() + "\n";
+        result += "Ngày sinh: " + employee.getDateOfBirth() + "\n";
+        result += "Giới tính: " + employee.getGender() + "\n";
+        result += "Địa chỉ: " + employee.getAddress().getFullAddress() + "\n";
 
-        result += "Id: " + employee.getId() + "\n";
-        result += "Hire date: " + employee.getHireDate() + "\n";
-        result += "Specialization: " + employee.getSpecialization() + "\n";
-        result += "Status: " + employee.getStatus() + "\n";
-        result += "Evaluation count: " + employee.getEvaluations().length + "\n";
-        result += "Contract count: " + employee.getContracts().length + "\n";
-        result += "Payroll count: " + employee.getPayrolls().length + "\n";
-        result += "Attendance count: " + employee.getAttendances().length + "\n";
-        result += "Resignation count: " + employee.getResignations().length + "\n";
-        result += "Tax id: " + employee.getTaxId() + "\n";
-        result += "Insurance count: " + employee.getInsurances().length + "\n";
-        result += "Position: " + employee.getPosition().getName() + "\n";
-        result += "Department: " + employee.getDepartment().getName() + "\n";
+        result += "Mã: " + employee.getId() + "\n";
+        result += "Ngày tuyển dụng: " + employee.getHireDate() + "\n";
+        result += "Chuyên môn: " + employee.getSpecialization() + "\n";
+        result += "Trạng thái: " + employee.getStatus() + "\n";
+        result += "Số đánh giá: " + employee.getEvaluations().length + "\n";
+        result += "Số hợp đồng: " + employee.getContracts().length + "\n";
+        result += "Số bảng lương: " + employee.getPayrolls().length + "\n";
+        result += "Số lượt chấm công: " + employee.getAttendances().length + "\n";
+        result += "Số đơn thôi việc: " + employee.getResignations().length + "\n";
+        result += "Mã số thuế: " + employee.getTaxId() + "\n";
+        result += "Số bảo hiểm: " + employee.getInsurances().length + "\n";
+        result += "Chức vụ: " + employee.getPosition().getName() + "\n";
+        result += "Phòng ban: " + employee.getDepartment().getName() + "\n";
 
-        console.printResult("Employee Information", result, sc);
+        console.printResult("Thông tin nhân viên", result, sc);
     }
 
     public EmployeeAccount(String username, String password, AccountStatus status) {
@@ -256,7 +256,7 @@ public class EmployeeAccount extends Account {
     }
     public void viewMyRequests(Scanner sc) {
         ConsoleUI console = new ConsoleUI();
-        String title = "My Requests Status";
+        String title = "My Requests Trạng thái";
 
         if (employee == null) {
             console.printResult(title, "Tai khoan chua duoc lien ket voi ho so nhan vien nao.", sc);
@@ -267,13 +267,13 @@ public class EmployeeAccount extends Account {
         String sep = "+-----+----------------------+------------+------------------------------+------------------------------+\n";
         StringBuilder sb = new StringBuilder();
 
-        sb.append("ABSENCE REQUESTS:\n");
+        sb.append("NGHỈ PHÉP REQUESTS:\n");
         sb.append(sep);
         sb.append("| ").append(AdminInbox.fit("STT", 3))
                 .append(" | ").append(AdminInbox.fit("From -> To", 20))
-                .append(" | ").append(AdminInbox.fit("Status", 10))
-                .append(" | ").append(AdminInbox.fit("Reason", 28))
-                .append(" | ").append(AdminInbox.fit("Admin Reply", 28))
+                .append(" | ").append(AdminInbox.fit("Trạng thái", 10))
+                .append(" | ").append(AdminInbox.fit("Lý do", 28))
+                .append(" | ").append(AdminInbox.fit("Quản trị viên Phản hồi", 28))
                 .append(" |\n");
         sb.append(sep);
 
@@ -300,13 +300,13 @@ public class EmployeeAccount extends Account {
             sb.append("(Chua co don xin nghi phep)\n");
         }
 
-        sb.append("\nRESIGNATION REQUESTS:\n");
+        sb.append("\nTHÔI VIỆC REQUESTS:\n");
         sb.append(sep);
         sb.append("| ").append(AdminInbox.fit("STT", 3))
-                .append(" | ").append(AdminInbox.fit("Date", 20))
-                .append(" | ").append(AdminInbox.fit("Status", 10))
-                .append(" | ").append(AdminInbox.fit("Reason", 28))
-                .append(" | ").append(AdminInbox.fit("Admin Reply", 28))
+                .append(" | ").append(AdminInbox.fit("Ngày", 20))
+                .append(" | ").append(AdminInbox.fit("Trạng thái", 10))
+                .append(" | ").append(AdminInbox.fit("Lý do", 28))
+                .append(" | ").append(AdminInbox.fit("Quản trị viên Phản hồi", 28))
                 .append(" |\n");
         sb.append(sep);
 

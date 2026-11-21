@@ -20,9 +20,9 @@ public class Department {
   public String getInfo(Scanner sc) {
     String content = "";
 
-    content += "Name: " + getName() + "\n";
-    content += "Phone: " + getPhone() + "\n";
-    content += "Position: " + getPosition() + "\n";
+    content += "Tên: " + getName() + "\n";
+    content += "Điện thoại: " + getPhone() + "\n";
+    content += "Chức vụ: " + getPosition() + "\n";
 
     return content;
   }

@@ -64,19 +64,19 @@ public class Employee extends Person {
   public String getInfo(Scanner sc) {
     String content = "";
 
-    content += "Id: " + getId() + "\n";
-    content += "Hire date: " + getHireDate() + "\n";
-    content += "Specialization: " + getSpecialization() + "\n";
-    content += "Status: " + getStatus() + "\n";
-    content += "Evaluation count: " + getEvaluations().length + "\n";
-    content += "Contract count: " + getContracts().length + "\n";
-    content += "Payroll count: " + getPayrolls().length + "\n";
-    content += "Attendance count: " + getAttendances().length + "\n";
-    content += "Resignation count: " + getResignations().length + "\n";
-    content += "Tax id: " + getTaxId() + "\n";
-    content += "Insurance count: " + getInsurances().length + "\n";
-    content += "Position: " + getPosition().getName() + "\n";
-    content += "Department: " + getDepartment().getName() + "\n";
+    content += "Mã: " + getId() + "\n";
+    content += "Ngày tuyển dụng: " + getHireDate() + "\n";
+    content += "Chuyên môn: " + getSpecialization() + "\n";
+    content += "Trạng thái: " + getStatus() + "\n";
+    content += "Số đánh giá: " + getEvaluations().length + "\n";
+    content += "Số hợp đồng: " + getContracts().length + "\n";
+    content += "Số bảng lương: " + getPayrolls().length + "\n";
+    content += "Số lượt chấm công: " + getAttendances().length + "\n";
+    content += "Số đơn thôi việc: " + getResignations().length + "\n";
+    content += "Mã số thuế: " + getTaxId() + "\n";
+    content += "Số bảo hiểm: " + getInsurances().length + "\n";
+    content += "Chức vụ: " + getPosition().getName() + "\n";
+    content += "Phòng ban: " + getDepartment().getName() + "\n";
 
     return content;
   }

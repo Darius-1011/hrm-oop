@@ -124,17 +124,17 @@ public class AdminInbox {
     String sep = "+-----+-------------+----------+--------------------+----------------------+----------------------------+\n";
     sb.append(sep);
     sb.append("| ").append(fit("STT", 3))
-        .append(" | ").append(fit("Type", 11))
-        .append(" | ").append(fit("Emp ID", 8))
-        .append(" | ").append(fit("Employee Name", 18))
-        .append(" | ").append(fit("Date", 20))
-        .append(" | ").append(fit("Reason", 26))
+        .append(" | ").append(fit("Loại", 11))
+        .append(" | ").append(fit("Mã NV", 8))
+        .append(" | ").append(fit("Tên nhân viên", 18))
+        .append(" | ").append(fit("Ngày", 20))
+        .append(" | ").append(fit("Lý do", 26))
         .append(" |\n");
     sb.append(sep);
 
     for (int i = 0; i < items.length; i++) {
       PendingItem item = items[i];
-      String type = item.isAbsence() ? "ABSENCE" : "RESIGNATION";
+      String type = item.isAbsence() ? "NGHỈ PHÉP" : "THÔI VIỆC";
       String empId = item.employee.getId() != null ? item.employee.getId() : "N/A";
       String empName = safeName(item.employee);
       String dateStr = item.isAbsence() ? formatDateRange(item.absence) : formatDate(item.resignation.getDate());
@@ -149,25 +149,25 @@ public class AdminInbox {
           .append(" |\n");
     }
     sb.append(sep);
-    sb.append("Total pending requests: ").append(items.length).append("\n\n(Enter 0 to go back)");
+    sb.append("Tổng yêu cầu đang chờ: ").append(items.length).append("\n\n(Enter 0 to go back)");
     return sb.toString();
   }
 
   private static String buildDetail(PendingItem item) {
     StringBuilder sb = new StringBuilder();
-    sb.append("Employee ID : ").append(fit(item.employee.getId(), 95).trim()).append("\n");
-    sb.append("Full Name   : ").append(fit(safeName(item.employee), 95).trim()).append("\n");
+    sb.append("Mã nhân viên: ").append(fit(item.employee.getId(), 95).trim()).append("\n");
+    sb.append("Họ và tên: ").append(fit(safeName(item.employee), 95).trim()).append("\n");
     if (item.isAbsence()) {
-      sb.append("Request Type: ABSENCE (Leave Request)\n");
-      sb.append("From Date   : ").append(formatDate(item.absence.getFromDate())).append("\n");
-      sb.append("To Date     : ").append(formatDate(item.absence.getToDate())).append("\n");
-      sb.append("Reason      : ").append(fit(item.absence.getReason(), 95).trim()).append("\n");
-      sb.append("Status      : ").append(item.absence.getStatus());
+      sb.append("Request Loại: NGHỈ PHÉP (Leave Request)\n");
+      sb.append("Từ ngày: ").append(formatDate(item.absence.getFromDate())).append("\n");
+      sb.append("Đến ngày: ").append(formatDate(item.absence.getToDate())).append("\n");
+      sb.append("Lý do: ").append(fit(item.absence.getReason(), 95).trim()).append("\n");
+      sb.append("Trạng thái: ").append(item.absence.getStatus());
     } else {
-      sb.append("Request Type: RESIGNATION\n");
-      sb.append("Date        : ").append(formatDate(item.resignation.getDate())).append("\n");
-      sb.append("Reason      : ").append(fit(item.resignation.getReason(), 95).trim()).append("\n");
-      sb.append("Status      : ").append(item.resignation.getStatus());
+      sb.append("Request Loại: THÔI VIỆC\n");
+      sb.append("Ngày: ").append(formatDate(item.resignation.getDate())).append("\n");
+      sb.append("Lý do: ").append(fit(item.resignation.getReason(), 95).trim()).append("\n");
+      sb.append("Trạng thái: ").append(item.resignation.getStatus());
     }
     return sb.toString();
   }
@@ -223,40 +223,40 @@ public class AdminInbox {
 
   public static void openInbox(Employee[] employees, Scanner sc) {
     ConsoleUI console = new ConsoleUI();
-    String title = "Admin Inbox - Pending Requests";
+    String title = "Hộp thư quản trị - Yêu cầu đang chờ";
     boolean handledAny = false;
 
     while (true) {
       PendingItem[] pending = collectPending(employees);
       if (pending.length == 0) {
         if (!handledAny) {
-          console.printResult(title, "Inbox is empty! No pending absence or resignation requests.", sc);
+          console.printResult(title, "Hộp thư trống! Không có đơn nghỉ phép hoặc thôi việc đang chờ.", sc);
         } else {
-          console.printResult(title, "All pending requests have been processed!", sc);
+          console.printResult(title, "Đã xử lý tất cả yêu cầu đang chờ!", sc);
         }
         return;
       }
 
       String table = buildInboxTable(pending);
-      int pick = validateInt(console.printUI(title, "Select a request to handle", table, "STT", sc));
+      int pick = validateInt(console.printUI(title, "Chọn yêu cầu cần xử lý", table, "STT", sc));
 
       if (pick == 0) {
         return;
       }
       if (pick < 1 || pick > pending.length) {
-        console.printResult(title, "Invalid choice!", sc);
+        console.printResult(title, "Lựa chọn không hợp lệ!", sc);
         continue;
       }
 
       PendingItem selected = pending[pick - 1];
       String detail = buildDetail(selected);
-      String[] actions = { "Back", "Approve", "Reject" };
+      String[] actions = { "Quay lại", "Duyệt", "Từ chối" };
 
       int action;
       do {
-        action = validateInt(console.printUI(title, "Request Detail", detail, actions, sc));
+        action = validateInt(console.printUI(title, "Chi tiết yêu cầu", detail, actions, sc));
         if (action < 0 || action > 2) {
-          console.printResult(title, "Invalid choice!", sc);
+          console.printResult(title, "Lựa chọn không hợp lệ!", sc);
         }
       } while (action < 0 || action > 2);
 
@@ -265,7 +265,7 @@ public class AdminInbox {
       }
 
       boolean approved = (action == 1);
-      String replyMsg = console.printUI(title, "Enter reply message (press Enter to skip)", "", "Reply", sc).trim();
+      String replyMsg = console.printUI(title, "Nhập phản hồi (nhấn Enter để bỏ qua)", "", "Phản hồi", sc).trim();
       String statusNote;
 
       if (selected.isAbsence()) {
@@ -276,7 +276,7 @@ public class AdminInbox {
         if (approved) {
           syncEmployeeStatus(selected.employee);
           if (selected.employee.getStatus() == Employee.EmployeeStatus.ON_LEAVE) {
-            statusNote = "APPROVED absence request of " + selected.employee.getId() + " (Status -> ON_LEAVE)";
+            statusNote = "APPROVED absence request of " + selected.employee.getId() + " (Trạng thái -> ON_LEAVE)";
           } else if (selected.absence.getFromDate() != null
               && LocalDate.now().isBefore(selected.absence.getFromDate())) {
             statusNote = "APPROVED absence request of " + selected.employee.getId()
@@ -296,14 +296,14 @@ public class AdminInbox {
         if (approved) {
           selected.employee.setStatus(Employee.EmployeeStatus.RESIGNED);
           statusNote = "APPROVED resignation request of " + selected.employee.getId()
-              + " (Employee status -> RESIGNED)";
+              + " (Nhân viên status -> RESIGNED)";
         } else {
           statusNote = "REJECTED resignation request of " + selected.employee.getId();
         }
       }
 
       if (!replyMsg.isEmpty()) {
-        statusNote += "\nReply: " + fit(replyMsg, 95).trim();
+        statusNote += "\nPhản hồi: " + fit(replyMsg, 95).trim();
       }
       handledAny = true;
       console.printResult(title, statusNote, sc);

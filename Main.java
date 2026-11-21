@@ -41,10 +41,10 @@ public class Main {
   }
 
   private static void runEmployeeUI(EmployeeAccount account, Scanner sc) {
-    String title = "Employee Account";
-    String subtitle = "Choose an option";
-    String[] options = { "Logout", "Change password", "Get info", "Set info", "Submit absence", "Submit resignation",
-        "Check in", "Check out", "View attendance", "View my requests" };
+    String title = "Tài khoản nhân viên";
+    String subtitle = "Vui lòng chọn chức năng";
+    String[] options = { "Đăng xuất", "Đổi mật khẩu", "Xem thông tin", "Cập nhật thông tin", "Gửi đơn xin nghỉ",
+        "Gửi đơn xin thôi việc", "Chấm công vào", "Chấm công ra", "Xem lịch sử chấm công", "Xem yêu cầu của tôi" };
 
     int choice;
     do {
@@ -60,14 +60,14 @@ public class Main {
           account.getInfo(sc);
           break;
         case 3:
-          String setTitle = "Set Employee Information";
+          String setTitle = "Cập nhật thông tin nhân viên";
           int setChoice;
           do {
-            String[] setOptions = { "Exit", "Set username" };
+            String[] setOptions = { "Thoát", "Đổi tên đăng nhập" };
             setChoice = validateInt(console.printUI(setTitle, subtitle, setOptions, sc));
 
             if (setChoice < 0 || 1 < setChoice) {
-              console.printResult(title, "Invalid choice", sc);
+              console.printResult(title, "Lựa chọn không hợp lệ", sc);
             }
           } while (setChoice < 0 || 1 < setChoice);
 
@@ -100,31 +100,31 @@ public class Main {
           break;
 
         default:
-          title = "Employee Account";
-          console.printResult(title, "Invalid choice", sc);
+          title = "Tài khoản nhân viên";
+          console.printResult(title, "Lựa chọn không hợp lệ", sc);
           break;
       }
     } while (true);
   }
 
   private static void runAdminUI(AdminAccount account, Scanner sc) {
-    String title = "Admin Account";
-    String subtitle = "Choose an option";
-    String[] sectionNames = { "Account", "Add", "Print", "Search", "Edit", "Remove", "Other" };
-    String[][] sections = { { "Logout", "Change password", "Get info", "Set info" },
-        { "Employee", "Evaluation", "Contract", "Payroll", "Attendance", "Insurance", "Position", "Department" },
-        { "Employees", "Departments", "Positions", "Payrolls", "Evaluations", "Contracts",
-            "Attendances", "Absences", "Resignations", "Insurances" },
-        { "Employee", "Department", "Position" },
-        { "Employee", "Department", "Position" },
-        { "Employee" },
-        { "Reply request" },
+    String title = "Tài khoản quản trị";
+    String subtitle = "Vui lòng chọn chức năng";
+    String[] sectionNames = { "Tài khoản", "Thêm", "In", "Tìm kiếm", "Chỉnh sửa", "Xóa", "Khác" };
+    String[][] sections = { { "Đăng xuất", "Đổi mật khẩu", "Xem thông tin", "Cập nhật thông tin" },
+        { "Nhân viên", "Đánh giá", "Hợp đồng", "Bảng lương", "Chấm công", "Bảo hiểm", "Chức vụ", "Phòng ban" },
+        { "Nhân viên", "Phòng ban", "Chức vụ", "Bảng lương", "Đánh giá", "Hợp đồng",
+            "Lịch chấm công", "Đơn nghỉ phép", "Đơn thôi việc", "Bảo hiểm" },
+        { "Nhân viên", "Phòng ban", "Chức vụ" },
+        { "Nhân viên", "Phòng ban", "Chức vụ" },
+        { "Nhân viên" },
+        { "Phản hồi yêu cầu" },
     };
 
     int choice;
     do {
       int pendingCount = AdminInbox.countPending(data.getEmployees());
-      sections[6][0] = "Reply request (Inbox: " + pendingCount + ")";
+      sections[6][0] = "Phản hồi yêu cầu (Hộp thư: " + pendingCount + ")";
 
       choice = validateInt(console.printUIWithSections(sc, title, sectionNames, sections));
 
@@ -139,11 +139,11 @@ public class Main {
           account.getInfo(sc);
           break;
         case 3:
-          String setTitle = "Set Admin Information";
+          String setTitle = "Cập nhật thông tin quản trị";
 
           int setChoice;
           do {
-            String[] setOptions = { "Exit", "Set username", "Set status" };
+            String[] setOptions = { "Thoát", "Đổi tên đăng nhập", "Đổi trạng thái" };
             setChoice = validateInt(console.printUI(setTitle, subtitle, setOptions, sc));
           } while (setChoice < 0 || 2 < setChoice);
 
@@ -239,28 +239,28 @@ public class Main {
           break;
 
         case 25:
-          title = "Edit Employee";
+          title = "Chỉnh sửa nhân viên";
           subtitle = "";
           String[] editOptions = {};
-          String input = "Id";
+          String input = "Mã nhân viên";
 
           id = console.printUI(title, subtitle, editOptions, input, sc);
           account.editEmployee(sc, data.getEmployees(), id, data.getPositions(), data.getDepartments());
           break;
         case 26:
-          title = "Edit Department";
+          title = "Chỉnh sửa phòng ban";
           account.editDepartment(sc, data.getDepartments());
           break;
         case 27:
-          title = "Edit Position";
+          title = "Chỉnh sửa chức vụ";
           account.editPosition(sc, data.getPositions());
           break;
 
         case 28:
-          title = "Remove Employee";
+          title = "Xóa nhân viên";
           subtitle = "";
           String[] removeOptions = {};
-          input = "Id";
+          input = "Mã nhân viên";
 
           String removeEmployee = console.printUI(title, subtitle, removeOptions, input, sc);
           account.removeEmployee(data.getEmployees(), removeEmployee, sc);
@@ -272,8 +272,8 @@ public class Main {
           break;
 
         default:
-          title = "Admin Account";
-          console.printResult(title, "Invalid choice", sc);
+          title = "Tài khoản quản trị";
+          console.printResult(title, "Lựa chọn không hợp lệ", sc);
           break;
       }
     } while (true);
@@ -287,7 +287,7 @@ public class Main {
       num = validateInt(sc.nextLine());
 
       if (num < 0) {
-        System.out.println("This cannot be negative");
+        System.out.println("Giá trị không được âm");
       }
     } while (num < 0);
 
@@ -295,16 +295,16 @@ public class Main {
   }
 
   private static void setup(Scanner sc) {
-    String title = "Human Resource Management";
-    String subtitle = "Setup system";
+    String title = "Quản lý nhân sự";
+    String subtitle = "Cài đặt hệ thống";
 
     int choice;
     do {
-      String[] options = { "Exit", "Manually", "Load sample data" };
+      String[] options = { "Thoát", "Nhập thủ công", "Tải dữ liệu mẫu" };
       choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       if (choice < 0 || 2 < choice) {
-        console.printResult(subtitle, "Invalid choice", sc);
+        console.printResult(subtitle, "Lựa chọn không hợp lệ", sc);
       }
     } while (choice < 0 || 2 < choice);
 
@@ -312,10 +312,10 @@ public class Main {
       case 0:
         return;
       case 1:
-        limits.setMaxAccounts(inputNonNegative(sc, "Max accounts"));
-        limits.setMaxEmployees(inputNonNegative(sc, "Max employees"));
-        limits.setMaxDepartments(inputNonNegative(sc, "Max departments"));
-        limits.setMaxPositions(inputNonNegative(sc, "Max positions"));
+        limits.setMaxAccounts(inputNonNegative(sc, "Số lượng tài khoản tối đa"));
+        limits.setMaxEmployees(inputNonNegative(sc, "Số lượng nhân viên tối đa"));
+        limits.setMaxDepartments(inputNonNegative(sc, "Số lượng phòng ban tối đa"));
+        limits.setMaxPositions(inputNonNegative(sc, "Số lượng chức vụ tối đa"));
 
         data = new DataHandler(
             limits.getMaxAccounts(),
@@ -330,12 +330,12 @@ public class Main {
             limits.getMaxResignations(),
             limits.getMaxInsurances());
 
-        limits.setMaxEvaluations(inputNonNegative(sc, "Max evaluations"));
-        limits.setMaxContracts(inputNonNegative(sc, "Max contracts"));
-        limits.setMaxPayrolls(inputNonNegative(sc, "Max payrolls"));
-        limits.setMaxAttendances(inputNonNegative(sc, "Max attendances"));
-        limits.setMaxInsurances(inputNonNegative(sc, "Max insurances"));
-        limits.setMaxResignations(inputNonNegative(sc, "Max resignations"));
+        limits.setMaxEvaluations(inputNonNegative(sc, "Số lượng đánh giá tối đa"));
+        limits.setMaxContracts(inputNonNegative(sc, "Số lượng hợp đồng tối đa"));
+        limits.setMaxPayrolls(inputNonNegative(sc, "Số lượng bảng lương tối đa"));
+        limits.setMaxAttendances(inputNonNegative(sc, "Số lượng bản ghi chấm công tối đa"));
+        limits.setMaxInsurances(inputNonNegative(sc, "Số lượng bảo hiểm tối đa"));
+        limits.setMaxResignations(inputNonNegative(sc, "Số lượng đơn thôi việc tối đa"));
         break;
       case 2:
         limits.writeSampleLimit();
@@ -373,9 +373,9 @@ public class Main {
 
     int choice;
     do {
-      title = "Human Resource Management";
-      subtitle = "Choose an option";
-      String[] options = { "Exit", "Create admin account", "Login" };
+      title = "Quản lý nhân sự";
+      subtitle = "Vui lòng chọn chức năng";
+      String[] options = { "Thoát", "Tạo tài khoản quản trị", "Đăng nhập" };
       choice = validateInt(console.printUI(title, subtitle, options, sc));
 
       switch (choice) {
@@ -390,17 +390,17 @@ public class Main {
           }
 
           if (accountsOccupied >= data.getAccounts().length) {
-            console.printResult(title, "Accounts storage is full", sc);
+            console.printResult(title, "Danh sách tài khoản đã đầy", sc);
             break;
           }
 
-          title = "Creat admin account";
+          title = "Tạo tài khoản quản trị";
           subtitle = "";
           String[] createOptions = {};
 
-          String createInput = "Username";
+          String createInput = "Tên đăng nhập";
           String adminUsername = console.printUI(title, subtitle, createOptions, createInput, sc);
-          createInput = "Password";
+          createInput = "Mật khẩu";
           String adminPassword = console.printUI(title, subtitle, createOptions, createInput, sc);
 
           data.getAccounts()[accountsOccupied + 1] = new AdminAccount(adminUsername, adminPassword,
@@ -408,16 +408,16 @@ public class Main {
 
           break;
         case 2:
-          title = "Login";
+          title = "Đăng nhập";
           subtitle = "";
           String[] loginOptions = {};
-          String input = "Username";
+          String input = "Tên đăng nhập";
 
           String username = console.printUI(title, subtitle, loginOptions, input, sc);
           int index = getIndex(data, username);
 
           if (index == -1) {
-            console.printResult(title, "Account not exist", sc);
+            console.printResult(title, "Tài khoản không tồn tại", sc);
             break;
           }
 
@@ -433,8 +433,8 @@ public class Main {
           break;
 
         default:
-          title = "Human Resource Management";
-          console.printResult(title, "Invalid choice", sc);
+          title = "Quản lý nhân sự";
+          console.printResult(title, "Lựa chọn không hợp lệ", sc);
           break;
       }
     } while (true);
